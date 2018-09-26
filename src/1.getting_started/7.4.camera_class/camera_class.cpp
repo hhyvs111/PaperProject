@@ -9,7 +9,7 @@
 #include <learnopengl/filesystem.h>
 #include <learnopengl/shader_m.h>
 #include <learnopengl/camera.h>
-
+#include <learnopengl/point.h>
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -168,39 +168,40 @@ int main()
 //        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
 //        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-            -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-            0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
+            -0.5f, 0.5f,  -0.5f + 2.0f,  0.0f, 0.0f,
+            0.5f, 0.5f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.5f,-0.5f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            //断层曲线的位置上半部分
+            0.5f, 0.15f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.41f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.3f, 0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.18f, 0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.0f, 0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.13f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.26f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.38f, 0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.5f, 0.5f, -0.5f+ 2.0f, 0.0f, 0.0f,
+            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
 
-            0.5f, 0.15f,  -0.5f,  0.0f, 0.0f,
-            0.41f, 0.29f,  -0.5f,  0.0f, 0.0f,
-            0.3f, 0.32f,  -0.5f,  0.0f, 0.0f,
-            0.18f, 0.26f,  -0.5f,  0.0f, 0.0f,
-            0.0f, 0.24f,  -0.5f,  0.0f, 0.0f,
-            -0.13f, 0.29f,  -0.5f,  0.0f, 0.0f,
-            -0.26f, 0.29f,  -0.5f,  0.0f, 0.0f,
-            -0.38f, 0.25f,  -0.5f,  0.0f, 0.0f,
-            -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
-            -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
-            -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
+            //断层曲线下半部分
+            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.41f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.29f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.23f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.05f, -0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.08f, -0.31f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.19f, -0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.29f, -0.3f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.4f, -0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.5f, -0.29f, -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.5f, 0.4f,   -0.5f+ 2.0f,  0.0f, 0.0f,
+            0.5f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
 
 
-            -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
-            -0.41f, -0.23f,  -0.5f,  0.0f, 0.0f,
-            -0.29f, -0.23f,  -0.5f,  0.0f, 0.0f,
-            -0.23f, -0.29f,  -0.5f,  0.0f, 0.0f,
-            -0.05f, -0.32f,  -0.5f,  0.0f, 0.0f,
-            0.08f, -0.31f,  -0.5f,  0.0f, 0.0f,
-            0.19f, -0.25f,  -0.5f,  0.0f, 0.0f,
-            0.29f, -0.3f,  -0.5f,  0.0f, 0.0f,
-            0.4f, -0.26f,  -0.5f,  0.0f, 0.0f,
-            0.5f, -0.29f, -0.5f,  0.0f, 0.0f,
-            0.5f, 0.4f,   -0.5f,  0.0f, 0.0f,
-            0.5f, -0.29f,  -0.5f,  0.0f, 0.0f,
 
-
-            0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-            -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
-            -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
+            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
 
 
 
@@ -253,6 +254,13 @@ int main()
 //        glm::vec3( 1.5f,  0.2f, -1.5f),
 //        glm::vec3(-1.3f,  1.0f, -1.5f)
     };
+
+
+    Point point[10];
+    point[1].x = 0.5f;
+    std::cout<<sizeof(point[1])<<std::endl;
+
+    //两个面
     unsigned int VBOs[2], VAOs[2];
     glGenVertexArrays(2, VAOs);
     glGenBuffers(2, VBOs);
@@ -381,25 +389,31 @@ int main()
         {
             // calculate the model matrix for each object and pass it to shader before drawing
             glm::mat4 model;
-            model = glm::translate(model, cubePositions[0]);
+//            model = glm::translate(model, cubePositions[0]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             ourShader.setMat4("model", model);
 
+            //可以先画这个外面的点，然后在画线啊真的蠢！
             glDrawArrays(GL_LINE_STRIP, 0, (sizeof(vertices1))/20);
         }
+        //绑定顶点数组
         glBindVertexArray(VAOs[1]);
         for (unsigned int i = 0; i < 1; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
             glm::mat4 model;
-            model = glm::translate(model, cubePositions[1]);
+//            model = glm::translate(model, cubePositions[1]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             ourShader.setMat4("model", model);
 //            std::cout<< (sizeof(vertices2))/20 <<std::endl;
             //float是4个字节，然后一个坐标有5个值，那么就要除以20了。
-            glDrawArrays(GL_LINE_STRIP, 0, (sizeof(vertices2))/20);
+//            glDrawArrays(GL_LINE_STRIP, 0, (sizeof(vertices2))/20);
+            //先画一个Loop这个是外面的框
+            glDrawArrays(GL_LINE_LOOP, 0, 4);
+            //先固定个数
+            glDrawArrays(GL_LINE_STRIP, 4, 15);
         }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -472,3 +486,4 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
     camera.ProcessMouseScroll(yoffset);
 }
+
