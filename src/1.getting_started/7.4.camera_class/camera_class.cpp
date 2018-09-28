@@ -11,6 +11,8 @@
 #include <learnopengl/camera.h>
 #include <learnopengl/point.h>
 #include <iostream>
+#include <vector>
+using namespace std;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -77,7 +79,7 @@ int main()
     // ------------------------------------
     Shader ourShader("7.4.camera.vs", "7.4.camera.fs");
     //看下怎么单独应用这个shader
-    Shader ourShader_other("7.4.camera1.vs", "7.4.camera1.fs");
+//    Shader ourShader_other("7.4.camera1.vs", "7.4.camera1.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -254,12 +256,22 @@ int main()
 //        glm::vec3( 1.5f,  0.2f, -1.5f),
 //        glm::vec3(-1.3f,  1.0f, -1.5f)
     };
+//    vector <Point> point;
+//    Point pointa(0.5f, 0.5f, 0.5f);
+//    point.push_back(pointa);
+//
+    Point **outside = new Point* [4];
+    outside[0] = new Point(-0.5f,0.5f,-0.5f);
+    outside[1] = new Point(0.5f, 0.5f, -0.5f);
+    outside[2] = new Point(0.5f, -0.5f, -0.5f);
+    outside[3] = new Point(-0.5f, -0.5f, -0.5f);
 
-
-    Point point[10];
-    point[1].x = 0.5f;
-    std::cout<<sizeof(point[1])<<std::endl;
-
+//    Point point(0.5f,0.5f,0.5f);
+//    point[1].x = 0.5f;
+    //指针，然后大小变为8了
+//    std::cout<<sizeof(*(point)<<std::endl;
+    cout<<sizeof(*(outside[0])) * 4<<endl;
+    cout<<sizeof(vertices2)<<endl;
     //两个面
     unsigned int VBOs[2], VAOs[2];
     glGenVertexArrays(2, VAOs);
@@ -278,10 +290,10 @@ int main()
     glBindVertexArray(VAOs[1]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(*(outside[0])) * 4, *outside, GL_STATIC_DRAW);
 
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // texture coord attribute
 //    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
