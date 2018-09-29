@@ -36,10 +36,10 @@ typedef   struct tagCIRCLE
 
 class Delaunay
 {
-
-private:
+//先把数据都改成这个公共可访问都吧，懒得做这个依赖性了。
+public:
     int tPoints;  //定义点？
-    int HowMany;		//有多少个三角形
+    int HowMany;		//有多少个三角形这个
     TRIANGLE Triangle[501];		//三角数组
     VERTEX Vertex[501];			//点的个数
     CIRCLE Circle[501];			//外接圆的个数

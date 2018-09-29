@@ -10,6 +10,7 @@
 #include <learnopengl/shader_m.h>
 #include <learnopengl/camera.h>
 #include <learnopengl/point.h>
+#include <Delaunay.h>
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -84,7 +85,7 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     //六个面的坐标值
-    float vertices1[] = {
+    float cube1[] = {
 //        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 //         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
 //         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -92,39 +93,46 @@ int main()
 //        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
 //        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-        -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-
-        0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-        0.5f, 0.25f,  -0.5f,  0.0f, 0.0f,
-        0.41f, 0.29f,  -0.5f,  0.0f, 0.0f,
-        0.3f, 0.32f,  -0.5f,  0.0f, 0.0f,
-        0.18f, 0.26f,  -0.5f,  0.0f, 0.0f,
-        0.0f, 0.24f,  -0.5f,  0.0f, 0.0f,
-        -0.13f, 0.29f,  -0.5f,  0.0f, 0.0f,
-        -0.26f, 0.29f,  -0.5f,  0.0f, 0.0f,
-        -0.38f, 0.25f,  -0.5f,  0.0f, 0.0f,
-        -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
-        -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
+            -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
+            0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+            -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
 
 
-        -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
-        -0.41f, -0.23f,  -0.5f,  0.0f, 0.0f,
-        -0.29f, -0.23f,  -0.5f,  0.0f, 0.0f,
-        -0.23f, -0.29f,  -0.5f,  0.0f, 0.0f,
-        -0.05f, -0.32f,  -0.5f,  0.0f, 0.0f,
-        0.08f, -0.31f,  -0.5f,  0.0f, 0.0f,
-        0.19f, -0.25f,  -0.5f,  0.0f, 0.0f,
-        0.29f, -0.23f,  -0.5f,  0.0f, 0.0f,
-        0.4f, -0.26f,  -0.5f,  0.0f, 0.0f,
-        0.5f, -0.29f, -0.5f,  0.0f, 0.0f,
-        0.5f, 0.25f,   -0.5f,  0.0f, 0.0f,
-        0.5f, -0.29f,  -0.5f,  0.0f, 0.0f,
+//        -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
+//        0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
 
 
-        0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
-        -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
+//        0.5f, 0.25f,  -0.5f,  0.0f, 0.0f,
+//        0.41f, 0.29f,  -0.5f,  0.0f, 0.0f,
+//        0.3f, 0.32f,  -0.5f,  0.0f, 0.0f,
+//        0.18f, 0.26f,  -0.5f,  0.0f, 0.0f,
+//        0.0f, 0.24f,  -0.5f,  0.0f, 0.0f,
+//        -0.13f, 0.29f,  -0.5f,  0.0f, 0.0f,
+//        -0.26f, 0.29f,  -0.5f,  0.0f, 0.0f,
+//        -0.38f, 0.25f,  -0.5f,  0.0f, 0.0f,
+//        -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
+////        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
+//        -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
+//
+//
+//        -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
+//        -0.41f, -0.23f,  -0.5f,  0.0f, 0.0f,
+//        -0.29f, -0.23f,  -0.5f,  0.0f, 0.0f,
+//        -0.23f, -0.29f,  -0.5f,  0.0f, 0.0f,
+//        -0.05f, -0.32f,  -0.5f,  0.0f, 0.0f,
+//        0.08f, -0.31f,  -0.5f,  0.0f, 0.0f,
+//        0.19f, -0.25f,  -0.5f,  0.0f, 0.0f,
+//        0.29f, -0.23f,  -0.5f,  0.0f, 0.0f,
+//        0.4f, -0.26f,  -0.5f,  0.0f, 0.0f,
+//        0.5f, -0.29f, -0.5f,  0.0f, 0.0f,
+//        0.5f, 0.25f,   -0.5f,  0.0f, 0.0f,
+//        0.5f, -0.29f,  -0.5f,  0.0f, 0.0f,
+//
+//
+//        0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+//        -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
+//        -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
 
 //        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 //         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
@@ -162,7 +170,7 @@ int main()
 //        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
-    float vertices2[] = {
+    float cube22[] = {
 //        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 //         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
 //         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -175,35 +183,35 @@ int main()
             0.5f, -0.5f, -0.5f+ 2.0f,  0.0f, 0.0f,
             -0.5f,-0.5f,  -0.5f+ 2.0f,  0.0f, 0.0f,
             //断层曲线的位置上半部分
-            0.5f, 0.15f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.41f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.3f, 0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.18f, 0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.0f, 0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.13f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.26f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.38f, 0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.5f, 0.5f, -0.5f+ 2.0f, 0.0f, 0.0f,
-            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-
-            //断层曲线下半部分
-            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.41f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.29f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.23f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.05f, -0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.08f, -0.31f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.19f, -0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.29f, -0.3f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.4f, -0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.5f, -0.29f, -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.5f, 0.4f,   -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.5f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-
-
-
-            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.5f, 0.15f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.41f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.3f, 0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.18f, 0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.0f, 0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.13f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.26f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.38f, 0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.5f, 0.5f, -0.5f+ 2.0f, 0.0f, 0.0f,
+//            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//
+//            //断层曲线下半部分
+//            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.41f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.29f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.23f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            -0.05f, -0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.08f, -0.31f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.19f, -0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.29f, -0.3f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.4f, -0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.5f, -0.29f, -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.5f, 0.4f,   -0.5f+ 2.0f,  0.0f, 0.0f,
+//            0.5f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//
+//
+//
+//            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
 
 
 
@@ -260,44 +268,132 @@ int main()
 //    Point pointa(0.5f, 0.5f, 0.5f);
 //    point.push_back(pointa);
 //
-    Point **outside = new Point* [4];
-    outside[0] = new Point(-0.5f,0.5f,-0.5f);
-    outside[1] = new Point(0.5f, 0.5f, -0.5f);
-    outside[2] = new Point(0.5f, -0.5f, -0.5f);
-    outside[3] = new Point(-0.5f, -0.5f, -0.5f);
-
-//    Point point(0.5f,0.5f,0.5f);
-//    point[1].x = 0.5f;
-    //指针，然后大小变为8了
-//    std::cout<<sizeof(*(point)<<std::endl;
-    cout<<sizeof(*(outside[0])) * 4<<endl;
-    cout<<sizeof(vertices2)<<endl;
+//    Point **outside = new Point* [4];
+//    outside[0] = new Point(-0.5f,0.5f,-0.5f);
+//    outside[1] = new Point(0.5f, 0.5f, -0.5f);
+//    outside[2] = new Point(0.5f, -0.5f, -0.5f);
+//    outside[3] = new Point(-0.5f, -0.5f, -0.5f);
+//
+////    Point point(0.5f,0.5f,0.5f);
+////    point[1].x = 0.5f;
+//    //指针，然后大小变为8了
+////    std::cout<<sizeof(*(point)<<std::endl;
+//    cout<<sizeof(*(outside[0])) * 4<<endl;
+//    cout<<sizeof(cube22)<<endl;
     //两个面
     unsigned int VBOs[2], VAOs[2];
     glGenVertexArrays(2, VAOs);
     glGenBuffers(2, VBOs);
 
-    //第一个
+    //第一个矩形
     glBindVertexArray(VAOs[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cube1), cube1, GL_STATIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    //第二个
+    //第二个矩形
     glBindVertexArray(VAOs[1]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(*(outside[0])) * 4, *outside, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cube22),cube22, GL_STATIC_DRAW);
 
     // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+
+    VERTEX vertex[20];
+
+    //定义一下断层数据
+    //感觉还是不要定义这种数组，实在是太麻烦了。没有虽然还是有规律性
+    float fault[] = {
+            0.5f, 0.15f,  -0.5f+ 2.0f,  
+            0.41f, 0.29f,  -0.5f+ 2.0f,
+            0.3f, 0.32f,  -0.5f+ 2.0f,
+            0.18f, 0.26f,  -0.5f+ 2.0f,  
+            0.0f, 0.24f,  -0.5f+ 2.0f,  
+            -0.13f, 0.29f,  -0.5f+ 2.0f, 
+            -0.26f, 0.29f,  -0.5f+ 2.0f,
+            -0.38f, 0.25f,  -0.5f+ 2.0f, 
+            -0.5f, 0.22f,  -0.5f+ 2.0f, 
+            -0.5f, 0.5f, -0.5f+ 2.0f, 
+            -0.5f, 0.22f,  -0.5f+ 2.0f,
+
+            //上层
+            -0.5f, -0.24f,  -0.5f+ 2.0f,
+            -0.41f, -0.23f,  -0.5f+ 2.0f,
+            -0.29f, -0.23f,  -0.5f+ 2.0f,
+            -0.23f, -0.29f,  -0.5f+ 2.0f,
+            -0.05f, -0.32f,  -0.5f+ 2.0f,
+            0.08f, -0.31f,  -0.5f+ 2.0f,
+            0.19f, -0.25f,  -0.5f+ 2.0f,
+            0.29f, -0.3f,  -0.5f+ 2.0f,
+            0.4f, -0.26f,  -0.5f+ 2.0f,
+            0.5f, -0.29f, -0.5f+ 2.0f,
+            0.5f, 0.4f,   -0.5f+ 2.0f,
+            0.5f, -0.29f,  -0.5f+ 2.0f
+    };
+   //把这个原来的线也要放进缓冲器
+    unsigned int faultVBO, faultVAO;
+    glGenVertexArrays(1, &faultVAO);
+    glGenBuffers(1, &faultVBO);
+
+    glBindVertexArray(faultVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(fault), fault, GL_STATIC_DRAW);
+
+    // position attribute
+    //这里的步长为3，之前的是5因为有纹理坐标
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    // texture coord attribute
-//    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-//    glEnableVertexAttribArray(1);
+    
+    
+    
+    Delaunay del(fault,69);
+    //一个三角形有三点点，howmany为Delaunay三角的个数。
+    float dataFinish[del.HowMany * 3 ];
+    //但是循环不需要乘以3，是以三角形的结构体存在vertex里的。
+    for(int i = 1, j = 0; i <= del.HowMany && j < del.HowMany * 3; i++,j+=3)
+    {
+        dataFinish[j] = del.Vertex[del.Triangle[i].vv0].x;
+        dataFinish[j+1] = del.Vertex[del.Triangle[i].vv0].y;
+        dataFinish[j+2] = del.Vertex[del.Triangle[i].vv0].z;
+
+    }
+    //构造完float数组后将其传入顶点缓存器
+    unsigned int DelaunayVBO, DelaunayVAO;
+    glGenVertexArrays(1, &DelaunayVAO);
+    glGenBuffers(1, &DelaunayVBO);
+
+    //第一个矩形
+    glBindVertexArray(DelaunayVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, DelaunayVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(dataFinish), dataFinish, GL_STATIC_DRAW);
+
+    // position attribute
+    //这里的步长为3，之前的是5因为有纹理坐标
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+//   float fault2[] = {
+//           -0.5f, -0.24f,  -0.5f+ 2.0f,
+//            -0.41f, -0.23f,  -0.5f+ 2.0f,
+//            -0.29f, -0.23f,  -0.5f+ 2.0f,
+//            -0.23f, -0.29f,  -0.5f+ 2.0f,
+//            -0.05f, -0.32f,  -0.5f+ 2.0f,
+//            0.08f, -0.31f,  -0.5f+ 2.0f,
+//            0.19f, -0.25f,  -0.5f+ 2.0f,
+//            0.29f, -0.3f,  -0.5f+ 2.0f,
+//            0.4f, -0.26f,  -0.5f+ 2.0f,
+//            0.5f, -0.29f, -0.5f+ 2.0f,
+//            0.5f, 0.4f,   -0.5f+ 2.0f,
+//            0.5f, -0.29f,  -0.5f+ 2.0f
+//   };
+
 
 
     // load and create a texture 
@@ -357,7 +453,7 @@ int main()
 //    ourShader.setInt("texture1", 0);
 //    ourShader.setInt("texture2", 1);
 
-
+//这个三角剖分的地方不应该放在画图的位置，画图只管画顶点就好了。
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -407,7 +503,7 @@ int main()
             ourShader.setMat4("model", model);
 
             //可以先画这个外面的点，然后在画线啊真的蠢！
-            glDrawArrays(GL_LINE_STRIP, 0, (sizeof(vertices1))/20);
+            glDrawArrays(GL_LINE_LOOP, 0, 4);
         }
         //绑定顶点数组
         glBindVertexArray(VAOs[1]);
@@ -419,14 +515,45 @@ int main()
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             ourShader.setMat4("model", model);
-//            std::cout<< (sizeof(vertices2))/20 <<std::endl;
+//            std::cout<< (sizeof(cube22))/20 <<std::endl;
             //float是4个字节，然后一个坐标有5个值，那么就要除以20了。
-//            glDrawArrays(GL_LINE_STRIP, 0, (sizeof(vertices2))/20);
+//            glDrawArrays(GL_LINE_STRIP, 0, (sizeof(cube22))/20);
             //先画一个Loop这个是外面的框
             glDrawArrays(GL_LINE_LOOP, 0, 4);
             //先固定个数
-            glDrawArrays(GL_LINE_STRIP, 4, 15);
         }
+//可以直接画，那么就传入那个顶点数组好了。
+
+        glBindVertexArray(faultVAO);
+        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault))/12);
+        glBindVertexArray(DelaunayVAO);
+        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
+//
+//        glBegin(GL_LINE_LOOP);
+//        //            0.5f, 0.15f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            0.41f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            0.3f, 0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            0.18f, 0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            0.0f, 0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            -0.13f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            -0.26f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            -0.38f, 0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+////            -0.5f, 0.5f, -0.5f+ 2.0f, 0.0f, 0.0f,
+////            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+//        glVertex3f(0.5f, 0.15f,  -0.5f+ 2.0f);
+//        glVertex3f(0.41f, 0.29f,  -0.5f+ 2.0f);
+//        glVertex3f(0.18f, 0.26f,  -0.5f+ 2.0f);
+//        glVertex3f(0.0f, 0.24f,  -0.5f+ 2.0f);
+//        glVertex3f(-0.13f, 0.29f,  -0.5f+ 2.0f);
+//        glVertex3f( -0.26f, 0.29f,  -0.5f+ 2.0f);
+//        glVertex3f(-0.38f, 0.25f,  -0.5f+ 2.0f);
+//        glVertex3f(-0.5f, 0.22f,  -0.5f+ 2.0f);
+//        glVertex3f(-0.5f, 0.5f, -0.5f+ 2.0f);
+//        glVertex3f(-0.5f, 0.22f,  -0.5f+ 2.0f);
+//
+//        glEnd();
+
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -438,6 +565,8 @@ int main()
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(2, VAOs);
     glDeleteBuffers(2, VBOs);
+    glDeleteVertexArrays(1,&DelaunayVAO);
+    glDeleteBuffers(1, &DelaunayVBO);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
