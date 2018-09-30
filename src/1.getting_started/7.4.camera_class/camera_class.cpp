@@ -305,7 +305,7 @@ int main()
     glEnableVertexAttribArray(0);
 
 
-    VERTEX vertex[20];
+//    VERTEX vertex[20];
 
     //定义一下断层数据
     //感觉还是不要定义这种数组，实在是太麻烦了。没有虽然还是有规律性
@@ -318,8 +318,9 @@ int main()
             -0.13f, 0.29f,  -0.5f+ 2.0f, 
             -0.26f, 0.29f,  -0.5f+ 2.0f,
             -0.38f, 0.25f,  -0.5f+ 2.0f, 
-            -0.5f, 0.22f,  -0.5f+ 2.0f, 
-            -0.5f, 0.5f, -0.5f+ 2.0f, 
+            -0.5f, 0.22f,  -0.5f+ 2.0f,
+            //这个点是尼玛外面的点吧
+//            -0.5f, 0.5f, -0.5f+ 2.0f,
             -0.5f, 0.22f,  -0.5f+ 2.0f,
 
             //上层
@@ -336,49 +337,98 @@ int main()
             0.5f, 0.4f,   -0.5f+ 2.0f,
             0.5f, -0.29f,  -0.5f+ 2.0f
     };
-   //把这个原来的线也要放进缓冲器
-    unsigned int faultVBO, faultVAO;
-    glGenVertexArrays(1, &faultVAO);
-    glGenBuffers(1, &faultVBO);
-
-    glBindVertexArray(faultVAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(fault), fault, GL_STATIC_DRAW);
-
-    // position attribute
-    //这里的步长为3，之前的是5因为有纹理坐标
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+//   //把这个原来的线也要放进缓冲器
+//    unsigned int faultVBO, faultVAO;
+//    glGenVertexArrays(1, &faultVAO);
+//    glGenBuffers(1, &faultVBO);
+//
+//    glBindVertexArray(faultVAO);
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(fault), fault, GL_STATIC_DRAW);
+//
+//    // position attribute
+//    //这里的步长为3，之前的是5因为有纹理坐标
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//    glEnableVertexAttribArray(0);
     
     
     
-    Delaunay del(fault,69);
-    //一个三角形有三点点，howmany为Delaunay三角的个数。
-    float dataFinish[del.HowMany * 3 ];
-    //但是循环不需要乘以3，是以三角形的结构体存在vertex里的。
-    for(int i = 1, j = 0; i <= del.HowMany && j < del.HowMany * 3; i++,j+=3)
+    Delaunay del(fault,60);
+
+    //先声明一组vbo
+    int DelTraNumber = del.HowMany + 1;
+    //浪费了一个0这个顶点数据，三角剖分代码里都数据都是从1开始的
+    unsigned int DelTraVBOs[DelTraNumber], DelTraVAOs[DelTraNumber];
+    glGenVertexArrays(DelTraNumber,DelTraVAOs);
+    glGenBuffers(DelTraNumber,DelTraVBOs);
+
+    //循环读取del里的三角形顶点数据
+    for(int i = 1; i < DelTraNumber; i++)
     {
-        dataFinish[j] = del.Vertex[del.Triangle[i].vv0].x;
-        dataFinish[j+1] = del.Vertex[del.Triangle[i].vv0].y;
-        dataFinish[j+2] = del.Vertex[del.Triangle[i].vv0].z;
+        float TraVertex[9];
+        //不对啊，这里还有vvo和vv1？傻逼了
+        //将顶点分配给这个float
+        TraVertex[0] = del.Vertex[del.Triangle[i].vv0].x;
+        TraVertex[1] = del.Vertex[del.Triangle[i].vv0].y;
+        TraVertex[2] = del.Vertex[del.Triangle[i].vv0].z;
+        TraVertex[3] = del.Vertex[del.Triangle[i].vv1].x;
+        TraVertex[4] = del.Vertex[del.Triangle[i].vv1].y;
+        TraVertex[5] = del.Vertex[del.Triangle[i].vv1].z;
+        TraVertex[6] = del.Vertex[del.Triangle[i].vv2].x;
+        TraVertex[7] = del.Vertex[del.Triangle[i].vv2].y;
+        TraVertex[8] = del.Vertex[del.Triangle[i].vv2].z;
 
+
+        for(int j = 0 ;j < 9; j++)
+        {
+            cout<<TraVertex[j]<<" ";
+            if(j%3 == 0)
+                cout<<endl;
+        }
+
+        //绑定到vbo里
+        glBindVertexArray(DelTraVAOs[i]);
+
+        glBindBuffer(GL_ARRAY_BUFFER, DelTraVBOs[i]);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
+
+        // position attribute
+        //这里的步长为3，之前的是5因为有纹理坐标
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
     }
-    //构造完float数组后将其传入顶点缓存器
-    unsigned int DelaunayVBO, DelaunayVAO;
-    glGenVertexArrays(1, &DelaunayVAO);
-    glGenBuffers(1, &DelaunayVBO);
 
-    //第一个矩形
-    glBindVertexArray(DelaunayVAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, DelaunayVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(dataFinish), dataFinish, GL_STATIC_DRAW);
 
-    // position attribute
-    //这里的步长为3，之前的是5因为有纹理坐标
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+
+
+//    //一个三角形有三点点，howmany为Delaunay三角的个数。
+//    float dataFinish[del.HowMany * 3 ];
+//    //但是循环不需要乘以3，是以三角形的结构体存在vertex里的。
+//    for(int i = 1, j = 0; i <= del.HowMany && j < del.HowMany * 3; i++,j+=3)
+//    {
+//        dataFinish[j] = del.Vertex[del.Triangle[i].vv0].x;
+//        dataFinish[j+1] = del.Vertex[del.Triangle[i].vv0].y;
+//        dataFinish[j+2] = del.Vertex[del.Triangle[i].vv0].z;
+//        cout << "the "<<i << "vertex: x:"<<dataFinish[j]<<" y:"<<dataFinish[j+1] << " z:"<< dataFinish[j+2]<<endl;
+//    }
+//    //放个局部变量
+//    //构造完float数组后将其传入顶点缓存器
+//    unsigned int DelaunayVBO, DelaunayVAO;
+//    glGenVertexArrays(1, &DelaunayVAO);
+//    glGenBuffers(1, &DelaunayVBO);
+//
+//    //第一个矩形
+//    glBindVertexArray(DelaunayVAO);
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, DelaunayVBO);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(dataFinish), dataFinish, GL_STATIC_DRAW);
+//
+//    // position attribute
+//    //这里的步长为3，之前的是5因为有纹理坐标
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//    glEnableVertexAttribArray(0);
 //   float fault2[] = {
 //           -0.5f, -0.24f,  -0.5f+ 2.0f,
 //            -0.41f, -0.23f,  -0.5f+ 2.0f,
@@ -524,36 +574,17 @@ int main()
         }
 //可以直接画，那么就传入那个顶点数组好了。
 
-        glBindVertexArray(faultVAO);
-        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault))/12);
-        glBindVertexArray(DelaunayVAO);
-        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
+//        glBindVertexArray(faultVAO);
+//        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault))/12);
+//        glBindVertexArray(DelaunayVAO);
+//        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
 //
-//        glBegin(GL_LINE_LOOP);
-//        //            0.5f, 0.15f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            0.41f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            0.3f, 0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            0.18f, 0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            0.0f, 0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            -0.13f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            -0.26f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            -0.38f, 0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-////            -0.5f, 0.5f, -0.5f+ 2.0f, 0.0f, 0.0f,
-////            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//        glVertex3f(0.5f, 0.15f,  -0.5f+ 2.0f);
-//        glVertex3f(0.41f, 0.29f,  -0.5f+ 2.0f);
-//        glVertex3f(0.18f, 0.26f,  -0.5f+ 2.0f);
-//        glVertex3f(0.0f, 0.24f,  -0.5f+ 2.0f);
-//        glVertex3f(-0.13f, 0.29f,  -0.5f+ 2.0f);
-//        glVertex3f( -0.26f, 0.29f,  -0.5f+ 2.0f);
-//        glVertex3f(-0.38f, 0.25f,  -0.5f+ 2.0f);
-//        glVertex3f(-0.5f, 0.22f,  -0.5f+ 2.0f);
-//        glVertex3f(-0.5f, 0.5f, -0.5f+ 2.0f);
-//        glVertex3f(-0.5f, 0.22f,  -0.5f+ 2.0f);
-//
-//        glEnd();
-
+        //将剖分三角缓冲画出来
+        for (int i = 1; i < DelTraNumber; i++)
+        {
+            glBindVertexArray(DelTraVAOs[i]);
+            glDrawArrays(GL_LINE_LOOP,0 , 3);
+        }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -565,9 +596,14 @@ int main()
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(2, VAOs);
     glDeleteBuffers(2, VBOs);
-    glDeleteVertexArrays(1,&DelaunayVAO);
-    glDeleteBuffers(1, &DelaunayVBO);
+    glDeleteVertexArrays(DelTraNumber, DelTraVAOs);
+    glDeleteBuffers(DelTraNumber, DelTraVBOs);
 
+//    glDeleteVertexArrays(1,&DelaunayVAO);
+//    glDeleteBuffers(1, &DelaunayVBO);
+//
+//    glDeleteVertexArrays(1,&faultVAO);
+//    glDeleteBuffers(1, &faultVBO);
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
     glfwTerminate();
