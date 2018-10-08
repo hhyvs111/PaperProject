@@ -337,24 +337,26 @@ int main()
             0.5f, 0.4f,   -0.5f+ 2.0f,
             0.5f, -0.29f,  -0.5f+ 2.0f
     };
-//   //把这个原来的线也要放进缓冲器
-//    unsigned int faultVBO, faultVAO;
-//    glGenVertexArrays(1, &faultVAO);
-//    glGenBuffers(1, &faultVBO);
-//
-//    glBindVertexArray(faultVAO);
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(fault), fault, GL_STATIC_DRAW);
-//
-//    // position attribute
-//    //这里的步长为3，之前的是5因为有纹理坐标
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//    glEnableVertexAttribArray(0);
+   //把这个原来的线也要放进缓冲器
+    unsigned int faultVBO, faultVAO;
+    glGenVertexArrays(1, &faultVAO);
+    glGenBuffers(1, &faultVBO);
+
+    glBindVertexArray(faultVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(fault), fault, GL_STATIC_DRAW);
+
+    // position attribute
+    //这里的步长为3，之前的是5因为有纹理坐标
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
     
-    
-    
-    Delaunay del(fault,60);
+
+   //falut为断层，将其传入三角剖分的构造函数里去。
+   //除以4好像没毛病，float大小为4，但是好像多出了一个点，要确认一下是否是这个画的线有问题
+    Delaunay del(fault,(sizeof(fault)) / 4);
+    cout <<"the size of :" << (sizeof(fault)/4)<< endl;
 
     //先声明一组vbo
     int DelTraNumber = del.HowMany + 1;
@@ -518,7 +520,7 @@ int main()
         // -----
         processInput(window);
 
-        // render
+    // render
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
@@ -574,8 +576,8 @@ int main()
         }
 //可以直接画，那么就传入那个顶点数组好了。
 
-//        glBindVertexArray(faultVAO);
-//        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault))/12);
+        glBindVertexArray(faultVAO);
+        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault))/12);
 //        glBindVertexArray(DelaunayVAO);
 //        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
 //
