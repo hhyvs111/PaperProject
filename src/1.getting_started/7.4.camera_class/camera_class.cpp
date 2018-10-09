@@ -34,6 +34,14 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
+//function
+//设置一下变量，用按键实现一下功能
+
+//是否开启Delaunay
+bool DelaunayOpen = false;
+
+//平移操作
+
 int main()
 {
     // glfw: initialize and configure
@@ -323,7 +331,7 @@ int main()
 //            -0.5f, 0.5f, -0.5f+ 2.0f,
             -0.5f, 0.22f,  -0.5f+ 2.0f,
 
-            //上层
+          //x下层
             -0.5f, -0.24f,  -0.5f+ 2.0f,
             -0.41f, -0.23f,  -0.5f+ 2.0f,
             -0.29f, -0.23f,  -0.5f+ 2.0f,
@@ -334,7 +342,7 @@ int main()
             0.29f, -0.3f,  -0.5f+ 2.0f,
             0.4f, -0.26f,  -0.5f+ 2.0f,
             0.5f, -0.29f, -0.5f+ 2.0f,
-            0.5f, 0.4f,   -0.5f+ 2.0f,
+//            0.5f, 0.4f,   -0.5f+ 2.0f,
             0.5f, -0.29f,  -0.5f+ 2.0f
     };
    //把这个原来的线也要放进缓冲器
@@ -356,6 +364,7 @@ int main()
    //falut为断层，将其传入三角剖分的构造函数里去。
    //除以4好像没毛病，float大小为4，但是好像多出了一个点，要确认一下是否是这个画的线有问题
     Delaunay del(fault,(sizeof(fault)) / 4);
+//    Delaunay del(fault,60);
     cout <<"the size of :" << (sizeof(fault)/4)<< endl;
 
     //先声明一组vbo
@@ -380,14 +389,20 @@ int main()
         TraVertex[6] = del.Vertex[del.Triangle[i].vv2].x;
         TraVertex[7] = del.Vertex[del.Triangle[i].vv2].y;
         TraVertex[8] = del.Vertex[del.Triangle[i].vv2].z;
+        //一个个三角画的，主要是找顶点，为什么会有不存在的店。
+        //0 0.24 1.5 比如这个点，有哦
 
-
+        cout<<"TraNumber:"<<i<<endl;
         for(int j = 0 ;j < 9; j++)
         {
             cout<<TraVertex[j]<<" ";
-            if(j%3 == 0)
+            //应该是这里出错了，尼玛哦，看了我半天日了你爹
+            if((j+1)%3 == 0)
+            {
                 cout<<endl;
+            }
         }
+        cout<<endl;
 
         //绑定到vbo里
         glBindVertexArray(DelTraVAOs[i]);
@@ -581,13 +596,13 @@ int main()
 //        glBindVertexArray(DelaunayVAO);
 //        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
 //
-        //将剖分三角缓冲画出来
-        for (int i = 1; i < DelTraNumber; i++)
-        {
-            glBindVertexArray(DelTraVAOs[i]);
-            glDrawArrays(GL_LINE_LOOP,0 , 3);
+        if(DelaunayOpen) {
+            //将剖分三角缓冲画出来
+            for (int i = 1; i < DelTraNumber; i++) {
+                glBindVertexArray(DelTraVAOs[i]);
+                glDrawArrays(GL_LINE_LOOP, 0, 3);
+            }
         }
-
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
@@ -619,6 +634,8 @@ void processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
+    //绑定了wsad键，如果要绘制的话那么需要加一个开关啊。
+    //绘制的代码是while循环，看来要加一个全局变量，在while里在加一个判断，是否绘制
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         camera.ProcessKeyboard(FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -627,6 +644,11 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
+
+    if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+    {
+        DelaunayOpen = !DelaunayOpen;
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
