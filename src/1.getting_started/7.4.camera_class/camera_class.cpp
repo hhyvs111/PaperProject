@@ -329,8 +329,8 @@ int main()
             -0.5f, 0.22f,  -0.5f+ 2.0f,
             //这个点是尼玛外面的点吧
 //            -0.5f, 0.5f, -0.5f+ 2.0f,
-            -0.5f, 0.22f,  -0.5f+ 2.0f,
-
+//            -0.5f, 0.22f,  -0.5f+ 2.0f,
+            //怎么这个点重复了，有毒。
           //x下层
             -0.5f, -0.24f,  -0.5f+ 2.0f,
             -0.41f, -0.23f,  -0.5f+ 2.0f,
@@ -343,8 +343,42 @@ int main()
             0.4f, -0.26f,  -0.5f+ 2.0f,
             0.5f, -0.29f, -0.5f+ 2.0f,
 //            0.5f, 0.4f,   -0.5f+ 2.0f,
-            0.5f, -0.29f,  -0.5f+ 2.0f
     };
+    
+    
+    //第二个平面的断层
+    //这种断层数据不要一样，主要是这个z坐标的区别。
+    float fault1[2][30] = {
+            {0.5f, 0.15f,  -0.5f ,
+            0.41f, 0.29f,  -0.5f ,
+            0.3f, 0.32f,  -0.5f ,
+            0.18f, 0.26f,  -0.5f ,
+            0.0f, 0.24f,  -0.5f ,
+            -0.13f, 0.29f,  -0.5f ,
+             -0.20f, 0.20f, -0.5f,
+            -0.26f, 0.29f,  -0.5f ,
+            -0.38f, 0.25f,  -0.5f ,
+            -0.5f, 0.22f,  -0.5f}
+            //这个点是尼玛外面的点吧
+//            -0.5f, 0.5f, -0.5f ,
+//            -0.5f, 0.22f,  -0.5f ,
+            //怎么这个点重复了，有毒。
+            //x下层
+            ,
+            {-0.5f, -0.24f,  -0.5f ,
+            -0.41f, -0.23f,  -0.5f ,
+            -0.29f, -0.23f,  -0.5f ,
+            -0.23f, -0.29f,  -0.5f ,
+            -0.05f, -0.32f,  -0.5f ,
+            0.08f, -0.31f,  -0.5f ,
+            0.19f, -0.25f,  -0.5f ,
+            0.29f, -0.3f,  -0.5f ,
+            0.4f, -0.26f,  -0.5f ,
+            0.5f, -0.29f, -0.5f }
+//            0.5f, 0.4f,   -0.5f ,
+    };
+    
+    
    //把这个原来的线也要放进缓冲器
     unsigned int faultVBO, faultVAO;
     glGenVertexArrays(1, &faultVAO);
@@ -354,6 +388,20 @@ int main()
 
     glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(fault), fault, GL_STATIC_DRAW);
+
+    // position attribute
+    //这里的步长为3，之前的是5因为有纹理坐标
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    unsigned int fault1VBO, fault1VAO;
+    glGenVertexArrays(1, &fault1VAO);
+    glGenBuffers(1, &fault1VBO);
+
+    glBindVertexArray(fault1VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, fault1VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(fault1), fault1, GL_STATIC_DRAW);
 
     // position attribute
     //这里的步长为3，之前的是5因为有纹理坐标
@@ -591,8 +639,11 @@ int main()
         }
 //可以直接画，那么就传入那个顶点数组好了。
 
+        //两条线，数据还是要改一下
         glBindVertexArray(faultVAO);
         glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault))/12);
+        glBindVertexArray(fault1VAO);
+        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1))/12);
 //        glBindVertexArray(DelaunayVAO);
 //        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
 //
