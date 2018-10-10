@@ -42,6 +42,72 @@ bool DelaunayOpen = false;
 
 //平移操作
 
+//试一下这个是否有用啊。
+VERTEX  points[19];
+
+//全局变量，用来平移之类的
+float fault[] = {
+        0.5f, 0.15f,  -0.5f+ 2.0f,
+        0.41f, 0.29f,  -0.5f+ 2.0f,
+        0.3f, 0.32f,  -0.5f+ 2.0f,
+        0.18f, 0.26f,  -0.5f+ 2.0f,
+        0.0f, 0.24f,  -0.5f+ 2.0f,
+        -0.13f, 0.29f,  -0.5f+ 2.0f,
+        -0.26f, 0.29f,  -0.5f+ 2.0f,
+        -0.38f, 0.25f,  -0.5f+ 2.0f,
+        -0.5f, 0.22f,  -0.5f+ 2.0f,
+        //这个点是尼玛外面的点吧
+//            -0.5f, 0.5f, -0.5f+ 2.0f,
+//            -0.5f, 0.22f,  -0.5f+ 2.0f,
+        //怎么这个点重复了，有毒。
+        //x下层
+        -0.5f, -0.24f,  -0.5f+ 2.0f,
+        -0.41f, -0.23f,  -0.5f+ 2.0f,
+        -0.29f, -0.23f,  -0.5f+ 2.0f,
+        -0.23f, -0.29f,  -0.5f+ 2.0f,
+        -0.05f, -0.32f,  -0.5f+ 2.0f,
+        0.08f, -0.31f,  -0.5f+ 2.0f,
+        0.19f, -0.25f,  -0.5f+ 2.0f,
+        0.29f, -0.3f,  -0.5f+ 2.0f,
+        0.4f, -0.26f,  -0.5f+ 2.0f,
+        0.5f, -0.29f, -0.5f+ 2.0f,
+//            0.5f, 0.4f,   -0.5f+ 2.0f,
+};
+
+
+
+
+//第二个平面的断层
+//这种断层数据不要一样，主要是这个z坐标的区别。
+float fault1[2][30] = {
+        {0.5f, 0.15f,  -0.5f ,
+                0.41f, 0.29f,  -0.5f ,
+                0.3f, 0.32f,  -0.5f ,
+                0.18f, 0.26f,  -0.5f ,
+                0.0f, 0.24f,  -0.5f ,
+                -0.13f, 0.29f,  -0.5f ,
+                -0.20f, 0.20f, -0.5f,
+                -0.26f, 0.29f,  -0.5f ,
+                -0.38f, 0.25f,  -0.5f ,
+                -0.5f, 0.22f,  -0.5f}
+        //这个点是尼玛外面的点吧
+//            -0.5f, 0.5f, -0.5f ,
+//            -0.5f, 0.22f,  -0.5f ,
+        //怎么这个点重复了，有毒。
+        //x下层
+        ,
+        {-0.5f, -0.24f,  -0.5f ,
+                -0.41f, -0.23f,  -0.5f ,
+                -0.29f, -0.23f,  -0.5f ,
+                -0.23f, -0.29f,  -0.5f ,
+                -0.05f, -0.32f,  -0.5f ,
+                0.08f, -0.31f,  -0.5f ,
+                0.19f, -0.25f,  -0.5f ,
+                0.29f, -0.3f,  -0.5f ,
+                0.4f, -0.26f,  -0.5f ,
+                0.5f, -0.29f, -0.5f }
+//            0.5f, 0.4f,   -0.5f ,
+};
 int main()
 {
     // glfw: initialize and configure
@@ -93,6 +159,14 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     //六个面的坐标值
+
+    for (int i = 0, j = 0;i < 19;i++)
+    {
+        points[i].x = fault[j++];
+        points[i].y = fault[j++];
+        points[i].z = fault[j++];
+    }
+
     float cube1[] = {
 //        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 //         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -317,66 +391,7 @@ int main()
 
     //定义一下断层数据
     //感觉还是不要定义这种数组，实在是太麻烦了。没有虽然还是有规律性
-    float fault[] = {
-            0.5f, 0.15f,  -0.5f+ 2.0f,  
-            0.41f, 0.29f,  -0.5f+ 2.0f,
-            0.3f, 0.32f,  -0.5f+ 2.0f,
-            0.18f, 0.26f,  -0.5f+ 2.0f,  
-            0.0f, 0.24f,  -0.5f+ 2.0f,  
-            -0.13f, 0.29f,  -0.5f+ 2.0f, 
-            -0.26f, 0.29f,  -0.5f+ 2.0f,
-            -0.38f, 0.25f,  -0.5f+ 2.0f, 
-            -0.5f, 0.22f,  -0.5f+ 2.0f,
-            //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f+ 2.0f,
-//            -0.5f, 0.22f,  -0.5f+ 2.0f,
-            //怎么这个点重复了，有毒。
-          //x下层
-            -0.5f, -0.24f,  -0.5f+ 2.0f,
-            -0.41f, -0.23f,  -0.5f+ 2.0f,
-            -0.29f, -0.23f,  -0.5f+ 2.0f,
-            -0.23f, -0.29f,  -0.5f+ 2.0f,
-            -0.05f, -0.32f,  -0.5f+ 2.0f,
-            0.08f, -0.31f,  -0.5f+ 2.0f,
-            0.19f, -0.25f,  -0.5f+ 2.0f,
-            0.29f, -0.3f,  -0.5f+ 2.0f,
-            0.4f, -0.26f,  -0.5f+ 2.0f,
-            0.5f, -0.29f, -0.5f+ 2.0f,
-//            0.5f, 0.4f,   -0.5f+ 2.0f,
-    };
-    
-    
-    //第二个平面的断层
-    //这种断层数据不要一样，主要是这个z坐标的区别。
-    float fault1[2][30] = {
-            {0.5f, 0.15f,  -0.5f ,
-            0.41f, 0.29f,  -0.5f ,
-            0.3f, 0.32f,  -0.5f ,
-            0.18f, 0.26f,  -0.5f ,
-            0.0f, 0.24f,  -0.5f ,
-            -0.13f, 0.29f,  -0.5f ,
-             -0.20f, 0.20f, -0.5f,
-            -0.26f, 0.29f,  -0.5f ,
-            -0.38f, 0.25f,  -0.5f ,
-            -0.5f, 0.22f,  -0.5f}
-            //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-            //怎么这个点重复了，有毒。
-            //x下层
-            ,
-            {-0.5f, -0.24f,  -0.5f ,
-            -0.41f, -0.23f,  -0.5f ,
-            -0.29f, -0.23f,  -0.5f ,
-            -0.23f, -0.29f,  -0.5f ,
-            -0.05f, -0.32f,  -0.5f ,
-            0.08f, -0.31f,  -0.5f ,
-            0.19f, -0.25f,  -0.5f ,
-            0.29f, -0.3f,  -0.5f ,
-            0.4f, -0.26f,  -0.5f ,
-            0.5f, -0.29f, -0.5f }
-//            0.5f, 0.4f,   -0.5f ,
-    };
+
     
     
    //把这个原来的线也要放进缓冲器
@@ -387,7 +402,7 @@ int main()
     glBindVertexArray(faultVAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(fault), fault, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 
     // position attribute
     //这里的步长为3，之前的是5因为有纹理坐标
@@ -641,7 +656,7 @@ int main()
 
         //两条线，数据还是要改一下
         glBindVertexArray(faultVAO);
-        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault))/12);
+        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(points))/12);
         glBindVertexArray(fault1VAO);
         glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1))/12);
 //        glBindVertexArray(DelaunayVAO);
@@ -739,3 +754,23 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     camera.ProcessMouseScroll(yoffset);
 }
 
+//判断直线是否相交
+bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
+{
+    float fC = (C.y - A.y) * (A.x - B.x) - (C.x - A.x) * (A.y - B.y);
+    float fD = (D.y - A.y) * (A.x - B.x) - (D.x - A.x) * (A.y - B.y);
+    if(fC * fD > 0)
+        return false;
+    return true;
+
+}
+//主要原理就是另一条线的一个点是否在一条直线的同一侧？如果两条线都不在同一侧那么就是不想交的。
+bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
+{
+    if(!lineIntersectSide(A, B, C, D))
+        return false;
+    if(!lineIntersectSide(C, D, A, B))
+        return false;
+
+    return true;
+}
