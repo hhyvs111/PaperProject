@@ -774,3 +774,22 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 
     return true;
 }
+
+//判断这两个断层是否相交
+//
+bool faultIntersect(VERTEX fault1[],int f1Number, VERTEX fault2[], int f2Number)
+{
+    //断层里的线是依次的，基本上第一个点的ip是基本在同一起点，那么还是要判断多重啊。不能单一的判断，那么就是一个线段是否与另一条的所有线段相交
+    //如果相交则要平移一下，但是这样感觉效率好低啊，不管了，先这样做吧。应该计算量不大，这个东西的话是一个基本的算法，时间复杂度应该不高。
+    for(int i = 0; i < f1Number - 1; i++)
+    {
+        for(int j = 0; j < f2Number - 1; j++)
+        {
+            //如果有任意一条相交，那么该线就需要平移。
+            if(sideIntersectSide(fault1[i],fault1[i+1], fault2[j], fault2[j+1]))
+                return false;
+        }
+
+    }
+    return true;
+}
