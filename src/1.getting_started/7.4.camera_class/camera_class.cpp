@@ -41,7 +41,7 @@ float lastFrame = 0.0f;
 bool DelaunayOpen = false;
 
 //平移操作
-
+bool faultMove = false;
 //试一下这个是否有用啊。
 VERTEX  points[19];
 
@@ -108,6 +108,19 @@ float fault1[2][30] = {
                 0.5f, -0.29f, -0.5f }
 //            0.5f, 0.4f,   -0.5f ,
 };
+
+
+enum moveDirection {
+        xD,
+        yD,
+        zD,
+        xyD,
+        xzD,
+        yzD,
+        xyzD
+};
+
+void faultMoveFunction(float fault[],int size, float moveSize, int whichDirection);
 int main()
 {
     // glfw: initialize and configure
@@ -168,169 +181,17 @@ int main()
     }
 
     float cube1[] = {
-//        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
             -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
             0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
             0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
             -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
-
-
-//        -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-//        0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-
-
-//        0.5f, 0.25f,  -0.5f,  0.0f, 0.0f,
-//        0.41f, 0.29f,  -0.5f,  0.0f, 0.0f,
-//        0.3f, 0.32f,  -0.5f,  0.0f, 0.0f,
-//        0.18f, 0.26f,  -0.5f,  0.0f, 0.0f,
-//        0.0f, 0.24f,  -0.5f,  0.0f, 0.0f,
-//        -0.13f, 0.29f,  -0.5f,  0.0f, 0.0f,
-//        -0.26f, 0.29f,  -0.5f,  0.0f, 0.0f,
-//        -0.38f, 0.25f,  -0.5f,  0.0f, 0.0f,
-//        -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
-////        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f,
-//        -0.5f, 0.22f,  -0.5f,  0.0f, 0.0f,
-//
-//
-//        -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
-//        -0.41f, -0.23f,  -0.5f,  0.0f, 0.0f,
-//        -0.29f, -0.23f,  -0.5f,  0.0f, 0.0f,
-//        -0.23f, -0.29f,  -0.5f,  0.0f, 0.0f,
-//        -0.05f, -0.32f,  -0.5f,  0.0f, 0.0f,
-//        0.08f, -0.31f,  -0.5f,  0.0f, 0.0f,
-//        0.19f, -0.25f,  -0.5f,  0.0f, 0.0f,
-//        0.29f, -0.23f,  -0.5f,  0.0f, 0.0f,
-//        0.4f, -0.26f,  -0.5f,  0.0f, 0.0f,
-//        0.5f, -0.29f, -0.5f,  0.0f, 0.0f,
-//        0.5f, 0.25f,   -0.5f,  0.0f, 0.0f,
-//        0.5f, -0.29f,  -0.5f,  0.0f, 0.0f,
-//
-//
-//        0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//        -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
-//        -0.5f, -0.24f,  -0.5f,  0.0f, 0.0f,
-
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-//        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
 
     float cube22[] = {
-//        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
             -0.5f, 0.5f,  -0.5f + 2.0f,  0.0f, 0.0f,
             0.5f, 0.5f,  -0.5f+ 2.0f,  0.0f, 0.0f,
             0.5f, -0.5f, -0.5f+ 2.0f,  0.0f, 0.0f,
             -0.5f,-0.5f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            //断层曲线的位置上半部分
-//            0.5f, 0.15f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.41f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.3f, 0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.18f, 0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.0f, 0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.13f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.26f, 0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.38f, 0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.5f, 0.5f, -0.5f+ 2.0f, 0.0f, 0.0f,
-//            -0.5f, 0.22f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//
-//            //断层曲线下半部分
-//            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.41f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.29f, -0.23f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.23f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            -0.05f, -0.32f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.08f, -0.31f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.19f, -0.25f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.29f, -0.3f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.4f, -0.26f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.5f, -0.29f, -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.5f, 0.4f,   -0.5f+ 2.0f,  0.0f, 0.0f,
-//            0.5f, -0.29f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-//
-//
-//
-//            -0.5f, -0.24f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-
-
-
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-//        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-//
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-//        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-//        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
     };
     // world space positions of our cubes
     //正方体的位置
@@ -657,6 +518,20 @@ int main()
         //两条线，数据还是要改一下
         glBindVertexArray(faultVAO);
         glDrawArrays(GL_LINE_STRIP,0 , (sizeof(points))/12);
+
+        if(faultMove)
+        {
+            glBindVertexArray(fault1VAO);
+
+            glBindBuffer(GL_ARRAY_BUFFER, fault1VBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(fault1), fault1, GL_STATIC_DRAW);
+
+            // position attribute
+            //这里的步长为3，之前的是5因为有纹理坐标
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+            glEnableVertexAttribArray(0);
+        }
+
         glBindVertexArray(fault1VAO);
         glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1))/12);
 //        glBindVertexArray(DelaunayVAO);
@@ -681,6 +556,7 @@ int main()
     glDeleteBuffers(2, VBOs);
     glDeleteVertexArrays(DelTraNumber, DelTraVAOs);
     glDeleteBuffers(DelTraNumber, DelTraVBOs);
+
 
 //    glDeleteVertexArrays(1,&DelaunayVAO);
 //    glDeleteBuffers(1, &DelaunayVBO);
@@ -713,7 +589,20 @@ void processInput(GLFWwindow *window)
 
     if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
     {
+        cout<<"delaunay"<<endl;
         DelaunayOpen = !DelaunayOpen;
+    }
+    //平移操作，如果按下则进行平移
+    if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+    {
+        cout<<"move"<<endl;
+       //主要是移动一下z轴，先试试。
+       if(!faultMove)
+       {
+           faultMoveFunction((fault1[0]),30,2.0f,zD);
+           faultMoveFunction((fault1[0]),30,-0.25f,yD);
+       }
+        faultMove = true;
     }
 }
 
@@ -777,7 +666,7 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 
 //判断这两个断层是否相交
 //
-bool faultIntersect(VERTEX fault1[],int f1Number, VERTEX fault2[], int f2Number)
+bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number)
 {
     //断层里的线是依次的，基本上第一个点的ip是基本在同一起点，那么还是要判断多重啊。不能单一的判断，那么就是一个线段是否与另一条的所有线段相交
     //如果相交则要平移一下，但是这样感觉效率好低啊，不管了，先这样做吧。应该计算量不大，这个东西的话是一个基本的算法，时间复杂度应该不高。
@@ -789,7 +678,46 @@ bool faultIntersect(VERTEX fault1[],int f1Number, VERTEX fault2[], int f2Number)
             if(sideIntersectSide(fault1[i],fault1[i+1], fault2[j], fault2[j+1]))
                 return false;
         }
-
     }
     return true;
+}
+
+//平移，哪个断层，平移多少,方向是什么？
+//到底是传入vertex还是数组啊？感觉好像
+void faultMoveFunction(float *fault,int size, float moveSize, int whichDirection)
+{
+    cout<<"movefunction"<<endl;
+    //先写一下这个yd得了
+    if(whichDirection == xD)
+    {
+        for(int i = 0;i < size; i+=3)
+        {
+            //x的话就是第一个那么就是%3==1
+            fault[i] += moveSize;
+
+        }
+    }
+    if(whichDirection == yD)
+    {
+        //从1开头，然后加等于2
+        for(int i = 1;i < size; i+=3)
+        {
+            fault[i] += moveSize;
+            cout<<"y fault"<< i <<":"<< fault[i]<<endl;
+        }
+    }
+    if(whichDirection == zD)
+    {
+        for(int i = 0;i < size;i++)
+        {
+            cout<<"faultRaw"<< i <<": "<< fault[i]<<endl;
+        }
+        //从1开头，然后加等于2
+        for(int i = 2;i < size; i+=3)
+        {
+
+            fault[i] += moveSize;
+            cout<<"z fault"<< i <<":"<< fault[i]<<endl;
+        }
+    }
 }
