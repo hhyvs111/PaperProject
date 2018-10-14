@@ -13,7 +13,9 @@
 #include <Delaunay.h>
 #include <iostream>
 #include <vector>
+#include <cstring>
 using namespace std;
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -43,34 +45,43 @@ bool DelaunayOpen = false;
 //平移操作
 bool faultMove = false;
 //试一下这个是否有用啊。
-VERTEX  points[19];
+
+//顶点
+VERTEX *fault1_up, *fault1_down;
+VERTEX *fault2_up, *fault2_down;
 
 //全局变量，用来平移之类的
-float fault[] = {
-        0.5f, 0.15f,  -0.5f+ 2.0f,
-        0.41f, 0.29f,  -0.5f+ 2.0f,
-        0.3f, 0.32f,  -0.5f+ 2.0f,
-        0.18f, 0.26f,  -0.5f+ 2.0f,
-        0.0f, 0.24f,  -0.5f+ 2.0f,
-        -0.13f, 0.29f,  -0.5f+ 2.0f,
-        -0.26f, 0.29f,  -0.5f+ 2.0f,
-        -0.38f, 0.25f,  -0.5f+ 2.0f,
-        -0.5f, 0.22f,  -0.5f+ 2.0f,
+float fault1[2][30] = {
+        {
+                0.5f, 0.15f, -0.5f + 2.0f,
+                0.41f, 0.29f, -0.5f + 2.0f,
+                0.3f, 0.32f, -0.5f + 2.0f,
+                0.18f, 0.26f, -0.5f + 2.0f,
+                0.0f, 0.24f, -0.5f + 2.0f,
+                -0.13f, 0.29f, -0.5f + 2.0f,
+                -0.21f, 0.25f, -0.5f + 2.0f,
+                -0.26f, 0.29f, -0.5f + 2.0f,
+                -0.38f, 0.25f, -0.5f + 2.0f,
+                -0.5f, 0.22f, -0.5f + 2.0f,
+        }
         //这个点是尼玛外面的点吧
 //            -0.5f, 0.5f, -0.5f+ 2.0f,
 //            -0.5f, 0.22f,  -0.5f+ 2.0f,
         //怎么这个点重复了，有毒。
         //x下层
-        -0.5f, -0.24f,  -0.5f+ 2.0f,
-        -0.41f, -0.23f,  -0.5f+ 2.0f,
-        -0.29f, -0.23f,  -0.5f+ 2.0f,
-        -0.23f, -0.29f,  -0.5f+ 2.0f,
-        -0.05f, -0.32f,  -0.5f+ 2.0f,
-        0.08f, -0.31f,  -0.5f+ 2.0f,
-        0.19f, -0.25f,  -0.5f+ 2.0f,
-        0.29f, -0.3f,  -0.5f+ 2.0f,
-        0.4f, -0.26f,  -0.5f+ 2.0f,
-        0.5f, -0.29f, -0.5f+ 2.0f,
+        ,
+        {
+                -0.5f, -0.24f, -0.5f + 2.0f,
+                -0.41f, -0.23f, -0.5f + 2.0f,
+                -0.29f, -0.23f, -0.5f + 2.0f,
+                -0.23f, -0.29f, -0.5f + 2.0f,
+                -0.05f, -0.32f, -0.5f + 2.0f,
+                0.08f, -0.31f, -0.5f + 2.0f,
+                0.19f, -0.25f, -0.5f + 2.0f,
+                0.29f, -0.3f, -0.5f + 2.0f,
+                0.4f, -0.26f, -0.5f + 2.0f,
+                0.5f, -0.29f, -0.5f + 2.0f,
+        }
 //            0.5f, 0.4f,   -0.5f+ 2.0f,
 };
 
@@ -79,7 +90,7 @@ float fault[] = {
 
 //第二个平面的断层
 //这种断层数据不要一样，主要是这个z坐标的区别。
-float fault1[2][30] = {
+float fault2[2][30] = {
         {0.5f, 0.15f,  -0.5f ,
                 0.41f, 0.29f,  -0.5f ,
                 0.3f, 0.32f,  -0.5f ,
@@ -120,7 +131,19 @@ enum moveDirection {
         xyzD
 };
 
-void faultMoveFunction(float fault[],int size, float moveSize, int whichDirection);
+//函数声明
+void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection);
+//将两个顶点数组合并为1个
+VERTEX * faultMerge(VERTEX vertex1[],int num1, VERTEX vertex2[], int num2);
+
+//初始化
+void drawInit(unsigned int & VAO, unsigned int & VBO, VERTEX *target, int num);
+
+//两个转换的函数
+float * VertexToFloat(VERTEX vertex[], int num);
+
+VERTEX * FloatToVertex(float _float[], int num);
+
 int main()
 {
     // glfw: initialize and configure
@@ -172,13 +195,37 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     //六个面的坐标值
+    
+//    for (int i = 0, j1 = 0, j2 = 0;i < 20; i++)
+//    {
+//        if(i < 10)
+//        {
+//            fault_up[i].x = fault[0][j1++];
+//            fault_up[i].y = fault[0][j1++];
+//            fault_up[i].z = fault[0][j1++];
+//            //这里的j++重复了
+//            fault1_up[i].x = fault1[0][j2++];
+//            fault1_up[i].y = fault1[0][j2++];
+//            fault1_up[i].z = fault1[0][j2++];
+//            if(i == 9)
+//                j1 = j2 = 0;
+//        }
+//        else
+//            //这个i都越界了尼玛
+//        {
+//            fault_down[i].x = fault[1][j1++];
+//            cout<<"the tran"<<fault_down[i].x;
+//            fault_down[i].y = fault[1][j1++];
+//            fault_down[i].z = fault[1][j1++];
+//            fault1_down[i].x = fault1[1][j2++];
+//            fault1_down[i].y = fault1[1][j2++];
+//            fault1_down[i].z = fault1[1][j2++];
+//
+//        }
+//
+//    }
 
-    for (int i = 0, j = 0;i < 19;i++)
-    {
-        points[i].x = fault[j++];
-        points[i].y = fault[j++];
-        points[i].z = fault[j++];
-    }
+
 
     float cube1[] = {
             -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
@@ -250,46 +297,66 @@ int main()
 
 //    VERTEX vertex[20];
 
-    //定义一下断层数据
-    //感觉还是不要定义这种数组，实在是太麻烦了。没有虽然还是有规律性
+   //分配空间,sizeof是120，那么要除以4啊。
+   fault1_up = FloatToVertex(fault1[0], (sizeof(fault1[0])) / 4);
+   fault1_down = FloatToVertex(fault1[1], (sizeof(fault1[1])) / 4);
 
-    
     
    //把这个原来的线也要放进缓冲器
-    unsigned int faultVBO, faultVAO;
-    glGenVertexArrays(1, &faultVAO);
-    glGenBuffers(1, &faultVBO);
+    unsigned int fault1_upVBO, fault1_upVAO;
+    drawInit(fault1_upVAO, fault1_upVBO, fault1_up, sizeof(fault1[0]) / 12);
+    
+    unsigned int fault1_downVBO, fault1_downVAO;
+    drawInit(fault1_downVAO, fault1_downVBO, fault1_down, sizeof(fault1[1]) / 12);
 
-    glBindVertexArray(faultVAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+    fault2_up = FloatToVertex(fault2[0], (sizeof(fault2[0])) / 4);
+    fault2_down = FloatToVertex(fault2[1], (sizeof(fault2[1])) / 4);
 
-    // position attribute
-    //这里的步长为3，之前的是5因为有纹理坐标
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
 
-    unsigned int fault1VBO, fault1VAO;
-    glGenVertexArrays(1, &fault1VAO);
-    glGenBuffers(1, &fault1VBO);
+    //把这个原来的线也要放进缓冲器
+    unsigned int fault2_upVBO, fault2_upVAO;
+    drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
 
-    glBindVertexArray(fault1VAO);
+    unsigned int fault2_downVBO, fault2_downVAO;
+    drawInit(fault2_downVAO, fault2_downVBO, fault2_down, sizeof(fault2[1]) / 12);
+    
+//    glGenVertexArrays(1, &faultVAO);
+//    glGenBuffers(1, &faultVBO);
+//
+//    glBindVertexArray(faultVAO);
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(fault_up), fault_up, GL_STATIC_DRAW);
+//
+//    // position attribute
+//    //这里的步长为3，之前的是5因为有纹理坐标
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//    glEnableVertexAttribArray(0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, fault1VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(fault1), fault1, GL_STATIC_DRAW);
-
-    // position attribute
-    //这里的步长为3，之前的是5因为有纹理坐标
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+//    unsigned int fault1VBO, fault1VAO;
+//    glGenVertexArrays(1, &fault1VAO);
+//    glGenBuffers(1, &fault1VBO);
+//
+//    glBindVertexArray(fault1VAO);
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, fault1VBO);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(fault1), fault1, GL_STATIC_DRAW);
+//
+//    // position attribute
+//    //这里的步长为3，之前的是5因为有纹理坐标
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//    glEnableVertexAttribArray(0);
     
 
    //falut为断层，将其传入三角剖分的构造函数里去。
-   //除以4好像没毛病，float大小为4，但是好像多出了一个点，要确认一下是否是这个画的线有问题
-    Delaunay del(fault,(sizeof(fault)) / 4);
+   //现在改为这个传入顶点了，那么还是要做一个顶点集合，就是两个断层合入为一个断层。
+
+
+
+    Delaunay del((faultMerge(fault1_up, 10, fault1_up, 10)), 20);
 //    Delaunay del(fault,60);
-    cout <<"the size of :" << (sizeof(fault)/4)<< endl;
+    cout <<"the size of :" << (sizeof(fault1)/4)<< endl;
 
     //先声明一组vbo
     int DelTraNumber = del.HowMany + 1;
@@ -516,24 +583,29 @@ int main()
 //可以直接画，那么就传入那个顶点数组好了。
 
         //两条线，数据还是要改一下
-        glBindVertexArray(faultVAO);
-        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(points))/12);
+        glBindVertexArray(fault1_upVAO);
+        //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
+        glDrawArrays(GL_LINE_STRIP,0 , sizeof(fault1[0]) / 12);
+
+        glBindVertexArray(fault1_downVAO);
+        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1[1])) / 12);
+
+
 
         if(faultMove)
         {
-            glBindVertexArray(fault1VAO);
-
-            glBindBuffer(GL_ARRAY_BUFFER, fault1VBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(fault1), fault1, GL_STATIC_DRAW);
-
-            // position attribute
-            //这里的步长为3，之前的是5因为有纹理坐标
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-            glEnableVertexAttribArray(0);
+            //重新载入一下，加入缓冲
+            drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
         }
+        glBindVertexArray(fault2_upVAO);
+        //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
+        glDrawArrays(GL_LINE_STRIP,0 , sizeof(fault2[0]) / 12);
 
-        glBindVertexArray(fault1VAO);
-        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1))/12);
+        glBindVertexArray(fault2_downVAO);
+        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault2[1])) / 12);
+//
+//        glBindVertexArray(fault1VAO);
+//        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1))/12);
 //        glBindVertexArray(DelaunayVAO);
 //        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
 //
@@ -599,8 +671,8 @@ void processInput(GLFWwindow *window)
        //主要是移动一下z轴，先试试。
        if(!faultMove)
        {
-           faultMoveFunction((fault1[0]),30,2.0f,zD);
-           faultMoveFunction((fault1[0]),30,-0.25f,yD);
+           faultMoveFunction(fault2_up, 10, 2.0f, zD);
+           faultMoveFunction(fault2_up, 10, -0.25f, yD);
        }
         faultMove = true;
     }
@@ -684,40 +756,106 @@ bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number
 
 //平移，哪个断层，平移多少,方向是什么？
 //到底是传入vertex还是数组啊？感觉好像
-void faultMoveFunction(float *fault,int size, float moveSize, int whichDirection)
+void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection)
 {
     cout<<"movefunction"<<endl;
     //先写一下这个yd得了
     if(whichDirection == xD)
     {
-        for(int i = 0;i < size; i+=3)
+        for(int i = 0;i < num; i++)
         {
-            //x的话就是第一个那么就是%3==1
-            fault[i] += moveSize;
-
+            vertex[i].x += moveSize;
         }
     }
     if(whichDirection == yD)
     {
         //从1开头，然后加等于2
-        for(int i = 1;i < size; i+=3)
+        for(int i = 1;i < num; i++)
         {
-            fault[i] += moveSize;
-            cout<<"y fault"<< i <<":"<< fault[i]<<endl;
+            vertex[i].y += moveSize;
         }
     }
     if(whichDirection == zD)
     {
-        for(int i = 0;i < size;i++)
+        for(int i = 0;i < num;i++)
         {
-            cout<<"faultRaw"<< i <<": "<< fault[i]<<endl;
-        }
-        //从1开头，然后加等于2
-        for(int i = 2;i < size; i+=3)
-        {
-
-            fault[i] += moveSize;
-            cout<<"z fault"<< i <<":"<< fault[i]<<endl;
+            vertex[i].z += moveSize;
         }
     }
+}
+
+VERTEX * faultMerge(VERTEX vertex1[],int num1, VERTEX vertex2[], int num2)
+{
+    VERTEX *merge = new VERTEX[num1 + num2];
+    //不用考虑排序就这样插入吧。
+    for(int i = 0;i < num1;i++)
+    {
+        merge[i] = vertex1[i];
+    }
+
+    for(int i = num1,j = 0;j < num2;j++)
+    {
+        merge[i++] = vertex2[j];
+    }
+    return merge;
+}
+
+//写一个顶点缓冲绑定的函数
+//参数要做地址引用，不然都是形参
+void drawInit(unsigned int & VAO, unsigned int & VBO, VERTEX *target, int num)
+{
+    //还是要逐个复制啊，这感觉有点浪费空间哦。个人感觉也是没效果的
+    VERTEX source[num];
+    for(int i = 0; i < num; i++)
+    {
+        source[i] = target[i];
+        cout<<source[i].x<<" ";
+        cout<<source[i].y<<" ";
+        cout<<source[i].z<<endl;
+    }
+
+    //这里要直接用引用还是要去了？感觉好像没报错是没毛病的。
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(source), source, GL_STATIC_DRAW);
+
+    // position attribute
+    //这里的步长为3，之前的是5因为有纹理坐标
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+}
+
+float * VertexToFloat(VERTEX vertex[], int num)
+{
+    if(vertex == NULL)
+        return NULL;
+    //new分配空间
+    float * _float = new float[num * 3];
+    for(int i = 0,j = 0;i < num && j < num * 3; i++)
+    {
+        _float[j++] = vertex[i].x;
+        _float[j++] = vertex[i].y;
+        _float[j++] = vertex[i].z;
+    }
+    return _float;
+}
+
+VERTEX * FloatToVertex(float _float[], int num)
+{
+    if(_float == NULL)
+        return NULL;
+    VERTEX * vertex = new VERTEX[num/3];
+    for(int i = 0,j = 0; i < num/3 && j < num; i++)
+    {
+        vertex[i].x = _float[j++];
+        vertex[i].y = _float[j++];
+        vertex[i].z = _float[j++];
+
+    }
+    return vertex;
 }

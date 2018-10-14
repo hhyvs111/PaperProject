@@ -47,7 +47,7 @@ public:
 
 public:
     //构造函数放入一堆点，让其剖分
-    Delaunay(float vertex[],int num);
+    Delaunay(VERTEX vertex[],int num);
 
     int FvsTrianglate(int nvert);
     //判断哪条边？

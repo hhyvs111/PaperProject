@@ -13,22 +13,20 @@ using namespace std;
 
 #define random(a,b) rand() / (float)30
 
-Delaunay::Delaunay(float vertex[], int num)
+Delaunay::Delaunay(VERTEX vertex[], int num)
 {
     //传入的数组是连续的，所以赋值的时候要注意，num应该是要/3
 
-    for(int i = 1,j = 0; i <= (num/3); i++, j+=3)
+    for(int i = 1; i <= num; i++)
     {
-        Vertex[i].x = vertex[j];
-        Vertex[i].y = vertex[j+1];
-        Vertex[i].z = vertex[j+2];
+        Vertex[i] = vertex[i];
         cout<<"the vertex "<<i;
         cout<<" x:"<<Vertex[i].x;
         cout<<" y:"<<Vertex[i].y;
         cout<<" z:"<<Vertex[i].z<<endl;
     }
     //多少个三角形
-    HowMany = FvsTrianglate(num/3);
+    HowMany = FvsTrianglate(num);
     cout<<"howmany: "<<HowMany<<endl;
 
 }
