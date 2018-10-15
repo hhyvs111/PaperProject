@@ -353,8 +353,10 @@ int main()
    //现在改为这个传入顶点了，那么还是要做一个顶点集合，就是两个断层合入为一个断层。
 
 
+//    VERTEX *MergeFault = NULL;
+//    MergeFault = faultMerge(fault1_up, 10, fault1_up, 10);
 
-    Delaunay del((faultMerge(fault1_up, 10, fault1_up, 10)), 20);
+    Delaunay del((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
 //    Delaunay del(fault,60);
     cout <<"the size of :" << (sizeof(fault1)/4)<< endl;
 
@@ -630,6 +632,7 @@ int main()
     glDeleteBuffers(DelTraNumber, DelTraVBOs);
 
 
+
 //    glDeleteVertexArrays(1,&DelaunayVAO);
 //    glDeleteBuffers(1, &DelaunayVBO);
 //
@@ -784,7 +787,7 @@ void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirecti
     }
 }
 
-VERTEX * faultMerge(VERTEX vertex1[],int num1, VERTEX vertex2[], int num2)
+VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
 {
     VERTEX *merge = new VERTEX[num1 + num2];
     //不用考虑排序就这样插入吧。
