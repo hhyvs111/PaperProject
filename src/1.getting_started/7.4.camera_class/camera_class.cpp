@@ -44,6 +44,7 @@ bool DelaunayOpen = false;
 
 //平移操作
 bool faultMove = false;
+int cntMove = 0;
 //试一下这个是否有用啊。
 
 //顶点
@@ -91,7 +92,8 @@ float fault1[2][30] = {
 //第二个平面的断层
 //这种断层数据不要一样，主要是这个z坐标的区别。
 float fault2[2][30] = {
-        {0.5f, 0.15f,  -0.5f ,
+        {
+            0.5f, 0.15f,  -0.5f ,
                 0.41f, 0.29f,  -0.5f ,
                 0.3f, 0.32f,  -0.5f ,
                 0.18f, 0.26f,  -0.5f ,
@@ -107,7 +109,8 @@ float fault2[2][30] = {
         //怎么这个点重复了，有毒。
         //x下层
         ,
-        {-0.5f, -0.24f,  -0.5f ,
+        {
+            -0.5f, -0.24f,  -0.5f ,
                 -0.41f, -0.23f,  -0.5f ,
                 -0.29f, -0.23f,  -0.5f ,
                 -0.23f, -0.29f,  -0.5f ,
@@ -356,12 +359,13 @@ int main()
 //    VERTEX *MergeFault = NULL;
 //    MergeFault = faultMerge(fault1_up, 10, fault1_up, 10);
 
-    Delaunay del((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
+//    Delaunay del((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
+      Delaunay *del = new Delaunay();
 //    Delaunay del(fault,60);
     cout <<"the size of :" << (sizeof(fault1)/4)<< endl;
 
     //先声明一组vbo
-    int DelTraNumber = del.HowMany + 1;
+    int DelTraNumber = del->HowMany + 1;
     //浪费了一个0这个顶点数据，三角剖分代码里都数据都是从1开始的
     unsigned int DelTraVBOs[DelTraNumber], DelTraVAOs[DelTraNumber];
     glGenVertexArrays(DelTraNumber,DelTraVAOs);
@@ -373,15 +377,15 @@ int main()
         float TraVertex[9];
         //不对啊，这里还有vvo和vv1？傻逼了
         //将顶点分配给这个float
-        TraVertex[0] = del.Vertex[del.Triangle[i].vv0].x;
-        TraVertex[1] = del.Vertex[del.Triangle[i].vv0].y;
-        TraVertex[2] = del.Vertex[del.Triangle[i].vv0].z;
-        TraVertex[3] = del.Vertex[del.Triangle[i].vv1].x;
-        TraVertex[4] = del.Vertex[del.Triangle[i].vv1].y;
-        TraVertex[5] = del.Vertex[del.Triangle[i].vv1].z;
-        TraVertex[6] = del.Vertex[del.Triangle[i].vv2].x;
-        TraVertex[7] = del.Vertex[del.Triangle[i].vv2].y;
-        TraVertex[8] = del.Vertex[del.Triangle[i].vv2].z;
+        TraVertex[0] = del->Vertex[del->Triangle[i].vv0].x;
+        TraVertex[1] = del->Vertex[del->Triangle[i].vv0].y;
+        TraVertex[2] = del->Vertex[del->Triangle[i].vv0].z;
+        TraVertex[3] = del->Vertex[del->Triangle[i].vv1].x;
+        TraVertex[4] = del->Vertex[del->Triangle[i].vv1].y;
+        TraVertex[5] = del->Vertex[del->Triangle[i].vv1].z;
+        TraVertex[6] = del->Vertex[del->Triangle[i].vv2].x;
+        TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
+        TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
         //一个个三角画的，主要是找顶点，为什么会有不存在的店。
         //0 0.24 1.5 比如这个点，有哦
 
@@ -516,6 +520,7 @@ int main()
 //这个三角剖分的地方不应该放在画图的位置，画图只管画顶点就好了。
     // render loop
     // -----------
+
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -593,15 +598,63 @@ int main()
         glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1[1])) / 12);
 
 
+        unsigned int DelTraVBOs[DelTraNumber], DelTraVAOs[DelTraNumber];
 
-        if(faultMove)
+        if(faultMove && cntMove == 0)
         {
+            cntMove = 1;
             //重新载入一下，加入缓冲
             drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
+
+            del->Init((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
+
+            int DelTraNumber = del->HowMany + 1;
+            //浪费了一个0这个顶点数据，三角剖分代码里都数据都是从1开始的
+            glGenVertexArrays(DelTraNumber,DelTraVAOs);
+            glGenBuffers(DelTraNumber,DelTraVBOs);
+
+            //循环读取del里的三角形顶点数据
+            for(int i = 1; i < DelTraNumber; i++) {
+                float TraVertex[9];
+                //不对啊，这里还有vvo和vv1？傻逼了
+                //将顶点分配给这个float
+                TraVertex[0] = del->Vertex[del->Triangle[i].vv0].x;
+                TraVertex[1] = del->Vertex[del->Triangle[i].vv0].y;
+                TraVertex[2] = del->Vertex[del->Triangle[i].vv0].z;
+                TraVertex[3] = del->Vertex[del->Triangle[i].vv1].x;
+                TraVertex[4] = del->Vertex[del->Triangle[i].vv1].y;
+                TraVertex[5] = del->Vertex[del->Triangle[i].vv1].z;
+                TraVertex[6] = del->Vertex[del->Triangle[i].vv2].x;
+                TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
+                TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
+                //一个个三角画的，主要是找顶点，为什么会有不存在的店。
+                //0 0.24 1.5 比如这个点，有哦
+
+                cout << "TraNumber:" << i << endl;
+                for (int j = 0; j < 9; j++) {
+                    cout << TraVertex[j] << " ";
+                    //应该是这里出错了，尼玛哦，看了我半天日了你爹
+                    if ((j + 1) % 3 == 0) {
+                        cout << endl;
+                    }
+                }
+                cout << endl;
+
+                //绑定到vbo里
+                glBindVertexArray(DelTraVAOs[i]);
+
+                glBindBuffer(GL_ARRAY_BUFFER, DelTraVBOs[i]);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
+
+                // position attribute
+                //这里的步长为3，之前的是5因为有纹理坐标
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+                glEnableVertexAttribArray(0);
+            }
         }
         glBindVertexArray(fault2_upVAO);
         //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
-        glDrawArrays(GL_LINE_STRIP,0 , sizeof(fault2[0]) / 12);
+        glDrawArrays(GL_LINE_STRIP, 0 , sizeof(fault2[0]) / 12);
 
         glBindVertexArray(fault2_downVAO);
         glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault2[1])) / 12);
@@ -675,7 +728,13 @@ void processInput(GLFWwindow *window)
        if(!faultMove)
        {
            faultMoveFunction(fault2_up, 10, 2.0f, zD);
-           faultMoveFunction(fault2_up, 10, -0.25f, yD);
+           faultMoveFunction(fault2_up, 10, -0.35f, yD);
+           for(int i = 0 ;i < 10;i++)
+           {
+               cout<<fault2_up[i].x<<" test ";
+               cout<<fault2_up[i].y<<" ";
+               cout<<fault2_up[i].z<<endl;
+           }
        }
         faultMove = true;
     }
@@ -773,7 +832,7 @@ void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirecti
     if(whichDirection == yD)
     {
         //从1开头，然后加等于2
-        for(int i = 1;i < num; i++)
+        for(int i = 0;i < num; i++)
         {
             vertex[i].y += moveSize;
         }
@@ -812,9 +871,9 @@ void drawInit(unsigned int & VAO, unsigned int & VBO, VERTEX *target, int num)
     for(int i = 0; i < num; i++)
     {
         source[i] = target[i];
-        cout<<source[i].x<<" ";
-        cout<<source[i].y<<" ";
-        cout<<source[i].z<<endl;
+//        cout<<source[i].x<<" ";
+//        cout<<source[i].y<<" ";
+//        cout<<source[i].z<<endl;
     }
 
     //这里要直接用引用还是要去了？感觉好像没报错是没毛病的。
@@ -862,3 +921,4 @@ VERTEX * FloatToVertex(float _float[], int num)
     }
     return vertex;
 }
+
