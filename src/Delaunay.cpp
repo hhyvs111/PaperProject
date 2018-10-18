@@ -432,5 +432,8 @@ int Delaunay::FvsTrianglate(int nvert)  //nvert顶点数
 
 }
 
+//主要是将下面的移动过去，就是坐标加减。
+void Delaunay::MoveVertex()
+{
 
-
+}

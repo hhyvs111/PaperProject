@@ -5,19 +5,19 @@
 #ifndef LEARNOPENGL_DELAUNAY_H
 #define LEARNOPENGL_DELAUNAY_H
 #define Type float
-
+#include "vertex.h"
 #define MAX_VERTEX   500
 #define MAX_TRIANGLE 1000
 #define MAX_CIRCLE 1000
 #define MAX_NUM 1000
-
 // 定义结构VERTEX表达一个点的坐标
-typedef   struct   tagVERTEX
-{
-    float   x;  // x坐标
-    float   y;  // y坐标
-    float   z;  // z坐标
-}VERTEX;
+//
+//struct   tagVERTEX
+//{
+//    float   x;  // x坐标
+//    float   y;  // y坐标
+//    float   z;  // z坐标
+//}VERTEX;
 
 // 定义结构TRIANGLE表达一个三角形
 typedef   struct   tagTRIANGLE
@@ -61,6 +61,10 @@ public:
     bool FvsTriangleInCircle(float xp, float yp, float x1, float y1, float x2, float y2, float x3, float y3, float *xc, float *yc, float* r);
     //Delaunay();
     virtual ~Delaunay();
+
+    //移动顶点，但是剖分关系不变。
+    void MoveVertex();
+
 };
 
 #endif //LEARNOPENGL_DELAUNAY_H

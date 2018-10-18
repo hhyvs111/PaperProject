@@ -72,7 +72,7 @@ include_directories(${CMAKE_BINARY_DIR}/configuration)
 add_library(STB_IMAGE "src/stb_image.cpp")
 set(LIBS ${LIBS} STB_IMAGE)
 
-add_library(GLAD "src/glad.c" src/Delaunay.cpp)
+add_library(GLAD "src/glad.c" src/Delaunay.cpp src/vertex.cpp)
 set(LIBS ${LIBS} GLAD)
 
 macro(makeLink src dest target)
@@ -90,7 +90,7 @@ foreach(CHAPTER ${CHAPTERS})
             "src/${CHAPTER}/${DEMO}/*.gs"
         )
         set(NAME "${CHAPTER}__${DEMO}")
-        add_executable(${NAME} ${SOURCE} includes/learnopengl/point.h includes/Delaunay.h)
+        add_executable(${NAME} ${SOURCE} includes/learnopengl/point.h includes/Delaunay.h includes/vertex.h)
         target_link_libraries(${NAME} ${LIBS})
         if(WIN32)
             set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/${CHAPTER}")
