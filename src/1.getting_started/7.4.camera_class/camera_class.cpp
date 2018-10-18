@@ -45,6 +45,9 @@ bool DelaunayOpen = false;
 
 //平移操作
 bool faultMove = false;
+
+bool moveBack = false;
+bool moveBack1 = false;
 int cntMove = 0;
 //试一下这个是否有用啊。
 
@@ -671,6 +674,36 @@ void processInput(GLFWwindow *window)
            }
        }
         faultMove = true;
+    }
+    //剖分后平移回去，就直接改变坐标的点试试。
+    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
+    {
+        cout<<"back"<<endl;
+        //主要是移动一下z轴，先试试。
+        if(!moveBack)
+        {
+            del->MoveVertex(11, 10, zD, -2.0f);
+            del->MoveVertex(11, 10, yD, 0.35f);
+            //更改了后要重新缓冲一下
+            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
+
+            moveBack = true;
+        }
+    }
+    //剖分后平移回去，就直接改变坐标的点试试。
+    if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+    {
+        cout<<"back"<<endl;
+        //主要是移动一下z轴，先试试。
+        if(!moveBack1)
+        {
+            del->MoveVertex(11, 10, zD, 2.0f);
+            del->MoveVertex(11, 10, yD, -0.35f);
+            //更改了后要重新缓冲一下
+            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
+
+            moveBack1 = true;
+        }
     }
 }
 

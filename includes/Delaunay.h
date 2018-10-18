@@ -63,7 +63,7 @@ public:
     virtual ~Delaunay();
 
     //移动顶点，但是剖分关系不变。
-    void MoveVertex();
+    void MoveVertex(int start, int verNum, int direction, float size);
 
 };
 

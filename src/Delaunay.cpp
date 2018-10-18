@@ -432,8 +432,22 @@ int Delaunay::FvsTrianglate(int nvert)  //nvert顶点数
 
 }
 
-//主要是将下面的移动过去，就是坐标加减。
-void Delaunay::MoveVertex()
+//主要是将下面的移动过去，就是坐标加减。起始点，移动值？
+void Delaunay::MoveVertex(int start, int verNum, int direction, float size)
 {
-
+    for(int i = start; i <= start + verNum; i++)
+    {
+        if(direction == xD)
+        {
+            Vertex[i].x += size;
+        }
+        else if (direction == yD)
+        {
+            Vertex[i].y += size;
+        }
+        else if (direction == zD)
+        {
+            Vertex[i].z += size;
+        }
+    }
 }
