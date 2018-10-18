@@ -56,9 +56,9 @@ Delaunay::~Delaunay()
 
 void Delaunay::Init(VERTEX *vertex, int num)
 {
-    for(int i = 1; i <= num; i++)
+    for(int i = 1, j = 0; i <= num; i++)
     {
-        Vertex[i] = vertex[i];
+        Vertex[i] = vertex[j++];
         cout<<"the vertex "<<i;
         cout<<" x:"<<Vertex[i].x;
         cout<<" y:"<<Vertex[i].y;

@@ -51,6 +51,10 @@ int cntMove = 0;
 VERTEX *fault1_up, *fault1_down;
 VERTEX *fault2_up, *fault2_down;
 
+
+Delaunay *del;
+unsigned int DelTraVBOs[1024], DelTraVAOs[1024];
+
 //全局变量，用来平移之类的
 float fault1[2][30] = {
         {
@@ -147,6 +151,8 @@ float * VertexToFloat(VERTEX vertex[], int num);
 
 VERTEX * FloatToVertex(float _float[], int num);
 
+void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delaunay * del);
+
 int main()
 {
     // glfw: initialize and configure
@@ -199,36 +205,6 @@ int main()
     // ------------------------------------------------------------------
     //六个面的坐标值
     
-//    for (int i = 0, j1 = 0, j2 = 0;i < 20; i++)
-//    {
-//        if(i < 10)
-//        {
-//            fault_up[i].x = fault[0][j1++];
-//            fault_up[i].y = fault[0][j1++];
-//            fault_up[i].z = fault[0][j1++];
-//            //这里的j++重复了
-//            fault1_up[i].x = fault1[0][j2++];
-//            fault1_up[i].y = fault1[0][j2++];
-//            fault1_up[i].z = fault1[0][j2++];
-//            if(i == 9)
-//                j1 = j2 = 0;
-//        }
-//        else
-//            //这个i都越界了尼玛
-//        {
-//            fault_down[i].x = fault[1][j1++];
-//            cout<<"the tran"<<fault_down[i].x;
-//            fault_down[i].y = fault[1][j1++];
-//            fault_down[i].z = fault[1][j1++];
-//            fault1_down[i].x = fault1[1][j2++];
-//            fault1_down[i].y = fault1[1][j2++];
-//            fault1_down[i].z = fault1[1][j2++];
-//
-//        }
-//
-//    }
-
-
 
     float cube1[] = {
             -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
@@ -360,58 +336,60 @@ int main()
 //    MergeFault = faultMerge(fault1_up, 10, fault1_up, 10);
 
 //    Delaunay del((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
-      Delaunay *del = new Delaunay();
-//    Delaunay del(fault,60);
-    cout <<"the size of :" << (sizeof(fault1)/4)<< endl;
+      //初始化
+      del = new Delaunay();
 
-    //先声明一组vbo
-    int DelTraNumber = del->HowMany + 1;
-    //浪费了一个0这个顶点数据，三角剖分代码里都数据都是从1开始的
-    unsigned int DelTraVBOs[DelTraNumber], DelTraVAOs[DelTraNumber];
-    glGenVertexArrays(DelTraNumber,DelTraVAOs);
-    glGenBuffers(DelTraNumber,DelTraVBOs);
-
-    //循环读取del里的三角形顶点数据
-    for(int i = 1; i < DelTraNumber; i++)
-    {
-        float TraVertex[9];
-        //不对啊，这里还有vvo和vv1？傻逼了
-        //将顶点分配给这个float
-        TraVertex[0] = del->Vertex[del->Triangle[i].vv0].x;
-        TraVertex[1] = del->Vertex[del->Triangle[i].vv0].y;
-        TraVertex[2] = del->Vertex[del->Triangle[i].vv0].z;
-        TraVertex[3] = del->Vertex[del->Triangle[i].vv1].x;
-        TraVertex[4] = del->Vertex[del->Triangle[i].vv1].y;
-        TraVertex[5] = del->Vertex[del->Triangle[i].vv1].z;
-        TraVertex[6] = del->Vertex[del->Triangle[i].vv2].x;
-        TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
-        TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
-        //一个个三角画的，主要是找顶点，为什么会有不存在的店。
-        //0 0.24 1.5 比如这个点，有哦
-
-        cout<<"TraNumber:"<<i<<endl;
-        for(int j = 0 ;j < 9; j++)
-        {
-            cout<<TraVertex[j]<<" ";
-            //应该是这里出错了，尼玛哦，看了我半天日了你爹
-            if((j+1)%3 == 0)
-            {
-                cout<<endl;
-            }
-        }
-        cout<<endl;
-
-        //绑定到vbo里
-        glBindVertexArray(DelTraVAOs[i]);
-
-        glBindBuffer(GL_ARRAY_BUFFER, DelTraVBOs[i]);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
-
-        // position attribute
-        //这里的步长为3，之前的是5因为有纹理坐标
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-    }
+////    Delaunay del(fault,60);
+//    cout <<"the size of :" << (sizeof(fault1)/4)<< endl;
+//
+//    //先声明一组vbo
+//    int DelTraNumber = del->HowMany + 1;
+//    //浪费了一个0这个顶点数据，三角剖分代码里都数据都是从1开始的
+//    unsigned int DelTraVBOs[DelTraNumber], DelTraVAOs[DelTraNumber];
+//    glGenVertexArrays(DelTraNumber,DelTraVAOs);
+//    glGenBuffers(DelTraNumber,DelTraVBOs);
+//
+//    //循环读取del里的三角形顶点数据
+//    for(int i = 1; i < DelTraNumber; i++)
+//    {
+//        float TraVertex[9];
+//        //不对啊，这里还有vvo和vv1？傻逼了
+//        //将顶点分配给这个float
+//        TraVertex[0] = del->Vertex[del->Triangle[i].vv0].x;
+//        TraVertex[1] = del->Vertex[del->Triangle[i].vv0].y;
+//        TraVertex[2] = del->Vertex[del->Triangle[i].vv0].z;
+//        TraVertex[3] = del->Vertex[del->Triangle[i].vv1].x;
+//        TraVertex[4] = del->Vertex[del->Triangle[i].vv1].y;
+//        TraVertex[5] = del->Vertex[del->Triangle[i].vv1].z;
+//        TraVertex[6] = del->Vertex[del->Triangle[i].vv2].x;
+//        TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
+//        TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
+//        //一个个三角画的，主要是找顶点，为什么会有不存在的店。
+//        //0 0.24 1.5 比如这个点，有哦
+//
+//        cout<<"TraNumber:"<<i<<endl;
+//        for(int j = 0 ;j < 9; j++)
+//        {
+//            cout<<TraVertex[j]<<" ";
+//            //应该是这里出错了，尼玛哦，看了我半天日了你爹
+//            if((j+1)%3 == 0)
+//            {
+//                cout<<endl;
+//            }
+//        }
+//        cout<<endl;
+//
+//        //绑定到vbo里
+//        glBindVertexArray(DelTraVAOs[i]);
+//
+//        glBindBuffer(GL_ARRAY_BUFFER, DelTraVBOs[i]);
+//        glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
+//
+//        // position attribute
+//        //这里的步长为3，之前的是5因为有纹理坐标
+//        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//        glEnableVertexAttribArray(0);
+//    }
 
 
 
@@ -598,7 +576,6 @@ int main()
         glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1[1])) / 12);
 
 
-        unsigned int DelTraVBOs[DelTraNumber], DelTraVAOs[DelTraNumber];
 
         if(faultMove && cntMove == 0)
         {
@@ -608,49 +585,6 @@ int main()
 
             del->Init((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
 
-            int DelTraNumber = del->HowMany + 1;
-            //浪费了一个0这个顶点数据，三角剖分代码里都数据都是从1开始的
-            glGenVertexArrays(DelTraNumber,DelTraVAOs);
-            glGenBuffers(DelTraNumber,DelTraVBOs);
-
-            //循环读取del里的三角形顶点数据
-            for(int i = 1; i < DelTraNumber; i++) {
-                float TraVertex[9];
-                //不对啊，这里还有vvo和vv1？傻逼了
-                //将顶点分配给这个float
-                TraVertex[0] = del->Vertex[del->Triangle[i].vv0].x;
-                TraVertex[1] = del->Vertex[del->Triangle[i].vv0].y;
-                TraVertex[2] = del->Vertex[del->Triangle[i].vv0].z;
-                TraVertex[3] = del->Vertex[del->Triangle[i].vv1].x;
-                TraVertex[4] = del->Vertex[del->Triangle[i].vv1].y;
-                TraVertex[5] = del->Vertex[del->Triangle[i].vv1].z;
-                TraVertex[6] = del->Vertex[del->Triangle[i].vv2].x;
-                TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
-                TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
-                //一个个三角画的，主要是找顶点，为什么会有不存在的店。
-                //0 0.24 1.5 比如这个点，有哦
-
-                cout << "TraNumber:" << i << endl;
-                for (int j = 0; j < 9; j++) {
-                    cout << TraVertex[j] << " ";
-                    //应该是这里出错了，尼玛哦，看了我半天日了你爹
-                    if ((j + 1) % 3 == 0) {
-                        cout << endl;
-                    }
-                }
-                cout << endl;
-
-                //绑定到vbo里
-                glBindVertexArray(DelTraVAOs[i]);
-
-                glBindBuffer(GL_ARRAY_BUFFER, DelTraVBOs[i]);
-                glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
-
-                // position attribute
-                //这里的步长为3，之前的是5因为有纹理坐标
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
-                glEnableVertexAttribArray(0);
-            }
         }
         glBindVertexArray(fault2_upVAO);
         //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
@@ -666,7 +600,7 @@ int main()
 //
         if(DelaunayOpen) {
             //将剖分三角缓冲画出来
-            for (int i = 1; i < DelTraNumber; i++) {
+            for (int i = 1; i < del->HowMany + 1 ; i++) {
                 glBindVertexArray(DelTraVAOs[i]);
                 glDrawArrays(GL_LINE_LOOP, 0, 3);
             }
@@ -681,10 +615,13 @@ int main()
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(2, VAOs);
     glDeleteBuffers(2, VBOs);
-    glDeleteVertexArrays(DelTraNumber, DelTraVAOs);
-    glDeleteBuffers(DelTraNumber, DelTraVBOs);
+    glDeleteVertexArrays(del->HowMany + 1 , DelTraVAOs);
+    glDeleteBuffers(del->HowMany + 1, DelTraVBOs);
 
-
+    delete []fault1_up;
+    delete []fault1_down;
+    delete []fault2_up;
+    delete []fault2_down;
 
 //    glDeleteVertexArrays(1,&DelaunayVAO);
 //    glDeleteBuffers(1, &DelaunayVBO);
@@ -718,6 +655,10 @@ void processInput(GLFWwindow *window)
     if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
     {
         cout<<"delaunay"<<endl;
+        //在这里计算del
+        del->Init(faultMerge(fault1_up, 10, fault2_up, 10), 20);
+        //绑定缓冲
+        DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
         DelaunayOpen = !DelaunayOpen;
     }
     //平移操作，如果按下则进行平移
@@ -922,3 +863,51 @@ VERTEX * FloatToVertex(float _float[], int num)
     return vertex;
 }
 
+
+void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delaunay * del)
+{
+    glGenVertexArrays(DeNum, DeVAOs);
+    glGenBuffers(DeNum, DeVBOs);
+
+    //循环读取del里的三角形顶点数据
+    for(int i = 1; i < DeNum; i++)
+    {
+        float TraVertex[9];
+        //不对啊，这里还有vvo和vv1？傻逼了
+        //将顶点分配给这个float
+        TraVertex[0] = del->Vertex[del->Triangle[i].vv0].x;
+        TraVertex[1] = del->Vertex[del->Triangle[i].vv0].y;
+        TraVertex[2] = del->Vertex[del->Triangle[i].vv0].z;
+        TraVertex[3] = del->Vertex[del->Triangle[i].vv1].x;
+        TraVertex[4] = del->Vertex[del->Triangle[i].vv1].y;
+        TraVertex[5] = del->Vertex[del->Triangle[i].vv1].z;
+        TraVertex[6] = del->Vertex[del->Triangle[i].vv2].x;
+        TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
+        TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
+        //一个个三角画的，主要是找顶点，为什么会有不存在的店。
+        //0 0.24 1.5 比如这个点，有哦
+
+        cout<<"TraNumber:"<<i<<endl;
+        for(int j = 0 ;j < 9; j++)
+        {
+            cout<<TraVertex[j]<<" ";
+            //应该是这里出错了，尼玛哦，看了我半天日了你爹
+            if((j+1)%3 == 0)
+            {
+                cout<<endl;
+            }
+        }
+        cout<<endl;
+
+        //绑定到vbo里
+        glBindVertexArray(DeVAOs[i]);
+
+        glBindBuffer(GL_ARRAY_BUFFER, DeVBOs[i]);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
+
+        // position attribute
+        //这里的步长为3，之前的是5因为有纹理坐标
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+    }
+}
