@@ -72,9 +72,9 @@ include_directories(${CMAKE_BINARY_DIR}/configuration)
 add_library(STB_IMAGE "src/stb_image.cpp")
 set(LIBS ${LIBS} STB_IMAGE)
 
-add_library(GLAD "src/glad.c" src/Delaunay.cpp src/vertex.cpp poly2tri/common/shapes.cc poly2tri/common/shapes.h poly2tri/common/utils.h
-        poly2tri/sweep/advancing_front.cc poly2tri/sweep/advancing_front.h poly2tri/sweep/cdt.cc poly2tri/sweep/cdt.h
-        poly2tri/sweep/sweep.h poly2tri/sweep/sweep_context.h poly2tri/sweep/sweep_context.cc)
+add_library(GLAD "src/glad.c" src/Delaunay.cpp src/vertex.cpp poly2tri/common/shapes.cc poly2tri/common/shapes.h
+        poly2tri/sweep/advancing_front.cc poly2tri/sweep/advancing_front.h
+        poly2tri/sweep/sweep.h poly2tri/sweep/sweep_context.cc)
 set(LIBS ${LIBS} GLAD)
 
 macro(makeLink src dest target)
