@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include "../poly2tri/poly2tri.h"
 #include <cmath>
 using namespace std;
 
