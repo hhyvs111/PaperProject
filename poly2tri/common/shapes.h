@@ -118,7 +118,7 @@ struct Point {
   }
 
 };
-
+//三角的边
 // Represents a simple polygon's edge
 struct Edge {
 
@@ -147,9 +147,10 @@ struct Edge {
 // Triangle-based data structures are know to have better performance than quad-edge structures
 // See: J. Shewchuk, "Triangle: Engineering a 2D Quality Mesh Generator and Delaunay Triangulator"
 //      "Triangulations in CGAL"
+//三角形的类
 class Triangle {
 public:
-
+//函数还蛮多，主要是有这个限制边，限制边的话应该就是不会剖分？还是说限制边围绕起来的空洞内层不会剖分？还是需要研究研究。
 /// Constructor
 Triangle(Point& a, Point& b, Point& c);
 
