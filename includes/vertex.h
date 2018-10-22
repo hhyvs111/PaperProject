@@ -48,4 +48,6 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
 bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number);
 
 
+
+
 #endif //LEARNOPENGL_VERTEX_H

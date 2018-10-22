@@ -9,19 +9,42 @@
 #include <learnopengl/filesystem.h>
 #include <learnopengl/shader_m.h>
 #include <learnopengl/camera.h>
-#include <learnopengl/point.h>
 #include <Delaunay.h>
 #include <iostream>
 #include <vector>
 #include <cstring>
 #include <vertex.h>
+
 using namespace std;
+
+//引入第三方库
+#include "../poly2tri/poly2tri.h"
+using namespace p2t;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
+
+
+//一些和poly2tri相关的变量定义
+/// Dude hole examples
+vector<Point*> CreateHeadHole();
+vector<Point*> CreateChestHole();
+
+/// Constrained triangles
+vector<Triangle*> triangles;
+/// Triangle map
+list<Triangle*> map;
+/// Polylines
+//这个好像还是个二维数组？有点牛批
+vector< vector<Point*> > polylines;
+
+vector<p2t::Point*> polyline;
+//这个是用开画图的？
+CDT* cdt;
+
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -296,32 +319,7 @@ int main()
     unsigned int fault2_downVBO, fault2_downVAO;
     drawInit(fault2_downVAO, fault2_downVBO, fault2_down, sizeof(fault2[1]) / 12);
     
-//    glGenVertexArrays(1, &faultVAO);
-//    glGenBuffers(1, &faultVBO);
-//
-//    glBindVertexArray(faultVAO);
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, faultVBO);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(fault_up), fault_up, GL_STATIC_DRAW);
-//
-//    // position attribute
-//    //这里的步长为3，之前的是5因为有纹理坐标
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//    glEnableVertexAttribArray(0);
 
-//    unsigned int fault1VBO, fault1VAO;
-//    glGenVertexArrays(1, &fault1VAO);
-//    glGenBuffers(1, &fault1VBO);
-//
-//    glBindVertexArray(fault1VAO);
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, fault1VBO);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(fault1), fault1, GL_STATIC_DRAW);
-//
-//    // position attribute
-//    //这里的步长为3，之前的是5因为有纹理坐标
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//    glEnableVertexAttribArray(0);
     
 
    //falut为断层，将其传入三角剖分的构造函数里去。
@@ -334,6 +332,10 @@ int main()
 //    Delaunay del((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
       //初始化
       del = new Delaunay();
+
+
+
+
 
 ////    Delaunay del(fault,60);
 //    cout <<"the size of :" << (sizeof(fault1)/4)<< endl;
@@ -652,10 +654,36 @@ void processInput(GLFWwindow *window)
     {
         cout<<"delaunay"<<endl;
         //在这里计算del
+        //按了键才进行三角剖分，那么我改的话键是按了键后将输入存入进去，然后开始剖分。获取三角，
         del->Init(faultMerge(fault1_up, 10, fault2_up, 10), 20);
         //绑定缓冲
         DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
         DelaunayOpen = !DelaunayOpen;
+
+        VERTEX *Merge = faultMerge(fault1_up, 10, fault2_up, 10);
+
+        //将vertex的xy坐标输入到这个poly
+        for(int i = 0;i < 20; i++)
+        {
+            double x = Merge[i].x;
+            double y = Merge[i].y;
+            polyline.push_back(new Point(x,y));
+        }
+        //将这个polyline输入到polylines里去，后者应该是这个集合？
+        polylines.push_back(polyline);
+
+        cdt = new CDT(polyline);
+
+        //开始剖分
+        cdt->Triangulate();
+
+//        //map是完整的剖分（包含空洞的剖分）？
+//        map = cdt->GetMap();
+//        triangles = cdt->GetTriangles();
+//        cout << "the poly2tir Triangulate size :"<< triangles.size() << endl;
+
+        //剖分完后要把三角的点读出来，然后放入数组用于划分，这个东西先看看。
+
     }
     //平移操作，如果按下则进行平移
     if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
