@@ -47,8 +47,8 @@ CDT* cdt;
 
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1400;
+const unsigned int SCR_HEIGHT = 900;
 
 // camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -72,6 +72,7 @@ bool faultMove = false;
 bool moveBack = false;
 bool moveBack1 = false;
 int cntMove = 0;
+int cntBack = 0;
 //试一下这个是否有用啊。
 
 //顶点
@@ -125,14 +126,14 @@ float fault1[2][30] = {
 float fault2[2][30] = {
         {
             0.5f, 0.15f,  -0.5f ,
-                0.41f, 0.29f,  -0.5f ,
-                0.3f, 0.32f,  -0.5f ,
-                0.18f, 0.26f,  -0.5f ,
-                0.0f, 0.24f,  -0.5f ,
-                -0.13f, 0.29f,  -0.5f ,
-                -0.20f, 0.20f, -0.5f,
-                -0.26f, 0.29f,  -0.5f ,
-                -0.38f, 0.25f,  -0.5f ,
+                0.39f, 0.25f,  -0.5f ,
+                0.28f, 0.30f,  -0.5f ,
+                0.13f, 0.28f,  -0.5f ,
+                0.0f, 0.25f,  -0.5f ,
+                -0.15f, 0.19f,  -0.5f ,
+                -0.24f, 0.22f, -0.5f,
+                -0.30f, 0.25f,  -0.5f ,
+                -0.41f, 0.20f,  -0.5f ,
                 -0.5f, 0.22f,  -0.5f}
         //这个点是尼玛外面的点吧
 //            -0.5f, 0.5f, -0.5f ,
@@ -584,6 +585,15 @@ int main()
             del->Init((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
 
         }
+        if(moveBack && cntBack == 0)
+        {
+            cntBack = 1;
+            //重新载入一下，加入缓冲
+            drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
+
+            del->Init((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
+
+        }
         glBindVertexArray(fault2_upVAO);
         //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
         glDrawArrays(GL_LINE_STRIP, 0 , sizeof(fault2[0]) / 12);
@@ -659,23 +669,23 @@ void processInput(GLFWwindow *window)
         //绑定缓冲
         DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
         DelaunayOpen = !DelaunayOpen;
-
-        VERTEX *Merge = faultMerge(fault1_up, 10, fault2_up, 10);
-
-        //将vertex的xy坐标输入到这个poly
-        for(int i = 0;i < 20; i++)
-        {
-            double x = Merge[i].x;
-            double y = Merge[i].y;
-            polyline.push_back(new Point(x,y));
-        }
-        //将这个polyline输入到polylines里去，后者应该是这个集合？
-        polylines.push_back(polyline);
-
-        cdt = new CDT(polyline);
-
-        //开始剖分
-        cdt->Triangulate();
+//先暂时注释掉，明天演讲的时候还是要看看。
+//        VERTEX *Merge = faultMerge(fault1_up, 10, fault2_up, 10);
+//
+//        //将vertex的xy坐标输入到这个poly
+//        for(int i = 0;i < 20; i++)
+//        {
+//            double x = Merge[i].x;
+//            double y = Merge[i].y;
+//            polyline.push_back(new Point(x,y));
+//        }
+//        //将这个polyline输入到polylines里去，后者应该是这个集合？
+//        polylines.push_back(polyline);
+//
+//        cdt = new CDT(polyline);
+//
+//        //开始剖分
+//        cdt->Triangulate();
 
 //        //map是完整的剖分（包含空洞的剖分）？
 //        map = cdt->GetMap();
@@ -710,12 +720,17 @@ void processInput(GLFWwindow *window)
         //主要是移动一下z轴，先试试。
         if(!moveBack)
         {
+            //把三角形里的平移回去
             del->MoveVertex(11, 10, zD, -2.0f);
             del->MoveVertex(11, 10, yD, 0.35f);
             //更改了后要重新缓冲一下
             DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
 
+            //移动过来的线要移动回去啊
             moveBack = true;
+
+            faultMoveFunction(fault2_up, 10, -2.0f, zD);
+            faultMoveFunction(fault2_up, 10, 0.35f, yD);
         }
     }
     //剖分后平移回去，就直接改变坐标的点试试。
