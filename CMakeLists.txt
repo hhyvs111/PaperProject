@@ -77,7 +77,7 @@ add_library(GLAD "src/glad.c" src/Delaunay.cpp src/vertex.cpp
 set(LIBS ${LIBS} GLAD)
 
 add_library( POLY2TRI  poly2tri/common/shapes.cc poly2tri/sweep/advancing_front.cc poly2tri/sweep/cdt.cc poly2tri/sweep/sweep_context.cc
-        /Users/tanwenbo/git-project/poly2tri/build/poly2tri/sweep/cdt.cc.0.o /Users/tanwenbo/git-project/poly2tri/build/poly2tri/sweep/sweep.cc.0.o
+        poly2tri/sweep/sweep.cc
         poly2tri/sweep/sweep_context.cc)
 set(LIBS ${LIBS} POLY2TRI)
 

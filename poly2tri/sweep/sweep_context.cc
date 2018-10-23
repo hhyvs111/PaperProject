@@ -78,6 +78,7 @@ void SweepContext::InitTriangulation()
   double ymax(points_[0]->y), ymin(points_[0]->y);
 
   // Calculate bounds.
+  //
   for (unsigned int i = 0; i < points_.size(); i++) {
     Point& p = *points_[i];
     if (p.x > xmax)
