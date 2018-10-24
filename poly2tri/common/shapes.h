@@ -44,7 +44,7 @@ struct Edge;
 
 struct Point {
 
-  double x, y;
+  double x, y, z;
 
   /// Default constructor does nothing (for performance).
   Point()
