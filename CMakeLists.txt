@@ -97,7 +97,8 @@ foreach(CHAPTER ${CHAPTERS})
         )
         set(NAME "${CHAPTER}__${DEMO}")
         add_executable(${NAME} ${SOURCE} includes/Delaunay.h includes/vertex.h
-                poly2tri/poly2tri.h poly2tri/sweep/cdt.h poly2tri/sweep/sweep_context.h poly2tri/sweep/sweep.h poly2tri/common/shapes.h  poly2tri/common/utils.h poly2tri/sweep/advancing_front.h)
+                poly2tri/poly2tri.h poly2tri/sweep/cdt.h poly2tri/sweep/sweep_context.h poly2tri/sweep/sweep.h poly2tri/common/shapes.h  poly2tri/common/utils.h poly2tri/sweep/advancing_front.h
+                includes/mapbox/earcut.hpp)
         target_link_libraries(${NAME} ${LIBS})
         if(WIN32)
             set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/${CHAPTER}")

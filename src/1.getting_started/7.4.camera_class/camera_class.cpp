@@ -12,6 +12,7 @@
 #include <Delaunay.h>
 #include <iostream>
 #include <vector>
+#include <array>
 #include <cstring>
 #include <vertex.h>
 
@@ -20,6 +21,24 @@ using namespace std;
 //引入第三方库
 #include "../poly2tri/poly2tri.h"
 using namespace p2t;
+
+//引入耳切法
+#include "../includes/mapbox/earcut.hpp"
+
+//ear cutting
+using Coord = float;
+
+// The index type. Defaults to uint32_t, but you can also pass uint16_t if you know that your
+// data won't have more than 65536 vertices.
+using N = uint32_t;
+
+// Create array
+//使用PO
+using Points = array<Coord, 3>;
+vector<vector<Points>> polygon;
+
+
+
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -66,6 +85,9 @@ float lastFrame = 0.0f;
 //是否开启Delaunay
 bool DelaunayOpen = false;
 bool Poly2TriOpen = false;
+
+//是否开启耳切法
+bool EarCutOpen = false;
 //平移操作
 bool faultMove = false;
 
@@ -514,6 +536,44 @@ int main()
 //    cout << cnt <<endl;
 
 
+
+
+
+// Fill polygon structure with actual data. Any winding order works.
+// The first polyline defines the main polygon.
+
+    polygon.push_back({{100, 0, 1}, {100, 100, 1}, {0, 100, 1}, {0, 0, 3}});
+// Following polylines define holes.
+    polygon.push_back({{75, 25,1}, {75, 75,2 }, {25, 75,3}, {25, 25, 4}});
+    cout << "polygon size :" << polygon.size() << endl;
+
+    std::vector<N> indices = mapbox::earcut<N>(polygon);
+
+    cout << "the indices size: " << indices.size() <<endl;
+    for (const auto& i : indices) {
+        Point point;
+        cout  << i<< endl;
+//        cout << indices.at(i) << endl;
+//        cout << endl;
+        //因为这个polygon只有一个，那么就是第一个，那么怎么访问第2个poly呢？这个是个问题了
+        //如果大于4则是访问第二个多边形
+        if(i >= 4)
+        {
+            point.x = polygon.at(1).at(i - 4).at(0);
+            point.y = polygon.at(1).at(i - 4).at(1);
+            point.z = polygon.at(1).at(i - 4).at(2);
+        }
+        else
+        {
+            point.x = polygon.at(0).at(i).at(0);
+            point.y = polygon.at(0).at(i).at(1);
+            point.z = polygon.at(0).at(i).at(2);
+        }
+
+        cout <<  point.x<< " " << point.y << " "  << point.z << endl;
+
+    }
+
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -747,9 +807,44 @@ void processInput(GLFWwindow *window)
             //打开剖分
             Poly2TriOpen = true;
         }
+    }
+    //开始耳切法
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        if(!EarCutOpen)
+        {
+            cout<<"poly2tri"<<endl;
 
-        //剖分完后要把三角的点读出来，然后放入数组用于划分，这个东西先看看。
-
+            VERTEX *Merge = faultMerge(fault1_up, 10, fault2_up, 10);
+            //将vertex的xy坐标输入到这个poly
+//            for(int i = 0;i < 20; i++)
+//            {
+//                double x = Merge[i].x;
+//                double y = Merge[i].y;
+//                double z = Merge[i].z;
+//                Point *point = new Point(x,y);
+//                point->z = z;
+//                polyline.push_back(point);
+//
+//                cout << " double "<< x<< " " << y <<" "<< z <<endl;
+//            }
+////        //将这个polyline输入到polylines里去，后者应该是这个集合？
+//            polylines.push_back(polyline);
+//
+//            cdt = new CDT(polyline);
+////
+////        //开始剖分
+//            cdt->Triangulate();
+//
+//            //map是完整的剖分（包含空洞的剖分）？
+//            map = cdt->GetMap();
+//            triangles = cdt->GetTriangles();
+//            cout << "the poly2tir Triangulate size :"<< triangles.size() << endl;
+//            //开始绑定poly
+//            Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
+//            //打开剖分
+            Poly2TriOpen = true;
+        }
     }
     //f1取消显示del
     if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
