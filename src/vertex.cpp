@@ -44,7 +44,7 @@ VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
         merge[i] = vertex1[i];
     }
 
-    for(int i = num1,j = 0;j < num2;j++)
+    for(int i = num1,j = num2 -1 ;j >= 0;j--)
     {
         merge[i++] = vertex2[j];
     }

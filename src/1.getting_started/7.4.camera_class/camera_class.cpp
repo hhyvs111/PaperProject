@@ -36,7 +36,9 @@ using N = uint32_t;
 //使用PO
 using Points = array<Coord, 3>;
 vector<vector<Points>> polygon;
+std::vector<N> indices;
 
+int EarTraSize = 0;
 
 
 
@@ -105,6 +107,7 @@ VERTEX *fault2_up, *fault2_down;
 Delaunay *del;
 unsigned int DelTraVBOs[1024], DelTraVAOs[1024];
 unsigned int PolyVBOs[1024], PolyVAOs[1024];
+unsigned int EarVBOs[1024], EarVAOs[1024];
 
 //全局变量，用来平移之类的
 float fault1[2][30] = {
@@ -195,6 +198,7 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
 
 void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Triangle*> _triangle);
 
+void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> indices);
 int main()
 {
     // glfw: initialize and configure
@@ -542,37 +546,37 @@ int main()
 // Fill polygon structure with actual data. Any winding order works.
 // The first polyline defines the main polygon.
 
-    polygon.push_back({{100, 0, 1}, {100, 100, 1}, {0, 100, 1}, {0, 0, 3}});
-// Following polylines define holes.
-    polygon.push_back({{75, 25,1}, {75, 75,2 }, {25, 75,3}, {25, 25, 4}});
-    cout << "polygon size :" << polygon.size() << endl;
+//    polygon.push_back({{100, 0, 1}, {100, 100, 1}, {0, 100, 1}, {0, 0, 3}});
+//// Following polylines define holes.
+//    polygon.push_back({{75, 25,1}, {75, 75,2 }, {25, 75,3}, {25, 25, 4}});
+//    cout << "polygon size :" << polygon.size() << endl;
 
-    std::vector<N> indices = mapbox::earcut<N>(polygon);
-
-    cout << "the indices size: " << indices.size() <<endl;
-    for (const auto& i : indices) {
-        Point point;
-        cout  << i<< endl;
-//        cout << indices.at(i) << endl;
-//        cout << endl;
-        //因为这个polygon只有一个，那么就是第一个，那么怎么访问第2个poly呢？这个是个问题了
-        //如果大于4则是访问第二个多边形
-        if(i >= 4)
-        {
-            point.x = polygon.at(1).at(i - 4).at(0);
-            point.y = polygon.at(1).at(i - 4).at(1);
-            point.z = polygon.at(1).at(i - 4).at(2);
-        }
-        else
-        {
-            point.x = polygon.at(0).at(i).at(0);
-            point.y = polygon.at(0).at(i).at(1);
-            point.z = polygon.at(0).at(i).at(2);
-        }
-
-        cout <<  point.x<< " " << point.y << " "  << point.z << endl;
-
-    }
+//    std::vector<N> indices = mapbox::earcut<N>(polygon);
+//
+//    cout << "the indices size: " << indices.size() <<endl;
+//    for (const auto& i : indices) {
+//        Point point;
+//        cout  << i<< endl;
+////        cout << indices.at(i) << endl;
+////        cout << endl;
+//        //因为这个polygon只有一个，那么就是第一个，那么怎么访问第2个poly呢？这个是个问题了
+//        //如果大于4则是访问第二个多边形
+//        if(i >= 4)
+//        {
+//            point.x = polygon.at(1).at(i - 4).at(0);
+//            point.y = polygon.at(1).at(i - 4).at(1);
+//            point.z = polygon.at(1).at(i - 4).at(2);
+//        }
+//        else
+//        {
+//            point.x = polygon.at(0).at(i).at(0);
+//            point.y = polygon.at(0).at(i).at(1);
+//            point.z = polygon.at(0).at(i).at(2);
+//        }
+//
+//        cout <<  point.x<< " " << point.y << " "  << point.z << endl;
+//
+//    }
 
     while (!glfwWindowShouldClose(window))
     {
@@ -705,6 +709,19 @@ int main()
                 glDrawArrays(GL_LINE_LOOP, 0, 3);
             }
         }
+
+        if(EarCutOpen)
+        {
+            //将剖分三角缓冲画出来
+            for (int i = 0; i < EarTraSize; i++)
+            {
+                glColor3f(1, 0, 0);
+                glBindVertexArray(EarVAOs[i]);
+
+                glDrawArrays(GL_LINE_LOOP, 0, 3);
+            }
+        }
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
@@ -751,7 +768,6 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
-
     if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
     {
         //还是要设置一下绑定，不然总是触发多次。
@@ -790,6 +806,9 @@ void processInput(GLFWwindow *window)
 
                 cout << " double "<< x<< " " << y <<" "<< z <<endl;
             }
+
+            //用完就删除
+            delete [] Merge;
 //        //将这个polyline输入到polylines里去，后者应该是这个集合？
             polylines.push_back(polyline);
 
@@ -816,34 +835,32 @@ void processInput(GLFWwindow *window)
             cout<<"poly2tri"<<endl;
 
             VERTEX *Merge = faultMerge(fault1_up, 10, fault2_up, 10);
-            //将vertex的xy坐标输入到这个poly
-//            for(int i = 0;i < 20; i++)
-//            {
-//                double x = Merge[i].x;
-//                double y = Merge[i].y;
-//                double z = Merge[i].z;
-//                Point *point = new Point(x,y);
-//                point->z = z;
-//                polyline.push_back(point);
-//
-//                cout << " double "<< x<< " " << y <<" "<< z <<endl;
-//            }
-////        //将这个polyline输入到polylines里去，后者应该是这个集合？
-//            polylines.push_back(polyline);
-//
-//            cdt = new CDT(polyline);
-////
-////        //开始剖分
-//            cdt->Triangulate();
-//
-//            //map是完整的剖分（包含空洞的剖分）？
-//            map = cdt->GetMap();
-//            triangles = cdt->GetTriangles();
-//            cout << "the poly2tir Triangulate size :"<< triangles.size() << endl;
-//            //开始绑定poly
-//            Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
-//            //打开剖分
-            Poly2TriOpen = true;
+            //这里只能这样定义？
+            //将Merge输入到arrays里，能直接用这个VERTEX输入进去
+            vector<Points> lines;
+            // 不用数组，就单个就行了。
+            //个人感觉应该不行，
+            for(int i = 0; i < 20;i++)
+            {
+                Points array;
+                array.at(0) = Merge[i].x;
+                array.at(1) = Merge[i].y;
+                array.at(2) = Merge[i].z;
+                lines.push_back(array);
+            }
+            
+            //输入后再push到polygon
+            polygon.push_back(lines);
+
+            indices = mapbox::earcut<N>(polygon);
+            
+            
+            //这里写一个绑定函数，输入到缓冲里
+            EarCutBind(EarVAOs, EarVBOs, indices);
+
+            cout << "the indices size: " << indices.size() <<endl;
+            
+            EarCutOpen = true;
         }
     }
     //f1取消显示del
@@ -865,7 +882,7 @@ void processInput(GLFWwindow *window)
        if(!faultMove)
        {
            faultMoveFunction(fault2_up, 10, 2.0f, zD);
-           faultMoveFunction(fault2_up, 10, -0.35f, yD);
+           faultMoveFunction(fault2_up, 10, -0.25f, yD);
            for(int i = 0 ;i < 10;i++)
            {
                cout<<fault2_up[i].x<<" test ";
@@ -880,11 +897,11 @@ void processInput(GLFWwindow *window)
     {
         cout<<"back"<<endl;
         //主要是移动一下z轴，先试试。
-        if(!moveBack)
+        if(!moveBack && DelaunayOpen)
         {
             //把三角形里的平移回去
             del->MoveVertex(11, 10, zD, -2.0f);
-            del->MoveVertex(11, 10, yD, 0.35f);
+            del->MoveVertex(11, 10, yD, 0.25f);
             //更改了后要重新缓冲一下
             DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
 
@@ -892,7 +909,25 @@ void processInput(GLFWwindow *window)
             moveBack = true;
 
             faultMoveFunction(fault2_up, 10, -2.0f, zD);
-            faultMoveFunction(fault2_up, 10, 0.35f, yD);
+            faultMoveFunction(fault2_up, 10, 0.25f, yD);
+        }
+        //这个back可以分多种情况
+        else if(!moveBack && EarCutOpen)
+        {
+            if(polygon.size() == 1)
+            {
+                //数据写的太死了！
+                for(int i = 10;i < 20; i++)
+                {
+                    polygon.at(0).at(i).at(1) += 0.25f;
+                    polygon.at(0).at(i).at(2) += -2.0f;
+
+                }
+                EarCutBind(EarVAOs, EarVBOs, indices);
+            }
+            moveBack = true;
+            faultMoveFunction(fault2_up, 10, -2.0f, zD);
+            faultMoveFunction(fault2_up, 10, 0.25f, yD);
         }
     }
     //剖分后平移回去，就直接改变坐标的点试试。
@@ -1087,7 +1122,64 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
     }
 }
 
+void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> indices)
+{
+    int triangleSize = (indices.size()) / 3;
+    EarTraSize = triangleSize;
+    glGenVertexArrays(triangleSize, EarVAOs);
+    glGenBuffers(triangleSize, EarVBOs);
 
+    //循环读取Earl里的三角形顶点数据
+    //这是没有空洞的情况
+    int cnt = 0;
+    for (int i : indices)
+    {
+        cout<<i<<endl;
+    }
+
+
+    if(polygon.size() == 1)
+    {
+        for(int i = 0,j = 0; i < indices.size(); i++,j++)
+        {
+            float EarVertex[9];
+            EarVertex[0] = polygon.at(0).at(indices[i]).at(0);
+            EarVertex[1] = polygon.at(0).at(indices[i]).at(1);
+            EarVertex[2] = polygon.at(0).at(indices[i++]).at(2);
+            EarVertex[3] = polygon.at(0).at(indices[i]).at(0);
+            EarVertex[4] = polygon.at(0).at(indices[i]).at(1);
+            EarVertex[5] = polygon.at(0).at(indices[i++]).at(2);
+            EarVertex[6] = polygon.at(0).at(indices[i]).at(0);
+            EarVertex[7] = polygon.at(0).at(indices[i]).at(1);
+            EarVertex[8] = polygon.at(0).at(indices[i]).at(2);
+            //最后一次不用++了
+            cnt++;
+            cout << "Cnt:" << cnt << endl;
+            for (int k = 0; k < 9; k++)
+            {
+                cout << EarVertex[k] << " ";
+                //应该是这里出错了，尼玛哦，看了我半天日了你爹
+                if ((k + 1) % 3 == 0)
+                {
+                    cout << endl;
+                }
+            }
+            cout << endl;
+
+
+            glBindVertexArray(EarVAOs[j]);
+
+            glBindBuffer(GL_ARRAY_BUFFER, EarVBOs[j]);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(EarVertex), EarVertex, GL_STATIC_DRAW);
+
+            // position attribute
+            //这里的步长为3，之前的是5因为有纹理坐标
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+            glEnableVertexAttribArray(0);
+        }
+    }
+
+}
 
 //判断直线是否相交
 //bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
