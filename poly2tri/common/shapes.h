@@ -45,6 +45,8 @@ struct Edge;
 struct Point {
 
   double x, y, z;
+  int index;
+  bool isMove = false;
 
   /// Default constructor does nothing (for performance).
   Point()

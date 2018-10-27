@@ -802,6 +802,8 @@ void processInput(GLFWwindow *window)
                 double z = Merge[i].z;
                 Point *point = new Point(x,y);
                 point->z = z;
+                //加入序列号，看是否有用
+                point->index = i;
                 polyline.push_back(point);
 
                 cout << " double "<< x<< " " << y <<" "<< z <<endl;
@@ -874,6 +876,7 @@ void processInput(GLFWwindow *window)
         if(Poly2TriOpen)
             Poly2TriOpen = false;
     }
+
     //平移操作，如果按下则进行平移
     if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
     {
@@ -928,6 +931,35 @@ void processInput(GLFWwindow *window)
             moveBack = true;
             faultMoveFunction(fault2_up, 10, -2.0f, zD);
             faultMoveFunction(fault2_up, 10, 0.25f, yD);
+        }
+        else if(!moveBack && Poly2TriOpen)
+        {
+            //获取初始三角现在要改变这个三角里的数据
+            for (int i = 0; i < triangles.size(); i++)
+            {
+                float TraVertex[9];
+                Triangle &t = *triangles[i];
+//                Point &a = *t.GetPoint(0);
+//                Point &b = *t.GetPoint(1);
+//                Point &c = *t.GetPoint(2);
+
+                //现在是引用，应该可以改变结构体的数据吧
+                for(int j = 0 ;j < 3; j++)
+                {
+                    Point &point = *t.GetPoint(j);
+                    //好像这个不同的三角point数据也是共享的，那么猜测可能这个三角用的也是这个索引数据。
+                    //在point结构体里加个是否移动的属性
+                    if(point.index >= 10 && !point.isMove)
+                    {
+                        point.y += 0.25f;
+                        point.z += -2.0f;
+                        point.isMove = true;
+                    }
+                }
+            }
+            //重新绑定
+            Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
+            moveBack = true;
         }
     }
     //剖分后平移回去，就直接改变坐标的点试试。
@@ -1082,6 +1114,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
         Point &c = *t.GetPoint(2);
         //不对啊，这里还有vvo和vv1？傻逼了
         //将顶点分配给这个float
+
         TraVertex[0] = a.x;
         TraVertex[1] = a.y;
         TraVertex[2] = a.z;
