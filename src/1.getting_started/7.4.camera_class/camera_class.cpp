@@ -937,18 +937,26 @@ void processInput(GLFWwindow *window)
             //获取初始三角现在要改变这个三角里的数据
             for (int i = 0; i < triangles.size(); i++)
             {
-                float TraVertex[9];
                 Triangle &t = *triangles[i];
 //                Point &a = *t.GetPoint(0);
 //                Point &b = *t.GetPoint(1);
 //                Point &c = *t.GetPoint(2);
+                //看是否该三角是在同一直线的，这种三角就需要插点。
+                int pointsInLineOne = 0;
+                int pointsInLineTwo = 0;
 
+                //基本点
+                int pointBase;
                 //现在是引用，应该可以改变结构体的数据吧
                 for(int j = 0 ;j < 3; j++)
                 {
                     Point &point = *t.GetPoint(j);
                     //好像这个不同的三角point数据也是共享的，那么猜测可能这个三角用的也是这个索引数据。
                     //在point结构体里加个是否移动的属性
+                    if(point.index >= 10)
+                        pointsInLineTwo++;
+                    else
+                        pointsInLineOne++;
                     if(point.index >= 10 && !point.isMove)
                     {
                         point.y += 0.25f;
@@ -956,10 +964,21 @@ void processInput(GLFWwindow *window)
                         point.isMove = true;
                     }
                 }
+                //如果不需要平移的线段有多余三角
+                if(pointsInLineOne == 3)
+                {
+                    //对这个三角搞事情
+                }
+                if(pointsInLineTwo == 3)
+                {
+                    //对移动到对面的三角搞事
+                }
             }
             //重新绑定
             Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
             moveBack = true;
+            faultMoveFunction(fault2_up, 10, -2.0f, zD);
+            faultMoveFunction(fault2_up, 10, 0.25f, yD);
         }
     }
     //剖分后平移回去，就直接改变坐标的点试试。
@@ -1213,6 +1232,9 @@ void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> i
     }
 
 }
+
+
+
 
 //判断直线是否相交
 //bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
