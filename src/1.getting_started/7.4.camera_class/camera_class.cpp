@@ -66,6 +66,9 @@ vector<p2t::Point*> polyline;
 //这个是用开画图的？
 CDT* cdt;
 
+//多出的三角形
+vector<Triangle*> extraTriangles;
+
 
 // settings
 const unsigned int SCR_WIDTH = 1400;
@@ -107,6 +110,9 @@ VERTEX *fault2_up, *fault2_down;
 Delaunay *del;
 unsigned int DelTraVBOs[1024], DelTraVAOs[1024];
 unsigned int PolyVBOs[1024], PolyVAOs[1024];
+unsigned int AddVBOs[1024], AddVAOs[1024];
+bool isAddTra = false;
+
 unsigned int EarVBOs[1024], EarVAOs[1024];
 
 //全局变量，用来平移之类的
@@ -199,6 +205,10 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
 void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Triangle*> _triangle);
 
 void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> indices);
+
+
+void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num);
+
 int main()
 {
     // glfw: initialize and configure
@@ -703,11 +713,26 @@ int main()
             //将剖分三角缓冲画出来
             for (int i = 0; i < triangles.size(); i++)
             {
+                if(triangles[i]->isHide)
+                {
+                    continue;
+                }
                 glColor3f(1, 0, 0);
                 glBindVertexArray(PolyVAOs[i]);
 
                 glDrawArrays(GL_LINE_LOOP, 0, 3);
             }
+
+//            if( isAddTra )
+//            {
+//                for(int i = 0; i < extraTriangles.size(); i++)
+//                {
+////                    cout<<"add "<<i<<endl;
+//                    glBindVertexArray(AddVAOs[i]);
+//
+//                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+//                }
+//            }
         }
 
         if(EarCutOpen)
@@ -934,6 +959,9 @@ void processInput(GLFWwindow *window)
         }
         else if(!moveBack && Poly2TriOpen)
         {
+            //先移动
+            faultMoveFunction(fault2_up, 10, -2.0f, zD);
+            faultMoveFunction(fault2_up, 10, 0.25f, yD);
             //获取初始三角现在要改变这个三角里的数据
             for (int i = 0; i < triangles.size(); i++)
             {
@@ -964,21 +992,36 @@ void processInput(GLFWwindow *window)
                         point.isMove = true;
                     }
                 }
+                cout<< " the point " << pointsInLineOne<<endl;
+                cout<< " the point " << pointsInLineTwo<<endl;
+                cout<<endl;
                 //如果不需要平移的线段有多余三角
                 if(pointsInLineOne == 3)
                 {
                     //对这个三角搞事情
+                    //这个三角要隐藏起来
+                    t.isHide = true;
+                    isAddTra = true;
+                    //处理后得到一个d，这个d可以用来干嘛呢？
+                    ExcessTraHandle(&t, fault2_up, 10);
                 }
                 if(pointsInLineTwo == 3)
                 {
+                    t.isHide = true;
+                    isAddTra = true;
                     //对移动到对面的三角搞事
+                    ExcessTraHandle(&t, fault1_up, 10);
                 }
             }
             //重新绑定
             Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
+
+            if( isAddTra )
+            {
+               Poly2TriBind(AddVAOs, AddVBOs, extraTriangles);
+            }
             moveBack = true;
-            faultMoveFunction(fault2_up, 10, -2.0f, zD);
-            faultMoveFunction(fault2_up, 10, 0.25f, yD);
+
         }
     }
     //剖分后平移回去，就直接改变坐标的点试试。
@@ -1144,8 +1187,8 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
         TraVertex[7] = c.y;
         TraVertex[8] = c.z;
 
-        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
-            continue;
+//        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
+//            continue;
         //一个个三角画的，主要是找顶点，为什么会有不存在的店。
         //0 0.24 1.5 比如这个点，有哦
 
@@ -1234,7 +1277,153 @@ void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> i
 }
 
 
+//多余的三角形，需要处理掉
+void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
+{
+    //从三角里找到需要处理的那条线,如果序列号不是相邻的那么就是相邻的线
+    Point *a = _triangle->GetPoint(0);
+    Point *b = _triangle->GetPoint(1);
+    Point *c = _triangle->GetPoint(2);
+    //Lines 1 是ab 2是ac 3是bc
+    enum {ab = 1, ac, bc};
+    int Lines;
 
+    if( abs((a->index) - (b->index)) == 2 )
+        Lines = ab;
+    else if( abs((a->index) - (c->index)) == 2 )
+        Lines = ac;
+    else
+        Lines = bc;
+
+    //找出这条线后，然后计算另外一个点到该线的距离。
+    //d1为三角里点到线段的距离，d2为多余线段到对面线的最短距离
+    float d1,d2;
+
+    //这个值将是即将要连线的点
+    VERTEX projectionPoint;
+    int oppositeIndex = -1;
+    if ( Lines == ab)
+    {
+        d1 = DistanceOfPointLines(c->PointToVertex(), a->PointToVertex(), b->PointToVertex());
+        projectionPoint = c->PointToVertex();
+        //将y的值减去d1就是投影在多余的线的点。
+        projectionPoint.y -= d1;
+        d2 = DistanceOfOpposite(projectionPoint, oppositeLines, num, oppositeIndex);
+    }
+    else if ( Lines == ac)
+    {
+        d1 = DistanceOfPointLines(b->PointToVertex(), a->PointToVertex(), c->PointToVertex());
+        projectionPoint = b->PointToVertex();
+        //将y的值减去d1就是投影在多余的线的点。
+        projectionPoint.y -= d1;
+        d2 = DistanceOfOpposite(projectionPoint, oppositeLines, num, oppositeIndex);
+    }
+    else
+    {
+        d1 = DistanceOfPointLines(a->PointToVertex(), b->PointToVertex(), c->PointToVertex());
+        projectionPoint = a->PointToVertex();
+        //将y的值减去d1就是投影在多余的线的点。
+        projectionPoint.y -= d1;
+        d2 = DistanceOfOpposite(projectionPoint, oppositeLines, num, oppositeIndex);
+    }
+    cout << "oppositeIndex" << oppositeIndex << endl;
+    cout << "Lines "<< Lines << endl;
+    cout << "projection point" << projectionPoint.x <<" " << projectionPoint.y<< " " << projectionPoint.z<<endl;
+    //这个d就是总偏移量了，也就是point，z的偏移量
+    float d = fabs(((a->z / pow(d1, 2) ) + (oppositeLines[0].z / pow(d2, 2))) / ((1 / pow(d1, 2)) + (1 / pow(d2, 2))));
+
+    cout << "the d1 d2 d " << d1<<" "<<d2<<" "<<d<<endl;
+
+    Point centerPoint, *left, *mid, *right;
+    
+    Point oppositePointOne, oppositePointTwo;
+
+    oppositePointOne.x = oppositeLines[oppositeIndex].x;
+    oppositePointOne.y = oppositeLines[oppositeIndex].y;
+    oppositePointOne.z = oppositeLines[oppositeIndex].z;
+
+    oppositePointTwo.x = oppositeLines[oppositeIndex + 1].x;
+    oppositePointTwo.y = oppositeLines[oppositeIndex + 1].y;
+    oppositePointTwo.z = oppositeLines[oppositeIndex + 1].z;
+    
+    if(Lines == ab)
+    {
+        centerPoint.x = c->x;
+        centerPoint.y = c->y;
+        centerPoint.z = c->z - d;
+
+        mid = c;
+        if(a->index < b->index)
+        {
+            left = a;
+            right = b;
+        }
+        else
+        {
+            left = b;
+            right = a;
+        }
+//        //统一一下方向，都是减去该值。
+////        Triangle *triangle = new Triangle(*c, *b, centerPoint);
+//
+//        //接下来要构造几个三角了
+//        extraTriangles.push_back(new Triangle(*c, *b, centerPoint));
+//        extraTriangles.push_back(new Triangle(*c, *a, centerPoint));
+//
+//        //要判断一下这个点是否在同一侧，那么就判断他们的序号值好了
+//        if(a->index < b->index)
+//        {
+//            extraTriangles.push_back(new Triangle(*a, centerPoint, oppositePointOne));
+//            extraTriangles.push_back(new Triangle(*b, centerPoint, oppositePointTwo));
+//        }
+//        else
+//        {
+//            extraTriangles.push_back(new Triangle(*b, centerPoint, oppositePointOne));
+//            extraTriangles.push_back(new Triangle(*a, centerPoint, oppositePointTwo));
+//        }
+    }
+    else if( Lines == ac)
+    {
+        centerPoint.x = b->x;
+        centerPoint.y = b->y;
+        centerPoint.z = b->z - d;
+        mid = b;
+        if(a->index < c->index)
+        {
+            left = a;
+            right = c;
+        }
+        else
+        {
+            left = c;
+            right = a;
+        }
+    }
+    else
+    {
+        centerPoint.x = a->x;
+        centerPoint.y = a->y;
+        centerPoint.z = a->z - d;
+        mid = a;
+        if(c->index < b->index)
+        {
+            left = c;
+            right = b;
+        }
+        else
+        {
+            left = b;
+            right = c;
+        }
+    }
+    cout << " center "<< centerPoint.x << " " << centerPoint.y << " " << centerPoint.z << endl;
+    extraTriangles.push_back(new Triangle(*left, *mid, centerPoint));
+    extraTriangles.push_back(new Triangle(*right, *mid, centerPoint));
+    extraTriangles.push_back(new Triangle(*left, centerPoint, oppositePointOne));
+    extraTriangles.push_back(new Triangle(*right, centerPoint, oppositePointTwo));
+    extraTriangles.push_back(new Triangle(centerPoint, oppositePointTwo, oppositePointOne));
+
+}
 
 //判断直线是否相交
 //bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)

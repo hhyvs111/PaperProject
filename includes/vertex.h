@@ -3,6 +3,8 @@
 //
 
 
+
+
 #ifndef LEARNOPENGL_VERTEX_H
 #define LEARNOPENGL_VERTEX_H
 
@@ -48,7 +50,8 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
 bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number);
 
 
+float DistanceOfPointLines(VERTEX point, VERTEX a, VERTEX b);
 
-
+float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index);
 
 #endif //LEARNOPENGL_VERTEX_H

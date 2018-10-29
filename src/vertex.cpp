@@ -116,3 +116,24 @@ bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number
     }
     return true;
 }
+
+float DistanceOfPointLines(VERTEX point, VERTEX a, VERTEX b)
+{
+
+    return (fabs((b.y - a.y) * point.x +(a.x - b.x) * point.y + ((b.x * a.y) -(a.x * b.y)))) / (sqrt(pow(b.y - a.y, 2) + pow(a.x - b.x, 2)));
+}
+
+float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
+{
+    float minDistance = DistanceOfPointLines(point, Opposite[0], Opposite[1]);
+    for(int i = 1;i < num - 1; i++)
+    {
+        float distance = DistanceOfPointLines(point, Opposite[i], Opposite[i+1]);
+        if( distance < minDistance )
+        {
+            minDistance = distance;
+            index = i;
+        }
+    }
+    return minDistance;
+}

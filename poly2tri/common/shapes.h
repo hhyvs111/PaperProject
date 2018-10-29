@@ -36,6 +36,7 @@
 #include <vector>
 #include <cstddef>
 #include <assert.h>
+#include <vertex.h>
 #include <cmath>
 
 namespace p2t {
@@ -53,6 +54,16 @@ struct Point {
   {
     x = 0.0;
     y = 0.0;
+  }
+
+  VERTEX PointToVertex()
+  {
+    VERTEX vertex;
+    vertex.x = this->x;
+    vertex.y = this->y;
+    vertex.z = this->z;
+
+    return vertex;
   }
 
   /// The edges this point constitutes an upper ending point
@@ -156,6 +167,9 @@ public:
 /// Constructor
 Triangle(Point& a, Point& b, Point& c);
 
+//判断是否要隐藏，多余的三角
+bool isHide = false;
+
 /// Flags to determine if an edge is a Constrained edge
 bool constrained_edge[3];
 /// Flags to determine if an edge is a Delauney edge
@@ -214,6 +228,8 @@ private:
 Point* points_[3];
 /// Neighbor list
 Triangle* neighbors_[3];
+
+
 
 /// Has this triangle been marked as an interior triangle?
 bool interior_;
