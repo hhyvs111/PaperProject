@@ -18,6 +18,14 @@ typedef struct   tagVERTEX
     float   z;  // z坐标
 }VERTEX;
 
+typedef struct tagAddTriangle
+{
+    VERTEX a;
+    VERTEX b;
+    VERTEX c;
+}AddTriangle;
+
+
 enum moveDirection {
     xD,
     yD,
@@ -50,8 +58,13 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
 bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number);
 
 
-float DistanceOfPointLines(VERTEX point, VERTEX a, VERTEX b);
+float DistanceOfPointLinesIn2D(VERTEX point, VERTEX a, VERTEX b);
+
+float DistanceOfPointToPointIn3D(VERTEX point1, VERTEX point2);
+
+float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s);
 
 float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index);
 
+AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);
 #endif //LEARNOPENGL_VERTEX_H

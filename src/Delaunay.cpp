@@ -59,14 +59,14 @@ void Delaunay::Init(VERTEX *vertex, int num)
     for(int i = 1, j = 0; i <= num; i++)
     {
         Vertex[i] = vertex[j++];
-        cout<<"the vertex "<<i;
-        cout<<" x:"<<Vertex[i].x;
-        cout<<" y:"<<Vertex[i].y;
-        cout<<" z:"<<Vertex[i].z<<endl;
+//        cout<<"the vertex "<<i;
+//        cout<<" x:"<<Vertex[i].x;
+//        cout<<" y:"<<Vertex[i].y;
+//        cout<<" z:"<<Vertex[i].z<<endl;
     }
     //多少个三角形
     HowMany = FvsTrianglate(num);
-    cout<<"howmany: "<<HowMany<<endl;
+//    cout<<"howmany: "<<HowMany<<endl;
 }
 
 CIRCLE Delaunay::FvsCenter(float x1, float y1, float x2, float y2, float x3, float y3)
@@ -265,7 +265,7 @@ int Delaunay::FvsTrianglate(int nvert)  //nvert顶点数
     ymax = ymin;
     for (i = 2; i <= nvert; i++)     //找到当前点里，最大最小的XY坐标
     {
-        cout << "X :" << Vertex[i].x << endl;
+//        cout << "X :" << Vertex[i].x << endl;
         if (Vertex[i].x < xmin)      xmin = Vertex[i].x;
         if (Vertex[i].x > xmax)      xmax = Vertex[i].x;
         if (Vertex[i].y < ymin)      ymin = Vertex[i].y;

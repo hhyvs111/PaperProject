@@ -67,17 +67,17 @@ vector<p2t::Point*> polyline;
 CDT* cdt;
 
 //多出的三角形
-vector<Triangle*> extraTriangles;
+vector<AddTriangle> extraTriangles;
 
 
 // settings
-const unsigned int SCR_WIDTH = 1400;
-const unsigned int SCR_HEIGHT = 900;
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
 
 // camera
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-float lastX = SCR_WIDTH / 2.0f;
-float lastY = SCR_HEIGHT / 2.0f;
+float lastX = SCR_WIDTH / 1.0f;
+float lastY = SCR_HEIGHT / 1.0f;
 bool firstMouse = true;
 
 // timing
@@ -118,36 +118,36 @@ unsigned int EarVBOs[1024], EarVAOs[1024];
 //全局变量，用来平移之类的
 float fault1[2][30] = {
         {
-                0.5f, 0.15f, -0.5f + 2.0f,
-                0.41f, 0.29f, -0.5f + 2.0f,
-                0.3f, 0.32f, -0.5f + 2.0f,
-                0.18f, 0.26f, -0.5f + 2.0f,
-                0.0f, 0.24f, -0.5f + 2.0f,
-                -0.13f, 0.29f, -0.5f + 2.0f,
-                -0.21f, 0.25f, -0.5f + 2.0f,
-                -0.26f, 0.29f, -0.5f + 2.0f,
-                -0.38f, 0.25f, -0.5f + 2.0f,
-                -0.5f, 0.22f, -0.5f + 2.0f,
+                0.5f, 0.15f, -0.5f + 1.0f,
+                0.41f, 0.29f, -0.5f + 1.0f,
+                0.3f, 0.32f, -0.5f + 1.0f,
+                0.18f, 0.26f, -0.5f + 1.0f,
+                0.0f, 0.24f, -0.5f + 1.0f,
+                -0.13f, 0.29f, -0.5f + 1.0f,
+                -0.21f, 0.25f, -0.5f + 1.0f,
+                -0.26f, 0.29f, -0.5f + 1.0f,
+                -0.38f, 0.25f, -0.5f + 1.0f,
+                -0.5f, 0.22f, -0.5f + 1.0f,
         }
         //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f+ 2.0f,
-//            -0.5f, 0.22f,  -0.5f+ 2.0f,
+//            -0.5f, 0.5f, -0.5f+ 1.0f,
+//            -0.5f, 0.22f,  -0.5f+ 1.0f,
         //怎么这个点重复了，有毒。
         //x下层
         ,
         {
-                -0.5f, -0.24f, -0.5f + 2.0f,
-                -0.41f, -0.23f, -0.5f + 2.0f,
-                -0.29f, -0.23f, -0.5f + 2.0f,
-                -0.23f, -0.29f, -0.5f + 2.0f,
-                -0.05f, -0.32f, -0.5f + 2.0f,
-                0.08f, -0.31f, -0.5f + 2.0f,
-                0.19f, -0.25f, -0.5f + 2.0f,
-                0.29f, -0.3f, -0.5f + 2.0f,
-                0.4f, -0.26f, -0.5f + 2.0f,
-                0.5f, -0.29f, -0.5f + 2.0f,
+                -0.5f, -0.24f, -0.5f + 1.0f,
+                -0.41f, -0.23f, -0.5f + 1.0f,
+                -0.29f, -0.23f, -0.5f + 1.0f,
+                -0.23f, -0.29f, -0.5f + 1.0f,
+                -0.05f, -0.32f, -0.5f + 1.0f,
+                0.08f, -0.31f, -0.5f + 1.0f,
+                0.19f, -0.25f, -0.5f + 1.0f,
+                0.29f, -0.3f, -0.5f + 1.0f,
+                0.4f, -0.26f, -0.5f + 1.0f,
+                0.5f, -0.29f, -0.5f + 1.0f,
         }
-//            0.5f, 0.4f,   -0.5f+ 2.0f,
+//            0.5f, 0.4f,   -0.5f+ 1.0f,
 };
 
 //第二个平面的断层
@@ -203,6 +203,8 @@ void drawInit(unsigned int & VAO, unsigned int & VBO, VERTEX *target, int num);
 void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delaunay * del);
 
 void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Triangle*> _triangle);
+
+void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriangle> _triangle);
 
 void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> indices);
 
@@ -270,10 +272,10 @@ int main()
     };
 
     float cube22[] = {
-            -0.5f, 0.5f,  -0.5f + 2.0f,  0.0f, 0.0f,
-            0.5f, 0.5f,  -0.5f+ 2.0f,  0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f+ 2.0f,  0.0f, 0.0f,
-            -0.5f,-0.5f,  -0.5f+ 2.0f,  0.0f, 0.0f,
+            -0.5f, 0.5f,  -0.5f + 1.0f,  0.0f, 0.0f,
+            0.5f, 0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
+            0.5f, -0.5f, -0.5f+ 1.0f,  0.0f, 0.0f,
+            -0.5f,-0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
     };
     // world space positions of our cubes
     //正方体的位置
@@ -281,11 +283,11 @@ int main()
         glm::vec3( 0.0f,  0.0f,  0.0f),
         glm::vec3( 0.0f,  0.0f, -1.0f),
 //        glm::vec3(-1.5f, -2.2f, -2.5f),
-//        glm::vec3(-3.8f, -2.0f, -12.3f),
+//        glm::vec3(-3.8f, -1.0f, -12.3f),
 //        glm::vec3( 2.4f, -0.4f, -3.5f),
 //        glm::vec3(-1.7f,  3.0f, -7.5f),
-//        glm::vec3( 1.3f, -2.0f, -2.5f),
-//        glm::vec3( 1.5f,  2.0f, -2.5f),
+//        glm::vec3( 1.3f, -1.0f, -2.5f),
+//        glm::vec3( 1.5f,  1.0f, -2.5f),
 //        glm::vec3( 1.5f,  0.2f, -1.5f),
 //        glm::vec3(-1.3f,  1.0f, -1.5f)
     };
@@ -457,18 +459,18 @@ int main()
 //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 //    glEnableVertexAttribArray(0);
 //   float fault2[] = {
-//           -0.5f, -0.24f,  -0.5f+ 2.0f,
-//            -0.41f, -0.23f,  -0.5f+ 2.0f,
-//            -0.29f, -0.23f,  -0.5f+ 2.0f,
-//            -0.23f, -0.29f,  -0.5f+ 2.0f,
-//            -0.05f, -0.32f,  -0.5f+ 2.0f,
-//            0.08f, -0.31f,  -0.5f+ 2.0f,
-//            0.19f, -0.25f,  -0.5f+ 2.0f,
-//            0.29f, -0.3f,  -0.5f+ 2.0f,
-//            0.4f, -0.26f,  -0.5f+ 2.0f,
-//            0.5f, -0.29f, -0.5f+ 2.0f,
-//            0.5f, 0.4f,   -0.5f+ 2.0f,
-//            0.5f, -0.29f,  -0.5f+ 2.0f
+//           -0.5f, -0.24f,  -0.5f+ 1.0f,
+//            -0.41f, -0.23f,  -0.5f+ 1.0f,
+//            -0.29f, -0.23f,  -0.5f+ 1.0f,
+//            -0.23f, -0.29f,  -0.5f+ 1.0f,
+//            -0.05f, -0.32f,  -0.5f+ 1.0f,
+//            0.08f, -0.31f,  -0.5f+ 1.0f,
+//            0.19f, -0.25f,  -0.5f+ 1.0f,
+//            0.29f, -0.3f,  -0.5f+ 1.0f,
+//            0.4f, -0.26f,  -0.5f+ 1.0f,
+//            0.5f, -0.29f, -0.5f+ 1.0f,
+//            0.5f, 0.4f,   -0.5f+ 1.0f,
+//            0.5f, -0.29f,  -0.5f+ 1.0f
 //   };
 
 
@@ -715,6 +717,7 @@ int main()
             {
                 if(triangles[i]->isHide)
                 {
+
                     continue;
                 }
                 glColor3f(1, 0, 0);
@@ -723,16 +726,16 @@ int main()
                 glDrawArrays(GL_LINE_LOOP, 0, 3);
             }
 
-//            if( isAddTra )
-//            {
-//                for(int i = 0; i < extraTriangles.size(); i++)
-//                {
-////                    cout<<"add "<<i<<endl;
-//                    glBindVertexArray(AddVAOs[i]);
-//
-//                    glDrawArrays(GL_LINE_LOOP, 0, 3);
-//                }
-//            }
+            if( isAddTra )
+            {
+                for(int i = 0; i < extraTriangles.size(); i++)
+                {
+//                    cout<<"add "<<i<<endl;
+                    glBindVertexArray(AddVAOs[i]);
+
+                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+                }
+            }
         }
 
         if(EarCutOpen)
@@ -850,6 +853,7 @@ void processInput(GLFWwindow *window)
             cout << "the poly2tir Triangulate size :"<< triangles.size() << endl;
             //开始绑定poly
             Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
+            //这里有问题，多遍历了一边，要查询一下怎么清除！
             //打开剖分
             Poly2TriOpen = true;
         }
@@ -909,16 +913,17 @@ void processInput(GLFWwindow *window)
        //主要是移动一下z轴，先试试。
        if(!faultMove)
        {
-           faultMoveFunction(fault2_up, 10, 2.0f, zD);
+           faultMoveFunction(fault2_up, 10, 1.0f, zD);
            faultMoveFunction(fault2_up, 10, -0.25f, yD);
-           for(int i = 0 ;i < 10;i++)
-           {
-               cout<<fault2_up[i].x<<" test ";
-               cout<<fault2_up[i].y<<" ";
-               cout<<fault2_up[i].z<<endl;
-           }
+//           for(int i = 0 ;i < 10;i++)
+//           {
+//               cout<<fault2_up[i].x<<" test ";
+//               cout<<fault2_up[i].y<<" ";
+//               cout<<fault2_up[i].z<<endl;
+//           }
+           faultMove = true;
        }
-        faultMove = true;
+
     }
     //剖分后平移回去，就直接改变坐标的点试试。
     if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
@@ -928,7 +933,7 @@ void processInput(GLFWwindow *window)
         if(!moveBack && DelaunayOpen)
         {
             //把三角形里的平移回去
-            del->MoveVertex(11, 10, zD, -2.0f);
+            del->MoveVertex(11, 10, zD, -1.0f);
             del->MoveVertex(11, 10, yD, 0.25f);
             //更改了后要重新缓冲一下
             DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
@@ -936,7 +941,7 @@ void processInput(GLFWwindow *window)
             //移动过来的线要移动回去啊
             moveBack = true;
 
-            faultMoveFunction(fault2_up, 10, -2.0f, zD);
+            faultMoveFunction(fault2_up, 10, -1.0f, zD);
             faultMoveFunction(fault2_up, 10, 0.25f, yD);
         }
         //这个back可以分多种情况
@@ -948,19 +953,19 @@ void processInput(GLFWwindow *window)
                 for(int i = 10;i < 20; i++)
                 {
                     polygon.at(0).at(i).at(1) += 0.25f;
-                    polygon.at(0).at(i).at(2) += -2.0f;
+                    polygon.at(0).at(i).at(2) += -1.0f;
 
                 }
                 EarCutBind(EarVAOs, EarVBOs, indices);
             }
             moveBack = true;
-            faultMoveFunction(fault2_up, 10, -2.0f, zD);
+            faultMoveFunction(fault2_up, 10, -1.0f, zD);
             faultMoveFunction(fault2_up, 10, 0.25f, yD);
         }
         else if(!moveBack && Poly2TriOpen)
         {
             //先移动
-            faultMoveFunction(fault2_up, 10, -2.0f, zD);
+            faultMoveFunction(fault2_up, 10, -1.0f, zD);
             faultMoveFunction(fault2_up, 10, 0.25f, yD);
             //获取初始三角现在要改变这个三角里的数据
             for (int i = 0; i < triangles.size(); i++)
@@ -988,7 +993,7 @@ void processInput(GLFWwindow *window)
                     if(point.index >= 10 && !point.isMove)
                     {
                         point.y += 0.25f;
-                        point.z += -2.0f;
+                        point.z += -1.0f;
                         point.isMove = true;
                     }
                 }
@@ -1018,27 +1023,27 @@ void processInput(GLFWwindow *window)
 
             if( isAddTra )
             {
-               Poly2TriBind(AddVAOs, AddVBOs, extraTriangles);
+               AddTriBind(AddVAOs, AddVBOs, extraTriangles);
             }
             moveBack = true;
 
         }
     }
     //剖分后平移回去，就直接改变坐标的点试试。
-    if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
-    {
-        cout<<"back"<<endl;
-        //主要是移动一下z轴，先试试。
-        if(!moveBack1)
-        {
-            del->MoveVertex(11, 10, zD, 2.0f);
-            del->MoveVertex(11, 10, yD, -0.35f);
-            //更改了后要重新缓冲一下
-            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
-
-            moveBack1 = true;
-        }
-    }
+//    if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+//    {
+//        cout<<"back"<<endl;
+//        //主要是移动一下z轴，先试试。
+//        if(!moveBack1)
+//        {
+//            del->MoveVertex(11, 10, zD, 1.0f);
+//            del->MoveVertex(11, 10, yD, -0.35f);
+//            //更改了后要重新缓冲一下
+//            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
+//
+//            moveBack1 = true;
+//        }
+//    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -1170,7 +1175,9 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
     for (int i = 0; i < _triangle.size(); i++)
     {
         float TraVertex[9];
-        Triangle &t = *triangles[i];
+        Triangle &t = *_triangle[i];
+        if(t.isHide)
+            continue;
         Point &a = *t.GetPoint(0);
         Point &b = *t.GetPoint(1);
         Point &c = *t.GetPoint(2);
@@ -1208,6 +1215,62 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
         glBindVertexArray(PolyVAOs[i]);
 
         glBindBuffer(GL_ARRAY_BUFFER, PolyVBOs[i]);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
+
+        // position attribute
+        //这里的步长为3，之前的是5因为有纹理坐标
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+        glEnableVertexAttribArray(0);
+    }
+}
+
+void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriangle> _triangle)
+{
+    glGenVertexArrays(_triangle.size(), AddVAOs);
+    glGenBuffers(_triangle.size(), AddVBOs);
+
+    //循环读取Addl里的三角形顶点数据
+    for (int i = 0; i < _triangle.size(); i++)
+    {
+        float TraVertex[9];
+        AddTriangle t = _triangle[i];
+        VERTEX a = t.a;
+        VERTEX b = t.b;
+        VERTEX c = t.c;
+        //不对啊，这里还有vvo和vv1？傻逼了
+        //将顶点分配给这个float
+
+        TraVertex[0] = a.x;
+        TraVertex[1] = a.y;
+        TraVertex[2] = a.z;
+        TraVertex[3] = b.x;
+        TraVertex[4] = b.y;
+        TraVertex[5] = b.z;
+        TraVertex[6] = c.x;
+        TraVertex[7] = c.y;
+        TraVertex[8] = c.z;
+
+//        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
+//            continue;
+        //一个个三角画的，主要是找顶点，为什么会有不存在的店。
+        //0 0.24 1.5 比如这个点，有哦
+
+        cout << "TraNumber:" << i << endl;
+        for (int j = 0; j < 9; j++)
+        {
+            cout << TraVertex[j] << " ";
+            //应该是这里出错了，尼玛哦，看了我半天日了你爹
+            if ((j + 1) % 3 == 0)
+            {
+                cout << endl;
+            }
+        }
+        cout << endl;
+
+        //绑定到vbo里
+        glBindVertexArray(AddVAOs[i]);
+
+        glBindBuffer(GL_ARRAY_BUFFER, AddVBOs[i]);
         glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
 
         // position attribute
@@ -1304,7 +1367,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
     int oppositeIndex = -1;
     if ( Lines == ab)
     {
-        d1 = DistanceOfPointLines(c->PointToVertex(), a->PointToVertex(), b->PointToVertex());
+        d1 = DistanceOfPointLinesIn2D(c->PointToVertex(), a->PointToVertex(), b->PointToVertex());
         projectionPoint = c->PointToVertex();
         //将y的值减去d1就是投影在多余的线的点。
         projectionPoint.y -= d1;
@@ -1312,7 +1375,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
     }
     else if ( Lines == ac)
     {
-        d1 = DistanceOfPointLines(b->PointToVertex(), a->PointToVertex(), c->PointToVertex());
+        d1 = DistanceOfPointLinesIn2D(b->PointToVertex(), a->PointToVertex(), c->PointToVertex());
         projectionPoint = b->PointToVertex();
         //将y的值减去d1就是投影在多余的线的点。
         projectionPoint.y -= d1;
@@ -1320,7 +1383,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
     }
     else
     {
-        d1 = DistanceOfPointLines(a->PointToVertex(), b->PointToVertex(), c->PointToVertex());
+        d1 = DistanceOfPointLinesIn2D(a->PointToVertex(), b->PointToVertex(), c->PointToVertex());
         projectionPoint = a->PointToVertex();
         //将y的值减去d1就是投影在多余的线的点。
         projectionPoint.y -= d1;
@@ -1334,9 +1397,9 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
 
     cout << "the d1 d2 d " << d1<<" "<<d2<<" "<<d<<endl;
 
-    Point centerPoint, *left, *mid, *right;
+    VERTEX centerPoint, left, mid, right;
     
-    Point oppositePointOne, oppositePointTwo;
+    VERTEX oppositePointOne, oppositePointTwo;
 
     oppositePointOne.x = oppositeLines[oppositeIndex].x;
     oppositePointOne.y = oppositeLines[oppositeIndex].y;
@@ -1352,34 +1415,34 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
         centerPoint.y = c->y;
         centerPoint.z = c->z - d;
 
-        mid = c;
+        mid = c->PointToVertex();
         if(a->index < b->index)
         {
-            left = a;
-            right = b;
+            left = a->PointToVertex();
+            right = b->PointToVertex();
         }
         else
         {
-            left = b;
-            right = a;
+            left = b->PointToVertex();
+            right = a->PointToVertex();
         }
 //        //统一一下方向，都是减去该值。
 ////        Triangle *triangle = new Triangle(*c, *b, centerPoint);
 //
 //        //接下来要构造几个三角了
-//        extraTriangles.push_back(new Triangle(*c, *b, centerPoint));
-//        extraTriangles.push_back(new Triangle(*c, *a, centerPoint));
+//        extraTriangles->push_back(new Triangle(*c, *b, centerPoint));
+//        extraTriangles->push_back(new Triangle(*c, *a, centerPoint));
 //
 //        //要判断一下这个点是否在同一侧，那么就判断他们的序号值好了
 //        if(a->index < b->index)
 //        {
-//            extraTriangles.push_back(new Triangle(*a, centerPoint, oppositePointOne));
-//            extraTriangles.push_back(new Triangle(*b, centerPoint, oppositePointTwo));
+//            extraTriangles->push_back(new Triangle(*a, centerPoint, oppositePointOne));
+//            extraTriangles->push_back(new Triangle(*b, centerPoint, oppositePointTwo));
 //        }
 //        else
 //        {
-//            extraTriangles.push_back(new Triangle(*b, centerPoint, oppositePointOne));
-//            extraTriangles.push_back(new Triangle(*a, centerPoint, oppositePointTwo));
+//            extraTriangles->push_back(new Triangle(*b, centerPoint, oppositePointOne));
+//            extraTriangles->push_back(new Triangle(*a, centerPoint, oppositePointTwo));
 //        }
     }
     else if( Lines == ac)
@@ -1387,16 +1450,16 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
         centerPoint.x = b->x;
         centerPoint.y = b->y;
         centerPoint.z = b->z - d;
-        mid = b;
+        mid = b->PointToVertex();
         if(a->index < c->index)
         {
-            left = a;
-            right = c;
+            left = a->PointToVertex();
+            right = c->PointToVertex();
         }
         else
         {
-            left = c;
-            right = a;
+            left = c->PointToVertex();
+            right = a->PointToVertex();
         }
     }
     else
@@ -1404,25 +1467,28 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
         centerPoint.x = a->x;
         centerPoint.y = a->y;
         centerPoint.z = a->z - d;
-        mid = a;
+        mid = a->PointToVertex();
         if(c->index < b->index)
         {
-            left = c;
-            right = b;
+            left = c->PointToVertex();
+            right = b->PointToVertex();
         }
         else
         {
-            left = b;
-            right = c;
+            left = b->PointToVertex();
+            right = c->PointToVertex();
         }
     }
     cout << " center "<< centerPoint.x << " " << centerPoint.y << " " << centerPoint.z << endl;
-    extraTriangles.push_back(new Triangle(*left, *mid, centerPoint));
-    extraTriangles.push_back(new Triangle(*right, *mid, centerPoint));
-    extraTriangles.push_back(new Triangle(*left, centerPoint, oppositePointOne));
-    extraTriangles.push_back(new Triangle(*right, centerPoint, oppositePointTwo));
-    extraTriangles.push_back(new Triangle(centerPoint, oppositePointTwo, oppositePointOne));
 
+    cout << " left "<< left.x << " " << left.y << " " << left.z << endl;
+    extraTriangles.push_back(VertexToTriangle(left, mid, centerPoint));
+    extraTriangles.push_back(VertexToTriangle(right, mid, centerPoint));
+    extraTriangles.push_back(VertexToTriangle(left, centerPoint, oppositePointOne));
+    extraTriangles.push_back(VertexToTriangle(right, centerPoint, oppositePointTwo));
+    extraTriangles.push_back(VertexToTriangle(centerPoint, oppositePointTwo, oppositePointOne));
+
+//    AddTriBind(AddVAOs, AddVBOs, extraTriangles);
 }
 
 //判断直线是否相交

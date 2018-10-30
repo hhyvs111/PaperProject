@@ -167,7 +167,9 @@ public:
 /// Constructor
 Triangle(Point& a, Point& b, Point& c);
 
-//判断是否要隐藏，多余的三角
+Triangle(bool add, Point a, Point b, Point c);
+
+//判断是否要隐藏，入股
 bool isHide = false;
 
 /// Flags to determine if an edge is a Constrained edge

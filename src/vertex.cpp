@@ -116,19 +116,40 @@ bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number
     }
     return true;
 }
-
-float DistanceOfPointLines(VERTEX point, VERTEX a, VERTEX b)
+//point点到直线ab的距离
+float DistanceOfPointLinesIn2D(VERTEX point, VERTEX a, VERTEX b)
 {
 
     return (fabs((b.y - a.y) * point.x +(a.x - b.x) * point.y + ((b.x * a.y) -(a.x * b.y)))) / (sqrt(pow(b.y - a.y, 2) + pow(a.x - b.x, 2)));
 }
 
+//计算三维空间两点的距离。
+float DistanceOfPointToPointIn3D(VERTEX point1, VERTEX point2)
+{
+    return (fabs(sqrt(pow((point1.x - point2.x), 2) + pow((point1.y - point2.y), 2) + pow((point1.z - point2.z), 2))));
+}
+
+
+float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s)
+{
+    float ab = sqrt(pow((a.x - b.x), 2.0) + pow((a.y - b.y), 2.0) + pow((a.z - b.z), 2.0));
+    float as = sqrt(pow((a.x - s.x), 2.0) + pow((a.y - s.y), 2.0) + pow((a.z - s.z), 2.0));
+    float bs = sqrt(pow((s.x - b.x), 2.0) + pow((s.y - b.y), 2.0) + pow((s.z - b.z), 2.0));
+    float cos_A = (pow(as, 2.0) + pow(ab, 2.0) - pow(bs, 2.0)) / (2 * ab*as);
+    float sin_A = sqrt(1 - pow(cos_A, 2.0));
+    return as*sin_A;
+}
+
+
 float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
 {
-    float minDistance = DistanceOfPointLines(point, Opposite[0], Opposite[1]);
+//    float minDistance = DistanceOfPointLinesIn3D(point, Opposite[0], Opposite[1]);
+    float minDistance = DistanceOfPointToPointIn3D(point, Opposite[0]);
     for(int i = 1;i < num - 1; i++)
     {
-        float distance = DistanceOfPointLines(point, Opposite[i], Opposite[i+1]);
+        float distance = DistanceOfPointToPointIn3D(point, Opposite[i]);
+//        float distance = DistanceOfPointLinesIn3D(point, Opposite[i], Opposite[i+1]);
+        cout<< "the d2 distance : " << distance << endl;
         if( distance < minDistance )
         {
             minDistance = distance;
@@ -136,4 +157,13 @@ float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
         }
     }
     return minDistance;
+}
+
+AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c)
+{
+    AddTriangle _triangle;
+    _triangle.a = a;
+    _triangle.b = b;
+    _triangle.c = c;
+    return  _triangle;
 }
