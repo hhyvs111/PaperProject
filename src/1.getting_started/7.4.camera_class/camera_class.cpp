@@ -715,15 +715,15 @@ int main()
             //将剖分三角缓冲画出来
             for (int i = 0; i < triangles.size(); i++)
             {
-                if(triangles[i]->isHide)
+                if(!triangles[i]->isHide)
                 {
+                    glColor3f(1, 0, 0);
+                    glBindVertexArray(PolyVAOs[i]);
 
-                    continue;
+                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+
                 }
-                glColor3f(1, 0, 0);
-                glBindVertexArray(PolyVAOs[i]);
 
-                glDrawArrays(GL_LINE_LOOP, 0, 3);
             }
 
             if( isAddTra )
@@ -851,9 +851,13 @@ void processInput(GLFWwindow *window)
             map = cdt->GetMap();
             triangles = cdt->GetTriangles();
             cout << "the poly2tir Triangulate size :"<< triangles.size() << endl;
+
+
+
+
             //开始绑定poly
             Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
-            //这里有问题，多遍历了一边，要查询一下怎么清除！
+            //这里有问题，多遍历了一边，要查询一下怎么清除
             //打开剖分
             Poly2TriOpen = true;
         }
@@ -978,8 +982,6 @@ void processInput(GLFWwindow *window)
                 int pointsInLineOne = 0;
                 int pointsInLineTwo = 0;
 
-                //基本点
-                int pointBase;
                 //现在是引用，应该可以改变结构体的数据吧
                 for(int j = 0 ;j < 3; j++)
                 {
@@ -1006,6 +1008,9 @@ void processInput(GLFWwindow *window)
                     //对这个三角搞事情
                     //这个三角要隐藏起来
                     t.isHide = true;
+
+                    //直接隐藏这个点吧。
+                    t.HidePoints();
                     isAddTra = true;
                     //处理后得到一个d，这个d可以用来干嘛呢？
                     ExcessTraHandle(&t, fault2_up, 10);
@@ -1013,6 +1018,7 @@ void processInput(GLFWwindow *window)
                 if(pointsInLineTwo == 3)
                 {
                     t.isHide = true;
+                    t.HidePoints();
                     isAddTra = true;
                     //对移动到对面的三角搞事
                     ExcessTraHandle(&t, fault1_up, 10);
@@ -1172,27 +1178,38 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
     glGenBuffers(_triangle.size(), PolyVBOs);
 
     //循环读取Polyl里的三角形顶点数据
+    float TraVertex[9];
     for (int i = 0; i < _triangle.size(); i++)
     {
-        float TraVertex[9];
-        Triangle &t = *_triangle[i];
-        if(t.isHide)
-            continue;
-        Point &a = *t.GetPoint(0);
-        Point &b = *t.GetPoint(1);
-        Point &c = *t.GetPoint(2);
-        //不对啊，这里还有vvo和vv1？傻逼了
-        //将顶点分配给这个float
 
-        TraVertex[0] = a.x;
-        TraVertex[1] = a.y;
-        TraVertex[2] = a.z;
-        TraVertex[3] = b.x;
-        TraVertex[4] = b.y;
-        TraVertex[5] = b.z;
-        TraVertex[6] = c.x;
-        TraVertex[7] = c.y;
-        TraVertex[8] = c.z;
+        Triangle &t = *_triangle[i];
+
+            Point &a = *t.GetPoint(0);
+            Point &b = *t.GetPoint(1);
+            Point &c = *t.GetPoint(2);
+            //不对啊，这里还有vvo和vv1？傻逼了
+            //将顶点分配给这个float
+            int hideNumber = 0;
+            if(a.isHide)
+                hideNumber++;
+            if(b.isHide)
+                hideNumber++;
+            if(c.isHide)
+                hideNumber++;
+
+            if(hideNumber >= 2)
+                continue;
+            TraVertex[0] = a.x;
+            TraVertex[1] = a.y;
+            TraVertex[2] = a.z;
+            TraVertex[3] = b.x;
+            TraVertex[4] = b.y;
+            TraVertex[5] = b.z;
+            TraVertex[6] = c.x;
+            TraVertex[7] = c.y;
+            TraVertex[8] = c.z;
+
+
 
 //        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
 //            continue;

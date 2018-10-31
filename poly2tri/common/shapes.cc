@@ -42,11 +42,12 @@ Triangle::Triangle(Point& a, Point& b, Point& c)
   interior_ = false;
 }
 
-    Triangle::Triangle(bool add, Point a, Point b, Point c)
-    {
-      points_[0] = &a; points_[1] = &b; points_[2] = &c;
-      add = false;
-    }
+void Triangle::HidePoints()
+{
+  points_[0]->isHide = true;
+  points_[1]->isHide = true;
+  points_[2]->isHide = true;
+}
 
 // Update neighbor pointers
 void Triangle::MarkNeighbor(Point* p1, Point* p2, Triangle* t)

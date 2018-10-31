@@ -48,6 +48,7 @@ struct Point {
   double x, y, z;
   int index;
   bool isMove = false;
+  bool isHide = false;
 
   /// Default constructor does nothing (for performance).
   Point()
@@ -167,7 +168,8 @@ public:
 /// Constructor
 Triangle(Point& a, Point& b, Point& c);
 
-Triangle(bool add, Point a, Point b, Point c);
+//将三角里的点置为隐藏
+void HidePoints();
 
 //判断是否要隐藏，入股
 bool isHide = false;
