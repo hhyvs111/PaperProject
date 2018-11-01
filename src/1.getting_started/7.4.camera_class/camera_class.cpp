@@ -1276,7 +1276,6 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriang
         for (int j = 0; j < 9; j++)
         {
             cout << TraVertex[j] << " ";
-            //应该是这里出错了，尼玛哦，看了我半天日了你爹
             if ((j + 1) % 3 == 0)
             {
                 cout << endl;
