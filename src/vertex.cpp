@@ -140,7 +140,7 @@ float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s)
     return as*sin_A;
 }
 
-
+//求点到对线的最短距离。
 float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
 {
 //    float minDistance = DistanceOfPointLinesIn3D(point, Opposite[0], Opposite[1]);

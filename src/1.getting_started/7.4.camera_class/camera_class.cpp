@@ -713,18 +713,18 @@ int main()
         if(Poly2TriOpen)
         {
             //将剖分三角缓冲画出来
-            for (int i = 0; i < triangles.size(); i++)
-            {
-                if(!triangles[i]->isHide)
-                {
-                    glColor3f(1, 0, 0);
-                    glBindVertexArray(PolyVAOs[i]);
-
-                    glDrawArrays(GL_LINE_LOOP, 0, 3);
-
-                }
-
-            }
+//            for (int i = 0; i < triangles.size(); i++)
+//            {
+//                if(!triangles[i]->isHide)
+//                {
+//                    glColor3f(1, 0, 0);
+//                    glBindVertexArray(PolyVAOs[i]);
+//
+//                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+//
+//                }
+//
+//            }
 
             if( isAddTra )
             {
