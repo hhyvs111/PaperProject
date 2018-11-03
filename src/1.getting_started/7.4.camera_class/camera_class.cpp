@@ -1213,8 +1213,6 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
 
 //        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
 //            continue;
-        //一个个三角画的，主要是找顶点，为什么会有不存在的店。
-        //0 0.24 1.5 比如这个点，有哦
 
         cout << "TraNumber:" << i << endl;
         for (int j = 0; j < 9; j++)
