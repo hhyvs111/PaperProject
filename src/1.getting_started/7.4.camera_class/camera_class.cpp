@@ -1147,17 +1147,7 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
         //一个个三角画的，主要是找顶点，为什么会有不存在的店。
         //0 0.24 1.5 比如这个点，有哦
 
-//        cout<<"TraNumber:"<<i<<endl;
-//        for(int j = 0 ;j < 9; j++)
-//        {
-//            cout<<TraVertex[j]<<" ";
-//            //应该是这里出错了，尼玛哦，看了我半天日了你爹
-//            if((j+1)%3 == 0)
-//            {
-//                cout<<endl;
-//            }
-//        }
-//        cout<<endl;
+
 
         //绑定到vbo里
         glBindVertexArray(DeVAOs[i]);
