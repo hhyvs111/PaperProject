@@ -1145,7 +1145,6 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
         TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
         TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
         //一个个三角画的，主要是找顶点，为什么会有不存在的店。
-        //0 0.24 1.5 比如这个点，有哦
 
 
 
