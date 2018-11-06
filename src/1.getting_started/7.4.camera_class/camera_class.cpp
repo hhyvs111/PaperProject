@@ -712,19 +712,19 @@ int main()
 
         if(Poly2TriOpen)
         {
-            //将剖分三角缓冲画出来
-//            for (int i = 0; i < triangles.size(); i++)
-//            {
-//                if(!triangles[i]->isHide)
-//                {
-//                    glColor3f(1, 0, 0);
-//                    glBindVertexArray(PolyVAOs[i]);
-//
-//                    glDrawArrays(GL_LINE_LOOP, 0, 3);
-//
-//                }
-//
-//            }
+//            将剖分三角缓冲画出来
+            for (int i = 0; i < triangles.size(); i++)
+            {
+                if(!triangles[i]->isHide)
+                {
+                    glColor3f(1, 0, 0);
+                    glBindVertexArray(PolyVAOs[i]);
+
+                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+
+                }
+
+            }
 
             if( isAddTra )
             {
@@ -1186,7 +1186,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
             if(c.isHide)
                 hideNumber++;
 
-            if(hideNumber >= 2)
+            if(hideNumber >= 3)
                 continue;
             TraVertex[0] = a.x;
             TraVertex[1] = a.y;
