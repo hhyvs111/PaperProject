@@ -102,10 +102,20 @@ int cntMove = 0;
 int cntBack = 0;
 //试一下这个是否有用啊。
 
-//顶点
-VERTEX *fault1_up, *fault1_down;
+//直接写一个二维数组来存数据，up为上层，down为下层
+VERTEX *faultUp[1024], *faultDown[1024];
+
+//断层VAO
+unsigned int faultUpVBO[1024], faultUpVAO[1024], faultDownVBO[1024], faultDownVAO[1024];
+
+//框架数据
+unsigned int faceVBO[2], faceVAO[2];
+
+
 VERTEX *fault2_up, *fault2_down;
 
+//这个值为断层个数，现在暂时定为1个
+int modelNum = 2;
 
 Delaunay *del;
 unsigned int DelTraVBOs[1024], DelTraVAOs[1024];
@@ -116,7 +126,11 @@ bool isAddTra = false;
 unsigned int EarVBOs[1024], EarVAOs[1024];
 
 //全局变量，用来平移之类的
-float fault1[2][30] = {
+
+
+//搞个三维数组玩玩
+float faultData[1024][2][30] = {
+        {
         {
                 0.5f, 0.15f, -0.5f + 1.0f,
                 0.41f, 0.29f, -0.5f + 1.0f,
@@ -147,42 +161,62 @@ float fault1[2][30] = {
                 0.4f, -0.26f, -0.5f + 1.0f,
                 0.5f, -0.29f, -0.5f + 1.0f,
         }
-//            0.5f, 0.4f,   -0.5f+ 1.0f,
+        }
+        ,
+        {
+                {
+                        0.5f, 0.15f,  -0.5f ,
+                        0.39f, 0.25f,  -0.5f ,
+                        0.28f, 0.30f,  -0.5f ,
+                        0.13f, 0.28f,  -0.5f ,
+                        0.0f, 0.25f,  -0.5f ,
+                        -0.15f, 0.19f,  -0.5f ,
+                        -0.24f, 0.22f, -0.5f,
+                        -0.30f, 0.25f,  -0.5f ,
+                        -0.41f, 0.20f,  -0.5f ,
+                        -0.5f, 0.22f,  -0.5f }
+                //这个点是尼玛外面的点吧
+//            -0.5f, 0.5f, -0.5f ,
+//            -0.5f, 0.22f,  -0.5f ,
+                //怎么这个点重复了，有毒。
+                //x下层
+                ,
+                {
+                        -0.5f, -0.24f,  -0.5f ,
+                        -0.41f, -0.23f,  -0.5f ,
+                        -0.29f, -0.23f,  -0.5f ,
+                        -0.23f, -0.29f,  -0.5f ,
+                        -0.05f, -0.32f,  -0.5f ,
+                        0.08f, -0.31f,  -0.5f ,
+                        0.19f, -0.25f,  -0.5f ,
+                        0.29f, -0.3f,  -0.5f ,
+                        0.4f, -0.26f,  -0.5f ,
+                        0.5f, -0.29f, -0.5f }
+        }
+};
+
+//这个就主要是框架的数据
+float faceData[1024][12] = {
+        {
+                -0.5f, 0.5f,  -0.5f,
+                0.5f, 0.5f,  -0.5f,
+                0.5f, -0.5f, -0.5f,
+                -0.5f,-0.5f,  -0.5f
+        },
+        {
+                -0.5f, 0.5f,  -0.5f + 1.0f,
+                0.5f, 0.5f,  -0.5f+ 1.0f,
+                0.5f, -0.5f, -0.5f+ 1.0f,
+                -0.5f,-0.5f,  -0.5f+ 1.0f
+        }
 };
 
 //第二个平面的断层
 //这种断层数据不要一样，主要是这个z坐标的区别。
-float fault2[2][30] = {
-        {
-            0.5f, 0.15f,  -0.5f ,
-                0.39f, 0.25f,  -0.5f ,
-                0.28f, 0.30f,  -0.5f ,
-                0.13f, 0.28f,  -0.5f ,
-                0.0f, 0.25f,  -0.5f ,
-                -0.15f, 0.19f,  -0.5f ,
-                -0.24f, 0.22f, -0.5f,
-                -0.30f, 0.25f,  -0.5f ,
-                -0.41f, 0.20f,  -0.5f ,
-                -0.5f, 0.22f,  -0.5f}
-        //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-        //怎么这个点重复了，有毒。
-        //x下层
-        ,
-        {
-            -0.5f, -0.24f,  -0.5f ,
-                -0.41f, -0.23f,  -0.5f ,
-                -0.29f, -0.23f,  -0.5f ,
-                -0.23f, -0.29f,  -0.5f ,
-                -0.05f, -0.32f,  -0.5f ,
-                0.08f, -0.31f,  -0.5f ,
-                0.19f, -0.25f,  -0.5f ,
-                0.29f, -0.3f,  -0.5f ,
-                0.4f, -0.26f,  -0.5f ,
-                0.5f, -0.29f, -0.5f }
-//            0.5f, 0.4f,   -0.5f ,
-};
+//float fault2[2][30] = {
+//
+////            0.5f, 0.4f,   -0.5f ,
+//};
 
 
 
@@ -264,19 +298,19 @@ int main()
     //六个面的坐标值
     
 
-    float cube1[] = {
-            -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-            0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-            -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
-    };
-
-    float cube22[] = {
-            -0.5f, 0.5f,  -0.5f + 1.0f,  0.0f, 0.0f,
-            0.5f, 0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f+ 1.0f,  0.0f, 0.0f,
-            -0.5f,-0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
-    };
+//    float cube1[] = {
+//            -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
+//            0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
+//            0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+//            -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
+//    };
+//
+//    float cube22[] = {
+//            -0.5f, 0.5f,  -0.5f + 1.0f,  0.0f, 0.0f,
+//            0.5f, 0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
+//            0.5f, -0.5f, -0.5f+ 1.0f,  0.0f, 0.0f,
+//            -0.5f,-0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
+//    };
     // world space positions of our cubes
     //正方体的位置
     glm::vec3 cubePositions[] = {
@@ -309,54 +343,85 @@ int main()
 //    cout<<sizeof(cube22)<<endl;
     //两个面
     unsigned int VBOs[2], VAOs[2];
-    glGenVertexArrays(2, VAOs);
-    glGenBuffers(2, VBOs);
 
-    //第一个矩形
-    glBindVertexArray(VAOs[0]);
+    //我尼玛，全都可以放在一个循环里了
+    for(int i = 0;i < modelNum; i++)
+    {
+        glGenVertexArrays(1, &faceVAO[i]);
+        glGenBuffers(1, &faceVBO[i]);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cube1), cube1, GL_STATIC_DRAW);
 
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    //第二个矩形
-    glBindVertexArray(VAOs[1]);
+        //第一个矩形
+        glBindVertexArray(faceVAO[i]);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cube22),cube22, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, faceVBO[i]);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(faceData[i]), faceData[i], GL_STATIC_DRAW);
 
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+        // position attribute
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+
+        //处理这个线
+        faultUp[i] = FloatToVertex(faultData[i][0], (sizeof(faultData[i][0])) / 4);
+        faultDown[i] = FloatToVertex(faultData[i][1], (sizeof(faultData[i][1])) / 4);
+
+        drawInit(faultUpVAO[i], faultUpVBO[i], faultUp[i], sizeof(faultData[i][0]) / 12);
+
+        drawInit(faultDownVAO[i], faultDownVBO[i], faultDown[i], sizeof(faultData[i][1]) / 12);
+
+    }
+//    glGenVertexArrays(2, VAOs);
+//    glGenBuffers(2, VBOs);
+//
+//
+//    //第一个矩形
+//    glBindVertexArray(VAOs[0]);
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(cube1), cube1, GL_STATIC_DRAW);
+//
+//    // position attribute
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+//    glEnableVertexAttribArray(0);
+//    //第二个矩形
+//    glBindVertexArray(VAOs[1]);
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(cube22),cube22, GL_STATIC_DRAW);
+//
+//    // position attribute
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+//    glEnableVertexAttribArray(0);
 
 
 //    VERTEX vertex[20];
 
    //分配空间,sizeof是120，那么要除以4啊。
-   fault1_up = FloatToVertex(fault1[0], (sizeof(fault1[0])) / 4);
-   fault1_down = FloatToVertex(fault1[1], (sizeof(fault1[1])) / 4);
+
+   //三维数组处理
+
+//   fault1_up = FloatToVertex(fault1[0], (sizeof(fault1[0])) / 4);
+//   fault1_down = FloatToVertex(fault1[1], (sizeof(fault1[1])) / 4);
 
     
    //把这个原来的线也要放进缓冲器
-    unsigned int fault1_upVBO, fault1_upVAO;
-    drawInit(fault1_upVAO, fault1_upVBO, fault1_up, sizeof(fault1[0]) / 12);
-    
-    unsigned int fault1_downVBO, fault1_downVAO;
-    drawInit(fault1_downVAO, fault1_downVBO, fault1_down, sizeof(fault1[1]) / 12);
-
-
-    fault2_up = FloatToVertex(fault2[0], (sizeof(fault2[0])) / 4);
-    fault2_down = FloatToVertex(fault2[1], (sizeof(fault2[1])) / 4);
-
-
-    //把这个原来的线也要放进缓冲器
-    unsigned int fault2_upVBO, fault2_upVAO;
-    drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
-
-    unsigned int fault2_downVBO, fault2_downVAO;
-    drawInit(fault2_downVAO, fault2_downVBO, fault2_down, sizeof(fault2[1]) / 12);
+//    unsigned int fault1_upVBO, fault1_upVAO;
+//    drawInit(fault1_upVAO, fault1_upVBO, fault1_up, sizeof(fault1[0]) / 12);
+//
+//    unsigned int fault1_downVBO, fault1_downVAO;
+//    drawInit(fault1_downVAO, fault1_downVBO, fault1_down, sizeof(fault1[1]) / 12);
+//
+//
+//    fault2_up = FloatToVertex(fault2[0], (sizeof(fault2[0])) / 4);
+//    fault2_down = FloatToVertex(fault2[1], (sizeof(fault2[1])) / 4);
+//
+//
+//    //把这个原来的线也要放进缓冲器
+//    unsigned int fault2_upVBO, fault2_upVAO;
+//    drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
+//
+//    unsigned int fault2_downVBO, fault2_downVAO;
+//    drawInit(fault2_downVAO, fault2_downVBO, fault2_down, sizeof(fault2[1]) / 12);
     
 
     
@@ -659,12 +724,16 @@ int main()
 //可以直接画，那么就传入那个顶点数组好了。
 
         //两条线，数据还是要改一下
-        glBindVertexArray(fault1_upVAO);
-        //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
-        glDrawArrays(GL_LINE_STRIP,0 , sizeof(fault1[0]) / 12);
+        for(int i = 0; i < modelNum; i++)
+        {
+            glBindVertexArray(faultUpVAO[i]);
+            //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
+            glDrawArrays(GL_LINE_STRIP,0 , sizeof(faultData[i][0]) / 12);
 
-        glBindVertexArray(fault1_downVAO);
-        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1[1])) / 12);
+            glBindVertexArray(faultDownVAO[i]);
+            glDrawArrays(GL_LINE_STRIP,0 , (sizeof(faultData[i][1])) / 12);
+        }
+
 
 
 
@@ -686,12 +755,12 @@ int main()
             del->Init((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
 
         }
-        glBindVertexArray(fault2_upVAO);
-        //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
-        glDrawArrays(GL_LINE_STRIP, 0 , sizeof(fault2[0]) / 12);
-
-        glBindVertexArray(fault2_downVAO);
-        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault2[1])) / 12);
+//        glBindVertexArray(fault2_upVAO);
+//        //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
+//        glDrawArrays(GL_LINE_STRIP, 0 , sizeof(fault2[0]) / 12);
+//
+//        glBindVertexArray(fault2_downVAO);
+//        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault2[1])) / 12);
 //
 //        glBindVertexArray(fault1VAO);
 //        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1))/12);
@@ -763,10 +832,8 @@ int main()
     glDeleteVertexArrays(del->HowMany + 1 , DelTraVAOs);
     glDeleteBuffers(del->HowMany + 1, DelTraVBOs);
 
-    delete []fault1_up;
-    delete []fault1_down;
-    delete []fault2_up;
-    delete []fault2_down;
+    delete []faultUp[1024];
+    delete []faultDown[1024];
 
 //    glDeleteVertexArrays(1,&DelaunayVAO);
 //    glDeleteBuffers(1, &DelaunayVBO);
@@ -1492,6 +1559,16 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
     extraTriangles.push_back(VertexToTriangle(centerPoint, oppositePointTwo, oppositePointOne));
 
 //    AddTriBind(AddVAOs, AddVBOs, extraTriangles);
+}
+
+//把所有的线都移过去！
+//有num组线需要移动
+void MoveTheLine(int num)
+{
+    for(int i = 0; i < num; i++)
+    {
+        while(faultIntersect())
+    }
 }
 
 //判断直线是否相交
