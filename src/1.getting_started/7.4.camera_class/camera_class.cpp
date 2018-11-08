@@ -102,7 +102,7 @@ int cntMove = 0;
 int cntBack = 0;
 //试一下这个是否有用啊。
 
-//直接写一个二维数组来存数据，up为上层，down为下层
+//直接写一个指针数组来存数据，up为上层，down为下层
 VERTEX *faultUp[1024], *faultDown[1024];
 
 //断层VAO
@@ -112,7 +112,7 @@ unsigned int faultUpVBO[1024], faultUpVAO[1024], faultDownVBO[1024], faultDownVA
 unsigned int faceVBO[2], faceVAO[2];
 
 
-VERTEX *fault2_up, *fault2_down;
+//VERTEX *fault2_up, *fault2_down;
 
 //这个值为断层个数，现在暂时定为1个
 int modelNum = 2;
@@ -342,7 +342,7 @@ int main()
 //    cout<<sizeof(*(outside[0])) * 4<<endl;
 //    cout<<sizeof(cube22)<<endl;
     //两个面
-    unsigned int VBOs[2], VAOs[2];
+//    unsigned int VBOs[2], VAOs[2];
 
     //我尼玛，全都可以放在一个循环里了
     for(int i = 0;i < modelNum; i++)
@@ -691,7 +691,7 @@ int main()
 
         // render boxes
         //为什么只画了一个点？
-        glBindVertexArray(VAOs[0]);
+        glBindVertexArray(faceVAO[0]);
         for (unsigned int i = 0; i < 1; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
@@ -705,7 +705,7 @@ int main()
             glDrawArrays(GL_LINE_LOOP, 0, 4);
         }
         //绑定顶点数组
-        glBindVertexArray(VAOs[1]);
+        glBindVertexArray(faceVAO[1]);
         for (unsigned int i = 0; i < 1; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
@@ -741,18 +741,18 @@ int main()
         {
             cntMove = 1;
             //重新载入一下，加入缓冲
-            drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
+            drawInit(faultUpVAO[1], faultUpVBO[1], faultUp[1], sizeof(faultData[1]) / 12);
 
-            del->Init((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
+            del->Init((faultMerge(faultUp[0], 10, faultUp[1], 10)), 20);
 
         }
         if(moveBack && cntBack == 0)
         {
             cntBack = 1;
             //重新载入一下，加入缓冲
-            drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
+            drawInit(faultUpVAO[0], faultUpVBO[0], faultUp[1], sizeof(faultData[0]) / 12);
 
-            del->Init((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
+            del->Init((faultMerge(faultUp[0], 10, faultUp[1], 10)), 20);
 
         }
 //        glBindVertexArray(fault2_upVAO);
@@ -827,13 +827,14 @@ int main()
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    glDeleteVertexArrays(2, VAOs);
-    glDeleteBuffers(2, VBOs);
+    glDeleteVertexArrays(1024, faceVAO);
+    glDeleteBuffers(1024, faceVBO);
     glDeleteVertexArrays(del->HowMany + 1 , DelTraVAOs);
     glDeleteBuffers(del->HowMany + 1, DelTraVBOs);
 
-    delete []faultUp[1024];
-    delete []faultDown[1024];
+    //这里不能直接释放1024，有很多都没有分配
+    delete []faultUp[modelNum];
+    delete []faultDown[modelNum];
 
 //    glDeleteVertexArrays(1,&DelaunayVAO);
 //    glDeleteBuffers(1, &DelaunayVBO);
@@ -872,7 +873,7 @@ void processInput(GLFWwindow *window)
             cout<<"delaunay"<<endl;
             //在这里计算del
             //按了键才进行三角剖分，那么我改的话键是按了键后将输入存入进去，然后开始剖分。获取三角，
-            del->Init(faultMerge(fault1_up, 10, fault2_up, 10), 20);
+            del->Init(faultMerge(faultUp[0], 10, faultUp[1], 10), 20);
             //绑定缓冲
             DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
             //打开剖分
@@ -888,7 +889,7 @@ void processInput(GLFWwindow *window)
         {
             cout<<"poly2tri"<<endl;
 
-            VERTEX *Merge = faultMerge(fault1_up, 10, fault2_up, 10);
+            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
             //将vertex的xy坐标输入到这个poly
             for(int i = 0;i < 20; i++)
             {
@@ -936,7 +937,7 @@ void processInput(GLFWwindow *window)
         {
             cout<<"poly2tri"<<endl;
 
-            VERTEX *Merge = faultMerge(fault1_up, 10, fault2_up, 10);
+            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
             //这里只能这样定义？
             //将Merge输入到arrays里，能直接用这个VERTEX输入进去
             vector<Points> lines;
@@ -984,8 +985,8 @@ void processInput(GLFWwindow *window)
        //主要是移动一下z轴，先试试。
        if(!faultMove)
        {
-           faultMoveFunction(fault2_up, 10, 1.0f, zD);
-           faultMoveFunction(fault2_up, 10, -0.25f, yD);
+           faultMoveFunction(faultUp[1], 10, 1.0f, zD);
+           faultMoveFunction(faultUp[1], 10, -0.25f, yD);
 //           for(int i = 0 ;i < 10;i++)
 //           {
 //               cout<<fault2_up[i].x<<" test ";
@@ -1012,8 +1013,8 @@ void processInput(GLFWwindow *window)
             //移动过来的线要移动回去啊
             moveBack = true;
 
-            faultMoveFunction(fault2_up, 10, -1.0f, zD);
-            faultMoveFunction(fault2_up, 10, 0.25f, yD);
+            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
+            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
         }
         //这个back可以分多种情况
         else if(!moveBack && EarCutOpen)
@@ -1030,14 +1031,14 @@ void processInput(GLFWwindow *window)
                 EarCutBind(EarVAOs, EarVBOs, indices);
             }
             moveBack = true;
-            faultMoveFunction(fault2_up, 10, -1.0f, zD);
-            faultMoveFunction(fault2_up, 10, 0.25f, yD);
+            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
+            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
         }
         else if(!moveBack && Poly2TriOpen)
         {
             //先移动
-            faultMoveFunction(fault2_up, 10, -1.0f, zD);
-            faultMoveFunction(fault2_up, 10, 0.25f, yD);
+            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
+            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
             //获取初始三角现在要改变这个三角里的数据
             for (int i = 0; i < triangles.size(); i++)
             {
@@ -1080,7 +1081,7 @@ void processInput(GLFWwindow *window)
                     t.HidePoints();
                     isAddTra = true;
                     //处理后得到一个d，这个d可以用来干嘛呢？
-                    ExcessTraHandle(&t, fault2_up, 10);
+                    ExcessTraHandle(&t, faultUp[1], 10);
                 }
                 if(pointsInLineTwo == 3)
                 {
@@ -1088,7 +1089,7 @@ void processInput(GLFWwindow *window)
                     t.HidePoints();
                     isAddTra = true;
                     //对移动到对面的三角搞事
-                    ExcessTraHandle(&t, fault1_up, 10);
+                    ExcessTraHandle(&t, faultUp[0], 10);
                 }
             }
             //重新绑定
@@ -1563,13 +1564,13 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
 
 //把所有的线都移过去！
 //有num组线需要移动
-void MoveTheLine(int num)
-{
-    for(int i = 0; i < num; i++)
-    {
-        while(faultIntersect())
-    }
-}
+//void MoveTheLine(int num)
+//{
+//    for(int i = 0; i < num; i++)
+//    {
+//        while(faultIntersect())
+//    }
+//}
 
 //判断直线是否相交
 //bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)

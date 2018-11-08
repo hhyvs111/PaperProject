@@ -53,6 +53,8 @@ VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
 
 void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection)
 {
+    if(vertex == NULL)
+        return;
     cout<<"movefunction"<<endl;
     //先写一下这个yd得了
     if(whichDirection == xD)
