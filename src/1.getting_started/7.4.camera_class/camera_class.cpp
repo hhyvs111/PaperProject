@@ -739,6 +739,10 @@ int main()
 
         if(faultMove && cntMove == 0)
         {
+
+
+
+
             cntMove = 1;
             //重新载入一下，加入缓冲
             drawInit(faultUpVAO[1], faultUpVBO[1], faultUp[1], sizeof(faultData[1]) / 12);
@@ -1254,7 +1258,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
             if(c.isHide)
                 hideNumber++;
 
-            if(hideNumber >= 3)
+            if(hideNumber >= 1)
                 continue;
             TraVertex[0] = a.x;
             TraVertex[1] = a.y;
@@ -1497,24 +1501,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
             left = b->PointToVertex();
             right = a->PointToVertex();
         }
-//        //统一一下方向，都是减去该值。
-////        Triangle *triangle = new Triangle(*c, *b, centerPoint);
-//
-//        //接下来要构造几个三角了
-//        extraTriangles->push_back(new Triangle(*c, *b, centerPoint));
-//        extraTriangles->push_back(new Triangle(*c, *a, centerPoint));
-//
-//        //要判断一下这个点是否在同一侧，那么就判断他们的序号值好了
-//        if(a->index < b->index)
-//        {
-//            extraTriangles->push_back(new Triangle(*a, centerPoint, oppositePointOne));
-//            extraTriangles->push_back(new Triangle(*b, centerPoint, oppositePointTwo));
-//        }
-//        else
-//        {
-//            extraTriangles->push_back(new Triangle(*b, centerPoint, oppositePointOne));
-//            extraTriangles->push_back(new Triangle(*a, centerPoint, oppositePointTwo));
-//        }
+
     }
     else if( Lines == ac)
     {
