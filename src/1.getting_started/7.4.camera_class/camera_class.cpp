@@ -55,19 +55,19 @@ vector<Point*> CreateHeadHole();
 vector<Point*> CreateChestHole();
 
 /// Constrained triangles
-vector<Triangle*> triangles;
+vector<Triangle*> triangles[1024];
 /// Triangle map
-list<Triangle*> map;
+list<Triangle*> map[1024];
 /// Polylines
 //这个好像还是个二维数组？有点牛批
 vector< vector<Point*> > polylines;
 
-vector<p2t::Point*> polyline;
+vector<p2t::Point*> polyline[1024];
 //这个是用开画图的？
-CDT* cdt;
+CDT* cdt[1024];
 
 //多出的三角形
-vector<AddTriangle> extraTriangles;
+vector<AddTriangle> extraTriangles[1024];
 
 
 // settings
@@ -127,6 +127,8 @@ unsigned int EarVBOs[1024], EarVAOs[1024];
 
 //全局变量，用来平移之类的
 
+//这个变量用来来记录面里平移的长度，一个面有两条线。每条线有三个方位的平移值
+moveSize falutMoveSize[1024][2][3];
 
 //搞个三维数组玩玩
 float faultData[1024][2][30] = {
@@ -243,7 +245,9 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriang
 void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> indices);
 
 
-void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num);
+void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vector<AddTriangle> extraTriangles);
+
+void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index, int which);
 
 int main()
 {
@@ -655,6 +659,41 @@ int main()
 //
 //    }
 
+    //开始全自动处理,减1是因为n个面只做n-1次处理
+    for(int i = 0; i < modelNum - 1; i++)
+    {
+        //主要也是这个循环，感觉这个循环可以做很多事了。
+
+        //平移
+
+        moveFunction(faultUp[i], 10, faultUp[i+1], 10, i, 0);
+        cout << faultUp[i][1].z << endl;
+        cout << faultUp[i+1][1].z << endl;
+        moveFunction(faultDown[i], 10, faultDown[i+1], 10, i, 1);
+
+        //测试效果
+        drawInit(faultUpVAO[i+1], faultUpVBO[i+1], faultUp[i+1], sizeof(faultData[i+1][0]) / 12);
+        drawInit(faultDownVAO[i+1], faultDownVBO[i+1], faultDown[+1], sizeof(faultData[i+1][1]) / 12);
+        //平移完后就开始三角化
+
+
+//        int moveDirectionCnt = 0;
+//        falutMoveSize[i][0][moveDirectionCnt].size = faultUp[i+1]->z - faultUp[i]->z;
+//        falutMoveSize[i][0][moveDirectionCnt].md = zD;
+//        faultMoveFunction(faultUp[i+1], 10,falutMoveSize[i][0][moveDirectionCnt].size, falutMoveSize[i][0][moveDirectionCnt].md);
+//        moveDirectionCnt++;
+//
+//        float yMoveSize = 0.0f;
+//        while( !faultIntersect(faultUp[i], 10, faultUp[i+1], 10) )
+//        {
+//            //一般是只要平移这个y轴？这样以后处理不了转弯的情况了。
+//            falutMoveSize[i][0][moveDirectionCnt].size = (yMoveSize += -0.25f);
+//            falutMoveSize[i][0][moveDirectionCnt].md = yD;
+//            faultMoveFunction(faultUp[i+1], 10, falutMoveSize[i][0][moveDirectionCnt].size, falutMoveSize[i][0][moveDirectionCnt].md);
+//        }
+
+
+    }
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -745,6 +784,7 @@ int main()
 
             cntMove = 1;
             //重新载入一下，加入缓冲
+            drawInit(faultUpVAO[0], faultUpVBO[0], faultUp[0], sizeof(faultData[0]) / 12);
             drawInit(faultUpVAO[1], faultUpVBO[1], faultUp[1], sizeof(faultData[1]) / 12);
 
             del->Init((faultMerge(faultUp[0], 10, faultUp[1], 10)), 20);
@@ -754,7 +794,8 @@ int main()
         {
             cntBack = 1;
             //重新载入一下，加入缓冲
-            drawInit(faultUpVAO[0], faultUpVBO[0], faultUp[1], sizeof(faultData[0]) / 12);
+            drawInit(faultUpVAO[0], faultUpVBO[0], faultUp[0], sizeof(faultData[0]) / 12);
+            drawInit(faultUpVAO[1], faultUpVBO[1], faultUp[1], sizeof(faultData[1]) / 12);
 
             del->Init((faultMerge(faultUp[0], 10, faultUp[1], 10)), 20);
 
@@ -771,57 +812,57 @@ int main()
 //        glBindVertexArray(DelaunayVAO);
 //        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
 //
-        if(DelaunayOpen)
-        {
-            //将剖分三角缓冲画出来
-            for (int i = 1; i < del->HowMany + 1 ; i++)
-            {
-                glColor3f(1, 0, 0);
-                glBindVertexArray(DelTraVAOs[i]);
-
-                glDrawArrays(GL_LINE_LOOP, 0, 3);
-            }
-        }
-
-        if(Poly2TriOpen)
-        {
-//            将剖分三角缓冲画出来
-            for (int i = 0; i < triangles.size(); i++)
-            {
-                if(!triangles[i]->isHide)
-                {
-                    glColor3f(1, 0, 0);
-                    glBindVertexArray(PolyVAOs[i]);
-
-                    glDrawArrays(GL_LINE_LOOP, 0, 3);
-
-                }
-
-            }
-
-            if( isAddTra )
-            {
-                for(int i = 0; i < extraTriangles.size(); i++)
-                {
-//                    cout<<"add "<<i<<endl;
-                    glBindVertexArray(AddVAOs[i]);
-
-                    glDrawArrays(GL_LINE_LOOP, 0, 3);
-                }
-            }
-        }
-
-        if(EarCutOpen)
-        {
-            //将剖分三角缓冲画出来
-            for (int i = 0; i < EarTraSize; i++)
-            {
-                glColor3f(1, 0, 0);
-                glBindVertexArray(EarVAOs[i]);
-
-                glDrawArrays(GL_LINE_LOOP, 0, 3);
-            }
-        }
+//        if(DelaunayOpen)
+//        {
+//            //将剖分三角缓冲画出来
+//            for (int i = 1; i < del->HowMany + 1 ; i++)
+//            {
+//                glColor3f(1, 0, 0);
+//                glBindVertexArray(DelTraVAOs[i]);
+//
+//                glDrawArrays(GL_LINE_LOOP, 0, 3);
+//            }
+//        }
+//
+//        if(Poly2TriOpen)
+//        {
+////            将剖分三角缓冲画出来
+//            for (int i = 0; i < triangles.size(); i++)
+//            {
+//                if(!triangles[i]->isHide)
+//                {
+//                    glColor3f(1, 0, 0);
+//                    glBindVertexArray(PolyVAOs[i]);
+//
+//                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+//
+//                }
+//
+//            }
+//
+//            if( isAddTra )
+//            {
+//                for(int i = 0; i < extraTriangles.size(); i++)
+//                {
+////                    cout<<"add "<<i<<endl;
+//                    glBindVertexArray(AddVAOs[i]);
+//
+//                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+//                }
+//            }
+//        }
+//
+//        if(EarCutOpen)
+//        {
+//            //将剖分三角缓冲画出来
+//            for (int i = 0; i < EarTraSize; i++)
+//            {
+//                glColor3f(1, 0, 0);
+//                glBindVertexArray(EarVAOs[i]);
+//
+//                glDrawArrays(GL_LINE_LOOP, 0, 3);
+//            }
+//        }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -868,245 +909,245 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
-    {
-        //还是要设置一下绑定，不然总是触发多次。
-        //那还得加一个键啊，不然不能取消。
-        if(!DelaunayOpen)
-        {
-            cout<<"delaunay"<<endl;
-            //在这里计算del
-            //按了键才进行三角剖分，那么我改的话键是按了键后将输入存入进去，然后开始剖分。获取三角，
-            del->Init(faultMerge(faultUp[0], 10, faultUp[1], 10), 20);
-            //绑定缓冲
-            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
-            //打开剖分
-            DelaunayOpen = true;
-        }
-    }
-    //p 显示poly2tri
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-    {
-        //还是要设置一下绑定，不然总是触发多次。
-        //那还得加一个键啊，不然不能取消。
-        if(!Poly2TriOpen)
-        {
-            cout<<"poly2tri"<<endl;
-
-            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
-            //将vertex的xy坐标输入到这个poly
-            for(int i = 0;i < 20; i++)
-            {
-                double x = Merge[i].x;
-                double y = Merge[i].y;
-                double z = Merge[i].z;
-                Point *point = new Point(x,y);
-                point->z = z;
-                //加入序列号，看是否有用
-                point->index = i;
-                polyline.push_back(point);
-
-                cout << " double "<< x<< " " << y <<" "<< z <<endl;
-            }
-
-            //用完就删除
-            delete [] Merge;
-//        //将这个polyline输入到polylines里去，后者应该是这个集合？
-            polylines.push_back(polyline);
-
-            cdt = new CDT(polyline);
+//    if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
+//    {
+//        //还是要设置一下绑定，不然总是触发多次。
+//        //那还得加一个键啊，不然不能取消。
+//        if(!DelaunayOpen)
+//        {
+//            cout<<"delaunay"<<endl;
+//            //在这里计算del
+//            //按了键才进行三角剖分，那么我改的话键是按了键后将输入存入进去，然后开始剖分。获取三角，
+//            del->Init(faultMerge(faultUp[0], 10, faultUp[1], 10), 20);
+//            //绑定缓冲
+//            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
+//            //打开剖分
+//            DelaunayOpen = true;
+//        }
+//    }
+//    //p 显示poly2tri
+//    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+//    {
+//        //还是要设置一下绑定，不然总是触发多次。
+//        //那还得加一个键啊，不然不能取消。
+//        if(!Poly2TriOpen)
+//        {
+//            cout<<"poly2tri"<<endl;
 //
-//        //开始剖分
-            cdt->Triangulate();
-
-            //map是完整的剖分（包含空洞的剖分）？
-            map = cdt->GetMap();
-            triangles = cdt->GetTriangles();
-            cout << "the poly2tir Triangulate size :"<< triangles.size() << endl;
-
-
-
-
-            //开始绑定poly
-            Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
-            //这里有问题，多遍历了一边，要查询一下怎么清除
-            //打开剖分
-            Poly2TriOpen = true;
-        }
-    }
-    //开始耳切法
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    {
-        if(!EarCutOpen)
-        {
-            cout<<"poly2tri"<<endl;
-
-            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
-            //这里只能这样定义？
-            //将Merge输入到arrays里，能直接用这个VERTEX输入进去
-            vector<Points> lines;
-            // 不用数组，就单个就行了。
-            //个人感觉应该不行，
-            for(int i = 0; i < 20;i++)
-            {
-                Points array;
-                array.at(0) = Merge[i].x;
-                array.at(1) = Merge[i].y;
-                array.at(2) = Merge[i].z;
-                lines.push_back(array);
-            }
-            
-            //输入后再push到polygon
-            polygon.push_back(lines);
-
-            indices = mapbox::earcut<N>(polygon);
-            
-            
-            //这里写一个绑定函数，输入到缓冲里
-            EarCutBind(EarVAOs, EarVBOs, indices);
-
-            cout << "the indices size: " << indices.size() <<endl;
-            
-            EarCutOpen = true;
-        }
-    }
-    //f1取消显示del
-    if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
-    {
-        if(DelaunayOpen)
-            DelaunayOpen = false;
-    }
-    if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS)
-    {
-        if(Poly2TriOpen)
-            Poly2TriOpen = false;
-    }
-
-    //平移操作，如果按下则进行平移
-    if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
-    {
-        cout<<"move"<<endl;
-       //主要是移动一下z轴，先试试。
-       if(!faultMove)
-       {
-           faultMoveFunction(faultUp[1], 10, 1.0f, zD);
-           faultMoveFunction(faultUp[1], 10, -0.25f, yD);
-//           for(int i = 0 ;i < 10;i++)
-//           {
-//               cout<<fault2_up[i].x<<" test ";
-//               cout<<fault2_up[i].y<<" ";
-//               cout<<fault2_up[i].z<<endl;
-//           }
-           faultMove = true;
-       }
-
-    }
-    //剖分后平移回去，就直接改变坐标的点试试。
-    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
-    {
-        cout<<"back"<<endl;
-        //主要是移动一下z轴，先试试。
-        if(!moveBack && DelaunayOpen)
-        {
-            //把三角形里的平移回去
-            del->MoveVertex(11, 10, zD, -1.0f);
-            del->MoveVertex(11, 10, yD, 0.25f);
-            //更改了后要重新缓冲一下
-            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
-
-            //移动过来的线要移动回去啊
-            moveBack = true;
-
-            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
-            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
-        }
-        //这个back可以分多种情况
-        else if(!moveBack && EarCutOpen)
-        {
-            if(polygon.size() == 1)
-            {
-                //数据写的太死了！
-                for(int i = 10;i < 20; i++)
-                {
-                    polygon.at(0).at(i).at(1) += 0.25f;
-                    polygon.at(0).at(i).at(2) += -1.0f;
-
-                }
-                EarCutBind(EarVAOs, EarVBOs, indices);
-            }
-            moveBack = true;
-            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
-            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
-        }
-        else if(!moveBack && Poly2TriOpen)
-        {
-            //先移动
-            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
-            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
-            //获取初始三角现在要改变这个三角里的数据
-            for (int i = 0; i < triangles.size(); i++)
-            {
-                Triangle &t = *triangles[i];
-//                Point &a = *t.GetPoint(0);
-//                Point &b = *t.GetPoint(1);
-//                Point &c = *t.GetPoint(2);
-                //看是否该三角是在同一直线的，这种三角就需要插点。
-                int pointsInLineOne = 0;
-                int pointsInLineTwo = 0;
-
-                //现在是引用，应该可以改变结构体的数据吧
-                for(int j = 0 ;j < 3; j++)
-                {
-                    Point &point = *t.GetPoint(j);
-                    //好像这个不同的三角point数据也是共享的，那么猜测可能这个三角用的也是这个索引数据。
-                    //在point结构体里加个是否移动的属性
-                    if(point.index >= 10)
-                        pointsInLineTwo++;
-                    else
-                        pointsInLineOne++;
-                    if(point.index >= 10 && !point.isMove)
-                    {
-                        point.y += 0.25f;
-                        point.z += -1.0f;
-                        point.isMove = true;
-                    }
-                }
-                cout<< " the point " << pointsInLineOne<<endl;
-                cout<< " the point " << pointsInLineTwo<<endl;
-                cout<<endl;
-                //如果不需要平移的线段有多余三角
-                if(pointsInLineOne == 3)
-                {
-                    //对这个三角搞事情
-                    //这个三角要隐藏起来
-                    t.isHide = true;
-
-                    //直接隐藏这个点吧。
-                    t.HidePoints();
-                    isAddTra = true;
-                    //处理后得到一个d，这个d可以用来干嘛呢？
-                    ExcessTraHandle(&t, faultUp[1], 10);
-                }
-                if(pointsInLineTwo == 3)
-                {
-                    t.isHide = true;
-                    t.HidePoints();
-                    isAddTra = true;
-                    //对移动到对面的三角搞事
-                    ExcessTraHandle(&t, faultUp[0], 10);
-                }
-            }
-            //重新绑定
-            Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
-
-            if( isAddTra )
-            {
-               AddTriBind(AddVAOs, AddVBOs, extraTriangles);
-            }
-            moveBack = true;
-
-        }
-    }
+//            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
+//            //将vertex的xy坐标输入到这个poly
+//            for(int i = 0;i < 20; i++)
+//            {
+//                double x = Merge[i].x;
+//                double y = Merge[i].y;
+//                double z = Merge[i].z;
+//                Point *point = new Point(x,y);
+//                point->z = z;
+//                //加入序列号，看是否有用
+//                point->index = i;
+//                polyline.push_back(point);
+//
+//                cout << " double "<< x<< " " << y <<" "<< z <<endl;
+//            }
+//
+//            //用完就删除
+//            delete [] Merge;
+////        //将这个polyline输入到polylines里去，后者应该是这个集合？
+//            polylines.push_back(polyline);
+//
+//            cdt = new CDT(polyline);
+////
+////        //开始剖分
+//            cdt->Triangulate();
+//
+//            //map是完整的剖分（包含空洞的剖分）？
+//            map = cdt->GetMap();
+//            triangles = cdt->GetTriangles();
+//            cout << "the poly2tir Triangulate size :"<< triangles.size() << endl;
+//
+//
+//
+//
+//            //开始绑定poly
+//            Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
+//            //这里有问题，多遍历了一边，要查询一下怎么清除
+//            //打开剖分
+//            Poly2TriOpen = true;
+//        }
+//    }
+//    //开始耳切法
+//    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+//    {
+//        if(!EarCutOpen)
+//        {
+//            cout<<"poly2tri"<<endl;
+//
+//            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
+//            //这里只能这样定义？
+//            //将Merge输入到arrays里，能直接用这个VERTEX输入进去
+//            vector<Points> lines;
+//            // 不用数组，就单个就行了。
+//            //个人感觉应该不行，
+//            for(int i = 0; i < 20;i++)
+//            {
+//                Points array;
+//                array.at(0) = Merge[i].x;
+//                array.at(1) = Merge[i].y;
+//                array.at(2) = Merge[i].z;
+//                lines.push_back(array);
+//            }
+//
+//            //输入后再push到polygon
+//            polygon.push_back(lines);
+//
+//            indices = mapbox::earcut<N>(polygon);
+//
+//
+//            //这里写一个绑定函数，输入到缓冲里
+//            EarCutBind(EarVAOs, EarVBOs, indices);
+//
+//            cout << "the indices size: " << indices.size() <<endl;
+//
+//            EarCutOpen = true;
+//        }
+//    }
+//    //f1取消显示del
+//    if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
+//    {
+//        if(DelaunayOpen)
+//            DelaunayOpen = false;
+//    }
+//    if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS)
+//    {
+//        if(Poly2TriOpen)
+//            Poly2TriOpen = false;
+//    }
+//
+//    //平移操作，如果按下则进行平移
+//    if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+//    {
+//        cout<<"move"<<endl;
+//       //主要是移动一下z轴，先试试。
+//       if(!faultMove)
+//       {
+//           faultMoveFunction(faultUp[1], 10, 1.0f, zD);
+//           faultMoveFunction(faultUp[1], 10, -0.25f, yD);
+////           for(int i = 0 ;i < 10;i++)
+////           {
+////               cout<<fault2_up[i].x<<" test ";
+////               cout<<fault2_up[i].y<<" ";
+////               cout<<fault2_up[i].z<<endl;
+////           }
+//           faultMove = true;
+//       }
+//
+//    }
+//    //剖分后平移回去，就直接改变坐标的点试试。
+//    if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
+//    {
+//        cout<<"back"<<endl;
+//        //主要是移动一下z轴，先试试。
+//        if(!moveBack && DelaunayOpen)
+//        {
+//            //把三角形里的平移回去
+//            del->MoveVertex(11, 10, zD, -1.0f);
+//            del->MoveVertex(11, 10, yD, 0.25f);
+//            //更改了后要重新缓冲一下
+//            DelaunayBind(DelTraVAOs, DelTraVBOs, del->HowMany, del);
+//
+//            //移动过来的线要移动回去啊
+//            moveBack = true;
+//
+//            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
+//            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
+//        }
+//        //这个back可以分多种情况
+//        else if(!moveBack && EarCutOpen)
+//        {
+//            if(polygon.size() == 1)
+//            {
+//                //数据写的太死了！
+//                for(int i = 10;i < 20; i++)
+//                {
+//                    polygon.at(0).at(i).at(1) += 0.25f;
+//                    polygon.at(0).at(i).at(2) += -1.0f;
+//
+//                }
+//                EarCutBind(EarVAOs, EarVBOs, indices);
+//            }
+//            moveBack = true;
+//            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
+//            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
+//        }
+//        else if(!moveBack && Poly2TriOpen)
+//        {
+//            //先移动
+//            faultMoveFunction(faultUp[1], 10, -1.0f, zD);
+//            faultMoveFunction(faultUp[1], 10, 0.25f, yD);
+//            //获取初始三角现在要改变这个三角里的数据
+//            for (int i = 0; i < triangles.size(); i++)
+//            {
+//                Triangle &t = *triangles[i];
+////                Point &a = *t.GetPoint(0);
+////                Point &b = *t.GetPoint(1);
+////                Point &c = *t.GetPoint(2);
+//                //看是否该三角是在同一直线的，这种三角就需要插点。
+//                int pointsInLineOne = 0;
+//                int pointsInLineTwo = 0;
+//
+//                //现在是引用，应该可以改变结构体的数据吧
+//                for(int j = 0 ;j < 3; j++)
+//                {
+//                    Point &point = *t.GetPoint(j);
+//                    //好像这个不同的三角point数据也是共享的，那么猜测可能这个三角用的也是这个索引数据。
+//                    //在point结构体里加个是否移动的属性
+//                    if(point.index >= 10)
+//                        pointsInLineTwo++;
+//                    else
+//                        pointsInLineOne++;
+//                    if(point.index >= 10 && !point.isMove)
+//                    {
+//                        point.y += 0.25f;
+//                        point.z += -1.0f;
+//                        point.isMove = true;
+//                    }
+//                }
+//                cout<< " the point " << pointsInLineOne<<endl;
+//                cout<< " the point " << pointsInLineTwo<<endl;
+//                cout<<endl;
+//                //如果不需要平移的线段有多余三角
+//                if(pointsInLineOne == 3)
+//                {
+//                    //对这个三角搞事情
+//                    //这个三角要隐藏起来
+//                    t.isHide = true;
+//
+//                    //直接隐藏这个点吧。
+//                    t.HidePoints();
+//                    isAddTra = true;
+//                    //处理后得到一个d，这个d可以用来干嘛呢？
+//                    ExcessTraHandle(&t, faultUp[1], 10);
+//                }
+//                if(pointsInLineTwo == 3)
+//                {
+//                    t.isHide = true;
+//                    t.HidePoints();
+//                    isAddTra = true;
+//                    //对移动到对面的三角搞事
+//                    ExcessTraHandle(&t, faultUp[0], 10);
+//                }
+//            }
+//            //重新绑定
+//            Poly2TriBind(PolyVAOs, PolyVBOs, triangles);
+//
+//            if( isAddTra )
+//            {
+//               AddTriBind(AddVAOs, AddVBOs, extraTriangles);
+//            }
+//            moveBack = true;
+//
+//        }
+//    }
     //剖分后平移回去，就直接改变坐标的点试试。
 //    if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
 //    {
@@ -1416,7 +1457,7 @@ void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> i
 
 
 //多余的三角形，需要处理掉
-void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
+void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vector<AddTriangle> extraTriangles)
 {
     //从三角里找到需要处理的那条线,如果序列号不是相邻的那么就是相邻的线
     Point *a = _triangle->GetPoint(0);
@@ -1549,15 +1590,29 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num)
 //    AddTriBind(AddVAOs, AddVBOs, extraTriangles);
 }
 
-//把所有的线都移过去！
-//有num组线需要移动
-//void MoveTheLine(int num)
-//{
-//    for(int i = 0; i < num; i++)
-//    {
-//        while(faultIntersect())
-//    }
-//}
+
+
+void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index, int which)
+{
+    cout << " move" << endl;
+    int moveDirectionCnt = 0;
+    falutMoveSize[index][which][moveDirectionCnt].size = fault1->z - fault2->z;
+    cout << falutMoveSize[index][which][moveDirectionCnt].size <<endl;
+    falutMoveSize[index][which][moveDirectionCnt].md = zD;
+    faultMoveFunction(fault2, num1,falutMoveSize[index][which][moveDirectionCnt].size, falutMoveSize[index][which][moveDirectionCnt].md);
+    moveDirectionCnt++;
+
+    float yMoveSize = 0.0f;
+    while( !faultIntersect(fault1, num1, fault2, num2) )
+    {
+        //一般是只要平移这个y轴？这样以后处理不了转弯的情况了。
+        falutMoveSize[index][which][moveDirectionCnt].size = (yMoveSize += -0.1f);
+        falutMoveSize[index][which][moveDirectionCnt].md = yD;
+        faultMoveFunction(fault2, num1, falutMoveSize[index][which][moveDirectionCnt].size, falutMoveSize[index][which][moveDirectionCnt].md);
+    }
+}
+
+
 
 //判断直线是否相交
 //bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)

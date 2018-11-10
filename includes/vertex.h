@@ -29,12 +29,13 @@ typedef struct tagAddTriangle
 enum moveDirection {
     xD,
     yD,
-    zD,
-    xyD,
-    xzD,
-    yzD,
-    xyzD
+    zD
 };
+
+typedef struct tagMoveSize{
+    float size;
+    moveDirection md;
+}moveSize;
 
 float * VertexToFloat(VERTEX vertex[], int num);
 
