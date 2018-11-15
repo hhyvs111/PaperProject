@@ -31,6 +31,8 @@ VERTEX * FloatToVertex(float _float[], int num)
         vertex[i].y = _float[j++];
         vertex[i].z = _float[j++];
 
+//        cout << " the z " << vertex[i].z << endl;
+
     }
     return vertex;
 }
@@ -55,7 +57,7 @@ void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirecti
 {
     if(vertex == NULL)
         return;
-    cout<<"movefunction"<<endl;
+//    cout<<"movefunction"<<endl;
     //先写一下这个yd得了
     if(whichDirection == xD)
     {

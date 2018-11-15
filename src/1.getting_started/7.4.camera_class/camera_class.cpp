@@ -326,7 +326,7 @@ void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int inde
 
 void poly2Tri(VERTEX * Merge, int num, int index);
 
-void lineBack(VERTEX * _faultUp, int num1, int index);
+void lineBack(VERTEX * _faultUp, int num1, int indexLine, int indexTra);
 
 int main()
 {
@@ -446,6 +446,7 @@ int main()
 
         //处理这个线
         faultUp[i] = FloatToVertex(faultData[i][0], (sizeof(faultData[i][0])) / 4);
+//        cout << "the z " << faultUp[i][0].z << endl;
         faultDown[i] = FloatToVertex(faultData[i][1], (sizeof(faultData[i][1])) / 4);
 
         drawInit(faultUpVAO[i], faultUpVBO[i], faultUp[i], sizeof(faultData[i][0]) / 12);
@@ -739,31 +740,40 @@ int main()
 //    }
 
     //开始全自动处理,减1是因为n个面只做n-1次处理
-    for(int i = 0; i < modelNum - 1; i++)
+    for(int i = 0, j = 0; i < modelNum - 1; i++)
     {
         //主要也是这个循环，感觉这个循环可以做很多事了。
 
         //平移
-
+        cout << " before move " <<  faultUp[i][1].y << endl;
+        cout << " before move " <<  faultUp[i+1][1].y << endl;
         moveFunction(faultUp[i], 10, faultUp[i+1], 10, i, 0);
-        cout << faultUp[i][1].z << endl;
-        cout << faultUp[i+1][1].z << endl;
-        moveFunction(faultDown[i], 10, faultDown[i+1], 10, i+1 , 1);
+        cout << " after move " <<  faultUp[i][1].y << endl;
+        cout << " after move " <<  faultUp[i+1][1].y << endl;
+        moveFunction(faultDown[i], 10, faultDown[i+1], 10, i , 1);
 
         //测试效果
 
 
         //平移完后就开始三角化
-        //这里只处理一个面，但是这个面现在已经有4条线了，需要做这个处理。
-        poly2Tri(faultMerge(faultUp[i], 10, faultUp[i+1], 10), 20, i);
-        poly2Tri(faultMerge(faultDown[i], 10, faultDown[i+1], 10), 20, i + 1);
+        //这里的i和i+1不能这样用，这里的三角
+        poly2Tri(faultMerge(faultUp[i], 10, faultUp[i+1], 10), 20, j);
+        //不能用这个j，j和i没有对应
+
+        //i为线的值，但是要在里面判断一下是哪一条，可以通过j来判断
+        lineBack(faultUp[i+1], 10, i, j++ );
+        poly2Tri(faultMerge(faultDown[i], 10, faultDown[i+1], 10), 20, j);
+        lineBack(faultDown[i+1], 10, i, j++);
 //
 //        //计算多余三角和撤回
 //        //只算这个面的其中一半
-        lineBack(faultUp[i+1], 10, i);
-        cout <<i << " line back z " << faultUp[i+1][0].z << endl;
+
+
+        cout << i << " line back z - 1  " << faultUp[i][0].z << endl;
+        cout << i << " line back z " << faultUp[i+1][0].z << endl;
         //这里输出的时候，应该第二条线的z要回到了-0.5，但是这里还是显示0.5 说明完全没回去。
-        lineBack(faultDown[i+1], 10, i+1);
+
+        cout << i << " line back z " << faultDown[i+1][0].z << endl;
 
         drawInit(faultUpVAO[i+1], faultUpVBO[i+1], faultUp[i+1], sizeof(faultData[i+1][0]) / 12);
         drawInit(faultDownVAO[i+1], faultDownVBO[i+1], faultDown[+1], sizeof(faultData[i+1][1]) / 12);
@@ -914,8 +924,9 @@ int main()
 //
         if(Poly2TriOpen)
         {
-            for(int j = 0; j < modelNum; j++)
+            for(int j = 0; j < (modelNum - 1) * 2 ; j++)
             {
+//                cout << j << endl;
                 for (int i = 0; i < triangles[j].size(); i++)
                 {
                     if(!triangles[j][i]->isHide)
@@ -1692,14 +1703,15 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vecto
 
 void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index, int which)
 {
-    cout << " move" << endl;
+//    cout << " move" << endl;
+    //先平移z
     int moveDirectionCnt = 0;
     faultMoveSize[index][which][moveDirectionCnt].size = fault1->z - fault2->z;
-    cout << faultMoveSize[index][which][moveDirectionCnt].size <<endl;
+//    cout << faultMoveSize[index][which][moveDirectionCnt].size <<endl;
     faultMoveSize[index][which][moveDirectionCnt].md = zD;
     faultMoveFunction(fault2, num1,faultMoveSize[index][which][moveDirectionCnt].size, faultMoveSize[index][which][moveDirectionCnt].md);
     moveDirectionCnt++;
-
+    //平移y轴
     float yMoveSize = 0.0f;
     while( !faultIntersect(fault1, num1, fault2, num2) )
     {
@@ -1742,8 +1754,8 @@ void poly2Tri(VERTEX * Merge, int num, int index)
             //map是完整的剖分（包含空洞的剖分）？
             map[index] = cdt[index]->GetMap();
             triangles[index] = cdt[index]->GetTriangles();
-            cout << "the poly2tri index " <<index<<endl;
-            cout << "the poly2tir Triangulate size :"<< triangles[index].size() << endl;
+//            cout << "the poly2tri index " <<index<<endl;
+//            cout << "the poly2tir Triangulate size :"<< triangles[index].size() << endl;
 
 
 
@@ -1756,19 +1768,22 @@ void poly2Tri(VERTEX * Merge, int num, int index)
 }
 
 
-void lineBack(VERTEX * _fault, int num1, int index)
+void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
 {
+    //0 为上层， 1 为下层
     int line = 0;
-    if(index % 2 != 0)
+
+    //用indexTra来判断indexLine是上层还是下层
+    if((indexLine * 2) == (indexTra + 1))
         line = 1;
     //获取平移量,但是要判断一下这个是否有平移
     for(int j = 0;j < 3; j++)
     {
-        cout << " the size " << faultMoveSize[index][line][j].size<< endl;
-        cout << " the size dir " << faultMoveSize[index][line][j].md<< endl;
-        if(faultMoveSize[index][line][j].size == 0)
+//        cout << " the size " << faultMoveSize[index][line][j].size<< endl;
+//        cout << " the size dir " << faultMoveSize[index][line][j].md<< endl;
+        if(faultMoveSize[indexLine][line][j].size == 0)
             continue;
-        faultMoveFunction(_fault, num1,  0.0 - faultMoveSize[index][line][j].size, faultMoveSize[index][line][j].md);
+        faultMoveFunction(_fault, num1,  0.0 - faultMoveSize[indexLine][line][j].size, faultMoveSize[indexLine][line][j].md);
 //        faultMoveFunction(_faultDown, num2, 0.0 - faultMoveSize[index][1][j].size, faultMoveSize[index][1][j].md);
 
 //        drawInit(faultUpVAO[index], faultUpVBO[index], faultUp[index], sizeof(faultData[index]) / 12);
@@ -1778,11 +1793,11 @@ void lineBack(VERTEX * _fault, int num1, int index)
 
 
     //获取初始三角现在要改变这个三角里的数据
-    cout << "get in index:" << index <<endl;
-    cout << triangles[index].size() << endl;
-    for (int i = 0; i < triangles[index].size(); i++)
+    cout << "get in indexTra:" << indexTra <<endl;
+    cout << triangles[indexTra].size() << endl;
+    for (int i = 0; i < triangles[indexTra].size(); i++)
     {
-        Triangle &t = *triangles[index][i];
+        Triangle &t = *triangles[indexTra][i];
 //                Point &a = *t.GetPoint(0);
 //                Point &b = *t.GetPoint(1);
 //                Point &c = *t.GetPoint(2);
@@ -1794,7 +1809,7 @@ void lineBack(VERTEX * _fault, int num1, int index)
         for(int j = 0 ;j < 3; j++)
         {
             Point &point = *t.GetPoint(j);
-//            cout << "point.index" << point.index<<endl;
+//            cout << "point.indexTra" << point.indexTra<<endl;
             //好像这个不同的三角point数据也是共享的，那么猜测可能这个三角用的也是这个索引数据。
             //在point结构体里加个是否移动的属性
             if(point.index >= 10)
@@ -1809,16 +1824,16 @@ void lineBack(VERTEX * _fault, int num1, int index)
                     //判断是上面的线还是下面的线，一半双数是上面的线，单数是下面的线
                     //0为上
 
-                    if(faultMoveSize[index][line][j].size == 0)
+                    if(faultMoveSize[indexLine][line][j].size == 0)
                         continue;
-//                    cout << "index " << index<<endl;
-//                    cout << "the size : " << faultMoveSize[index][line][j].size<< endl;
-                    if(faultMoveSize[index][line][j].md == xD)
-                        point.x -= faultMoveSize[index][line][j].size;
-                    else if (faultMoveSize[index][line][j].md == yD)
-                        point.y -= faultMoveSize[index][line][j].size;
+//                    cout << "indexTra " << indexTra<<endl;
+//                    cout << "the size : " << faultMoveSize[indexTra][line][j].size<< endl;
+                    if(faultMoveSize[indexLine][line][j].md == xD)
+                        point.x -= faultMoveSize[indexLine][line][j].size;
+                    else if (faultMoveSize[indexLine][line][j].md == yD)
+                        point.y -= faultMoveSize[indexLine][line][j].size;
                     else
-                        point.z -= faultMoveSize[index][line][j].size;
+                        point.z -= faultMoveSize[indexLine][line][j].size;
                 }
 //                point.y += 0.25f;
 //                point.z += -1.0f;
@@ -1837,25 +1852,25 @@ void lineBack(VERTEX * _fault, int num1, int index)
 
             //直接隐藏这个点吧。
             t.HidePoints();
-            isAddTra[index] = true;
+            isAddTra[indexTra] = true;
             //处理后得到一个d，这个d可以用来干嘛呢？
-            ExcessTraHandle(&t, faultUp[1], 10, extraTriangles[index]);
+            ExcessTraHandle(&t, faultUp[1], 10, extraTriangles[indexTra]);
         }
         if(pointsInLineTwo == 3)
         {
             t.isHide = true;
             t.HidePoints();
-            isAddTra[index] = true;
+            isAddTra[indexTra] = true;
             //对移动到对面的三角搞事
-            ExcessTraHandle(&t, faultUp[0], 10, extraTriangles[index]);
+            ExcessTraHandle(&t, faultUp[0], 10, extraTriangles[indexTra]);
         }
     }
     //重新绑定
-    Poly2TriBind(PolyVAOs[index], PolyVBOs[index], triangles[index]);
+    Poly2TriBind(PolyVAOs[indexTra], PolyVBOs[indexTra], triangles[indexTra]);
 
-    if( isAddTra[index] )
+    if( isAddTra[indexTra] )
     {
-       AddTriBind(AddVAOs[index], AddVBOs[index], extraTriangles[index]);
+       AddTriBind(AddVAOs[indexTra], AddVBOs[indexTra], extraTriangles[indexTra]);
     }
     moveBack = true;
 }
