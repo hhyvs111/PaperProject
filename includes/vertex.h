@@ -18,6 +18,8 @@ typedef struct   tagVERTEX
     float   z;  // z坐标
 }VERTEX;
 
+
+
 typedef struct tagAddTriangle
 {
     VERTEX a;

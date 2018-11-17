@@ -111,6 +111,8 @@ unsigned int faultUpVBO[1024], faultUpVAO[1024], faultDownVBO[1024], faultDownVA
 //框架数据
 unsigned int faceVBO[1024], faceVAO[1024];
 
+unsigned int textures[1024][1024];
+
 
 //VERTEX *fault2_up, *fault2_down;
 
@@ -313,7 +315,7 @@ void drawInit(unsigned int & VAO, unsigned int & VBO, VERTEX *target, int num);
 
 void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delaunay * del);
 
-void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Triangle*> _triangle);
+void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int * texture,  vector<Triangle*> _triangle);
 
 void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriangle> _triangle);
 
@@ -779,6 +781,9 @@ int main()
         drawInit(faultDownVAO[i+1], faultDownVBO[i+1], faultDown[+1], sizeof(faultData[i+1][1]) / 12);
 
     }
+//    ourShader.use();
+//    ourShader.setInt("texture1", 0);
+
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -931,10 +936,21 @@ int main()
                 {
                     if(!triangles[j][i]->isHide)
                     {
+
+//                        glActiveTexture(GL_TEXTURE0);
+//                        glBindTexture(GL_TEXTURE_2D, textures[j][i]);
+//                        ourShader.use();
+//                        glm::mat4 model;
+////            model = glm::translate(model, cubePositions[0]);
+//                        float angle = 20.0f * 0;
+//                        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+//                        ourShader.setMat4("model", model);
+
                         glColor3f(1, 0, 0);
                         glBindVertexArray(PolyVAOs[j][i]);
 
-                        glDrawArrays(GL_LINE_LOOP, 0, 3);
+                        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+
 
                     }
 
@@ -947,7 +963,7 @@ int main()
 //                    cout<<"add "<<i<<endl;
                         glBindVertexArray(AddVAOs[j][i]);
 
-                        glDrawArrays(GL_LINE_LOOP, 0, 3);
+                        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
                     }
                 }
             }
@@ -1383,13 +1399,15 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
     }
 }
 
-void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Triangle*> _triangle)
+void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int * texture,  vector<Triangle*> _triangle)
 {
     glGenVertexArrays(_triangle.size(), PolyVAOs);
     glGenBuffers(_triangle.size(), PolyVBOs);
 
     //循环读取Polyl里的三角形顶点数据
-    float TraVertex[9];
+//    float TraVertex[9];
+    //这里用15，9是三个点的坐标，6是三个纹理坐标
+    float TraVertex[15];
     for (int i = 0; i < _triangle.size(); i++)
     {
 
@@ -1410,16 +1428,34 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
 
             if(hideNumber >= 1)
                 continue;
-            TraVertex[0] = a.x;
-            TraVertex[1] = a.y;
-            TraVertex[2] = a.z;
-            TraVertex[3] = b.x;
-            TraVertex[4] = b.y;
-            TraVertex[5] = b.z;
-            TraVertex[6] = c.x;
-            TraVertex[7] = c.y;
-            TraVertex[8] = c.z;
+//            TraVertex[0] = a.x;
+//            TraVertex[1] = a.y;
+//            TraVertex[2] = a.z;
+//            TraVertex[3] = b.x;
+//            TraVertex[4] = b.y;
+//            TraVertex[5] = b.z;
+//            TraVertex[6] = c.x;
+//            TraVertex[7] = c.y;
+//            TraVertex[8] = c.z;
 
+        TraVertex[0] = a.x;
+        TraVertex[1] = a.y;
+        TraVertex[2] = a.z;
+        //纹理坐标
+        TraVertex[3] = 0.0f;
+        TraVertex[4] = 0.0f;
+
+        TraVertex[5] = b.x;
+        TraVertex[6] = b.y;
+        TraVertex[7] = b.z;
+        TraVertex[8] = 1.0f;
+        TraVertex[9] = 0.0f;
+
+        TraVertex[10] = c.x;
+        TraVertex[11] = c.y;
+        TraVertex[12] = c.z;
+        TraVertex[13] = 0.5f;
+        TraVertex[14] = 1.0f;
 
 
 //        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
@@ -1445,8 +1481,39 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
 
         // position attribute
         //这里的步长为3，之前的是5因为有纹理坐标
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
         glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+
+
+        // texture 1
+        // ---------
+        //绑定一下纹理
+        glGenTextures(1, &texture[i]);
+        glBindTexture(GL_TEXTURE_2D, texture[i]);
+        // set the texture wrapping parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // set texture filtering parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // load image, create texture and generate mipmaps
+        int width, height, nrChannels;
+        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
+        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/container.jpg").c_str(), &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            std::cout << "Failed to load texture" << std::endl;
+        }
+        stbi_image_free(data);
+
     }
 }
 
@@ -1866,7 +1933,7 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
         }
     }
     //重新绑定
-    Poly2TriBind(PolyVAOs[indexTra], PolyVBOs[indexTra], triangles[indexTra]);
+    Poly2TriBind(PolyVAOs[indexTra], PolyVBOs[indexTra], textures[indexTra],   triangles[indexTra]);
 
     if( isAddTra[indexTra] )
     {
