@@ -153,7 +153,7 @@ float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
     {
         float distance = DistanceOfPointToPointIn3D(point, Opposite[i]);
 //        float distance = DistanceOfPointLinesIn3D(point, Opposite[i], Opposite[i+1]);
-        cout<< "the d2 distance : " << distance << endl;
+//        cout<< "the d2 distance : " << distance << endl;
         if( distance < minDistance )
         {
             minDistance = distance;

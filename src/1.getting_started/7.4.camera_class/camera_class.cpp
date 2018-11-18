@@ -112,6 +112,7 @@ unsigned int faultUpVBO[1024], faultUpVAO[1024], faultDownVBO[1024], faultDownVA
 unsigned int faceVBO[1024], faceVAO[1024];
 
 unsigned int textures[1024][1024];
+unsigned int addTextures[1024][1024];
 
 
 //VERTEX *fault2_up, *fault2_down;
@@ -317,12 +318,12 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
 
 void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int * texture,  vector<Triangle*> _triangle);
 
-void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriangle> _triangle);
+void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned int * addTexture, vector<AddTriangle> _triangle);
 
 void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> indices);
 
 
-void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vector<AddTriangle> extraTriangles);
+void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num,int index );
 
 void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index, int which);
 
@@ -489,7 +490,7 @@ int main()
 //   fault1_up = FloatToVertex(fault1[0], (sizeof(fault1[0])) / 4);
 //   fault1_down = FloatToVertex(fault1[1], (sizeof(fault1[1])) / 4);
 
-    
+
    //把这个原来的线也要放进缓冲器
 //    unsigned int fault1_upVBO, fault1_upVAO;
 //    drawInit(fault1_upVAO, fault1_upVBO, fault1_up, sizeof(fault1[0]) / 12);
@@ -508,9 +509,9 @@ int main()
 //
 //    unsigned int fault2_downVBO, fault2_downVAO;
 //    drawInit(fault2_downVAO, fault2_downVBO, fault2_down, sizeof(fault2[1]) / 12);
-    
 
-    
+
+
 
    //falut为断层，将其传入三角剖分的构造函数里去。
    //现在改为这个传入顶点了，那么还是要做一个顶点集合，就是两个断层合入为一个断层。
@@ -626,7 +627,7 @@ int main()
 
 
 
-    // load and create a texture 
+    // load and create a texture
     // -------------------------
 //    unsigned int texture1, texture2;
 //    // texture 1
@@ -747,11 +748,11 @@ int main()
         //主要也是这个循环，感觉这个循环可以做很多事了。
 
         //平移
-        cout << " before move " <<  faultUp[i][1].y << endl;
-        cout << " before move " <<  faultUp[i+1][1].y << endl;
+//        cout << " before move " <<  faultUp[i][1].y << endl;
+//        cout << " before move " <<  faultUp[i+1][1].y << endl;
         moveFunction(faultUp[i], 10, faultUp[i+1], 10, i, 0);
-        cout << " after move " <<  faultUp[i][1].y << endl;
-        cout << " after move " <<  faultUp[i+1][1].y << endl;
+//        cout << " after move " <<  faultUp[i][1].y << endl;
+//        cout << " after move " <<  faultUp[i+1][1].y << endl;
         moveFunction(faultDown[i], 10, faultDown[i+1], 10, i , 1);
 
         //测试效果
@@ -763,6 +764,7 @@ int main()
         //不能用这个j，j和i没有对应
 
         //i为线的值，但是要在里面判断一下是哪一条，可以通过j来判断
+        //只处理up的线
         lineBack(faultUp[i+1], 10, i, j++ );
         poly2Tri(faultMerge(faultDown[i], 10, faultDown[i+1], 10), 20, j);
         lineBack(faultDown[i+1], 10, i, j++);
@@ -770,12 +772,12 @@ int main()
 //        //计算多余三角和撤回
 //        //只算这个面的其中一半
 
-
-        cout << i << " line back z - 1  " << faultUp[i][0].z << endl;
-        cout << i << " line back z " << faultUp[i+1][0].z << endl;
+//
+//        cout << i << " line back z - 1  " << faultUp[i][0].z << endl;
+//        cout << i << " line back z " << faultUp[i+1][0].z << endl;
         //这里输出的时候，应该第二条线的z要回到了-0.5，但是这里还是显示0.5 说明完全没回去。
 
-        cout << i << " line back z " << faultDown[i+1][0].z << endl;
+//        cout << i << " line back z " << faultDown[i+1][0].z << endl;
 
         drawInit(faultUpVAO[i+1], faultUpVBO[i+1], faultUp[i+1], sizeof(faultData[i+1][0]) / 12);
         drawInit(faultDownVAO[i+1], faultDownVBO[i+1], faultDown[+1], sizeof(faultData[i+1][1]) / 12);
@@ -799,7 +801,7 @@ int main()
     // render
         // ------
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // bind textures on corresponding texture units
 //        glActiveTexture(GL_TEXTURE0);
@@ -937,6 +939,7 @@ int main()
                     if(!triangles[j][i]->isHide)
                     {
 
+
 //                        glActiveTexture(GL_TEXTURE0);
 //                        glBindTexture(GL_TEXTURE_2D, textures[j][i]);
 //                        ourShader.use();
@@ -953,6 +956,10 @@ int main()
 
 
                     }
+//                    else
+//                    {
+//                        cout << "test :" << i << " " << j << endl;
+//                    }
 
                 }
 
@@ -1293,7 +1300,7 @@ void processInput(GLFWwindow *window)
 // ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // make sure the viewport matches the new window dimensions; note that width and 
+    // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
@@ -1426,7 +1433,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
             if(c.isHide)
                 hideNumber++;
 
-            if(hideNumber >= 1)
+            if(hideNumber >= 2)
                 continue;
 //            TraVertex[0] = a.x;
 //            TraVertex[1] = a.y;
@@ -1517,15 +1524,16 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
     }
 }
 
-void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriangle> _triangle)
+void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned  int * addTexture, vector<AddTriangle> _triangle)
 {
-    glGenVertexArrays(_triangle.size(), AddVAOs);
-    glGenBuffers(_triangle.size(), AddVBOs);
-
+    int size = _triangle.size();
+    glGenVertexArrays(size, AddVAOs);
+    glGenBuffers(size, AddVBOs);
+    cout << "the add size : " << size << endl;
     //循环读取Addl里的三角形顶点数据
-    for (int i = 0; i < _triangle.size(); i++)
+    for (int i = 0; i < size; i++)
     {
-        float TraVertex[9];
+        float TraVertex[15];
         AddTriangle t = _triangle[i];
         VERTEX a = t.a;
         VERTEX b = t.b;
@@ -1536,12 +1544,21 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriang
         TraVertex[0] = a.x;
         TraVertex[1] = a.y;
         TraVertex[2] = a.z;
-        TraVertex[3] = b.x;
-        TraVertex[4] = b.y;
-        TraVertex[5] = b.z;
-        TraVertex[6] = c.x;
-        TraVertex[7] = c.y;
-        TraVertex[8] = c.z;
+        //纹理坐标
+        TraVertex[3] = 0.0f;
+        TraVertex[4] = 0.0f;
+
+        TraVertex[5] = b.x;
+        TraVertex[6] = b.y;
+        TraVertex[7] = b.z;
+        TraVertex[8] = 1.0f;
+        TraVertex[9] = 0.0f;
+
+        TraVertex[10] = c.x;
+        TraVertex[11] = c.y;
+        TraVertex[12] = c.z;
+        TraVertex[13] = 0.5f;
+        TraVertex[14] = 1.0f;
 
 //        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
 //            continue;
@@ -1567,8 +1584,38 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, vector<AddTriang
 
         // position attribute
         //这里的步长为3，之前的是5因为有纹理坐标
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
         glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+
+
+        // texture 1
+        // ---------
+        //绑定一下纹理
+        glGenTextures(1, &addTexture[i]);
+        glBindTexture(GL_TEXTURE_2D, addTexture[i]);
+        // set the texture wrapping parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // set texture filtering parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // load image, create texture and generate mipmaps
+        int width, height, nrChannels;
+        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
+        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/bricks2.jpg").c_str(), &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            std::cout << "Failed to load texture" << std::endl;
+        }
+        stbi_image_free(data);
     }
 }
 
@@ -1633,7 +1680,7 @@ void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> i
 
 
 //多余的三角形，需要处理掉
-void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vector<AddTriangle> extraTriangles)
+void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int index)
 {
     //从三角里找到需要处理的那条线,如果序列号不是相邻的那么就是相邻的线
     Point *a = _triangle->GetPoint(0);
@@ -1690,7 +1737,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vecto
 //    cout << "the d1 d2 d " << d1<<" "<<d2<<" "<<d<<endl;
 
     VERTEX centerPoint, left, mid, right;
-    
+
     VERTEX oppositePointOne, oppositePointTwo;
 
     oppositePointOne.x = oppositeLines[oppositeIndex].x;
@@ -1700,7 +1747,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vecto
     oppositePointTwo.x = oppositeLines[oppositeIndex + 1].x;
     oppositePointTwo.y = oppositeLines[oppositeIndex + 1].y;
     oppositePointTwo.z = oppositeLines[oppositeIndex + 1].z;
-    
+
     if(Lines == ab)
     {
         centerPoint.x = c->x;
@@ -1756,12 +1803,14 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, vecto
     }
 //    cout << " center "<< centerPoint.x << " " << centerPoint.y << " " << centerPoint.z << endl;
 //
-//    cout << " left "<< left.x << " " << left.y << " " << left.z << endl;
-    extraTriangles.push_back(VertexToTriangle(left, mid, centerPoint));
-    extraTriangles.push_back(VertexToTriangle(right, mid, centerPoint));
-    extraTriangles.push_back(VertexToTriangle(left, centerPoint, oppositePointOne));
-    extraTriangles.push_back(VertexToTriangle(right, centerPoint, oppositePointTwo));
-    extraTriangles.push_back(VertexToTriangle(centerPoint, oppositePointTwo, oppositePointOne));
+    cout << " left "<< left.x << " " << left.y << " " << left.z << endl;
+    //把这5个三角形放入数组里
+    extraTriangles[index].push_back(VertexToTriangle(left, mid, centerPoint));
+    extraTriangles[index].push_back(VertexToTriangle(right, mid, centerPoint));
+    extraTriangles[index].push_back(VertexToTriangle(left, centerPoint, oppositePointOne));
+    extraTriangles[index].push_back(VertexToTriangle(right, centerPoint, oppositePointTwo));
+    extraTriangles[index].push_back(VertexToTriangle(centerPoint, oppositePointTwo, oppositePointOne));
+
 
 //    AddTriBind(AddVAOs, AddVBOs, extraTriangles);
 }
@@ -1860,8 +1909,8 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
 
 
     //获取初始三角现在要改变这个三角里的数据
-    cout << "get in indexTra:" << indexTra <<endl;
-    cout << triangles[indexTra].size() << endl;
+//    cout << "get in indexTra:" << indexTra <<endl;
+//    cout << triangles[indexTra].size() << endl;
     for (int i = 0; i < triangles[indexTra].size(); i++)
     {
         Triangle &t = *triangles[indexTra][i];
@@ -1879,6 +1928,7 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
 //            cout << "point.indexTra" << point.indexTra<<endl;
             //好像这个不同的三角point数据也是共享的，那么猜测可能这个三角用的也是这个索引数据。
             //在point结构体里加个是否移动的属性
+            //这个10是分界值
             if(point.index >= 10)
                 pointsInLineTwo++;
             else
@@ -1913,6 +1963,7 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
         //如果不需要平移的线段有多余三角
         if(pointsInLineOne == 3)
         {
+            cout << "the index " <<indexTra << endl;
             //对这个三角搞事情
             //这个三角要隐藏起来
             t.isHide = true;
@@ -1920,16 +1971,35 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
             //直接隐藏这个点吧。
             t.HidePoints();
             isAddTra[indexTra] = true;
-            //处理后得到一个d，这个d可以用来干嘛呢？
-            ExcessTraHandle(&t, faultUp[1], 10, extraTriangles[indexTra]);
+            //这里要传入一个三角的对线。
+            //如果是上层
+            if(line == 0)
+            {
+                cout << "0" << endl;
+                ExcessTraHandle(&t, faultUp[indexLine + 1], 10, indexTra);
+            }
+            else
+            {
+                ExcessTraHandle(&t, faultDown[indexLine + 1], 10, indexTra);
+            }
+
+
         }
+        //多余三角在第二条边，那么传入的就是第一条边的线
         if(pointsInLineTwo == 3)
         {
             t.isHide = true;
             t.HidePoints();
             isAddTra[indexTra] = true;
             //对移动到对面的三角搞事
-            ExcessTraHandle(&t, faultUp[0], 10, extraTriangles[indexTra]);
+            if(line == 0)
+            {
+                ExcessTraHandle(&t, faultUp[indexLine], 10, indexTra);
+            }
+            else
+            {
+                ExcessTraHandle(&t, faultDown[indexLine], 10, indexTra);
+            }
         }
     }
     //重新绑定
@@ -1937,7 +2007,8 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
 
     if( isAddTra[indexTra] )
     {
-       AddTriBind(AddVAOs[indexTra], AddVBOs[indexTra], extraTriangles[indexTra]);
+        //这里的绑定也会出问题
+       AddTriBind(AddVAOs[indexTra], AddVBOs[indexTra], addTextures[indexTra],  extraTriangles[indexTra]);
     }
     moveBack = true;
 }
