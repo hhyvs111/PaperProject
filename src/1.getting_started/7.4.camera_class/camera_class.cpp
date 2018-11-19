@@ -382,7 +382,7 @@ int main()
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     //六个面的坐标值
-    
+   cout << "test" << endl;
 
 //    float cube1[] = {
 //            -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
@@ -788,6 +788,15 @@ int main()
 
     while (!glfwWindowShouldClose(window))
     {
+        //更新mojave后的bug，加入以下代码才能正常显示
+        bool needDraw = true;
+        if (needDraw) {
+            glfwShowWindow(window);
+            glfwHideWindow(window);
+            glfwShowWindow(window);
+            needDraw = false;
+        }
+
         // per-frame time logic
         // --------------------
         float currentFrame = glfwGetTime();
@@ -814,6 +823,7 @@ int main()
 
         // pass projection matrix to shader (note that in this case it could change every frame)
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        //这个变量很重要
         ourShader.setMat4("projection", projection);
 
         // camera/view transformation
@@ -933,7 +943,7 @@ int main()
         {
             for(int j = 0; j < (modelNum - 1) * 2 ; j++)
             {
-//                cout << j << endl;
+                cout << j << endl;
                 for (int i = 0; i < triangles[j].size(); i++)
                 {
                     if(!triangles[j][i]->isHide)
