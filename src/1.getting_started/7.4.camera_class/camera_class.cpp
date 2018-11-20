@@ -47,7 +47,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
-
+unsigned int loadTexture(const char *path);
 
 //一些和poly2tri相关的变量定义
 /// Dude hole examples
@@ -83,6 +83,9 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
+
+//灯光的位置
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 //function
 //设置一下变量，用按键实现一下功能
@@ -372,6 +375,26 @@ int main()
     // configure global opengl state
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
+
+    //光照顶点缓冲
+    Shader lightingShader("7.4.lighting_maps.vs", "7.4.lighting_maps.fs");
+    Shader lampShader("7.4.lamp.vs", "7.4.lamp.fs");
+
+
+    unsigned int VBO;
+    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+    unsigned int lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+
+    lightingShader.use();
+    lightingShader.setInt("material.diffuse", 0);
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -812,23 +835,57 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // bind textures on corresponding texture units
-//        glActiveTexture(GL_TEXTURE0);
-//        glBindTexture(GL_TEXTURE_2D, texture1);
-//        glActiveTexture(GL_TEXTURE1);
-//        glBindTexture(GL_TEXTURE_2D, texture2);
 
-        // activate shader
-        ourShader.use();
 
-        // pass projection matrix to shader (note that in this case it could change every frame)
+        lightingShader.use();
+        lightingShader.setVec3("light.position", lightPos);
+        lightingShader.setVec3("viewPos", camera.Position);
+
+        // light properties
+        lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+        // material properties
+        lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+        lightingShader.setFloat("material.shininess", 64.0f);
+
+        // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        //这个变量很重要
-        ourShader.setMat4("projection", projection);
-
-        // camera/view transformation
         glm::mat4 view = camera.GetViewMatrix();
-        ourShader.setMat4("view", view);
+        lightingShader.setMat4("projection", projection);
+        lightingShader.setMat4("view", view);
+
+        // world transformation
+        glm::mat4 model;
+        lightingShader.setMat4("model", model);
+
+
+        //这里是灯光的shadel
+        lampShader.use();
+        lampShader.setMat4("projection", projection);
+        lampShader.setMat4("view", view);
+        model = glm::mat4();
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+        lampShader.setMat4("model", model);
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        // activate shader
+//        ourShader.use();
+//
+//        // pass projection matrix to shader (note that in this case it could change every frame)
+//        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+//
+//
+//
+//        //这个变量很重要
+//        ourShader.setMat4("projection", projection);
+//
+//        // camera/view transformation
+//        glm::mat4 view = camera.GetViewMatrix();
+//        ourShader.setMat4("view", view);
 
         // render boxes
         //为什么只画了一个点？
@@ -943,7 +1000,7 @@ int main()
         {
             for(int j = 0; j < (modelNum - 1) * 2 ; j++)
             {
-                cout << j << endl;
+//                cout << j << endl;
                 for (int i = 0; i < triangles[j].size(); i++)
                 {
                     if(!triangles[j][i]->isHide)
@@ -1501,36 +1558,38 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+        //这里的0和1就是顶点缓冲器里的layout
         glEnableVertexAttribArray(1);
 
 
         // texture 1
         // ---------
         //绑定一下纹理
-        glGenTextures(1, &texture[i]);
-        glBindTexture(GL_TEXTURE_2D, texture[i]);
-        // set the texture wrapping parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        // set texture filtering parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        // load image, create texture and generate mipmaps
-        int width, height, nrChannels;
-        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/container.jpg").c_str(), &width, &height, &nrChannels, 0);
-        if (data)
-        {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            std::cout << "Failed to load texture" << std::endl;
-        }
-        stbi_image_free(data);
-
+        texture[i] = loadTexture(FileSystem::getPath("resources/textures/bricks2.jpg").c_str());
+//        glGenTextures(1, &texture[i]);
+//        glBindTexture(GL_TEXTURE_2D, texture[i]);
+//        // set the texture wrapping parameters
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//        // set texture filtering parameters
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//        // load image, create texture and generate mipmaps
+//        int width, height, nrChannels;
+//        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
+//        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+//        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/container.jpg").c_str(), &width, &height, &nrChannels, 0);
+//        if (data)
+//        {
+//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+//            glGenerateMipmap(GL_TEXTURE_2D);
+//        }
+//        else
+//        {
+//            std::cout << "Failed to load texture" << std::endl;
+//        }
+//        stbi_image_free(data);
+//
     }
 }
 
@@ -1543,32 +1602,53 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned  int * 
     //循环读取Addl里的三角形顶点数据
     for (int i = 0; i < size; i++)
     {
-        float TraVertex[15];
+        //15+9，现在加入了法向量实现漫反射
+        float TraVertex[24];
         AddTriangle t = _triangle[i];
         VERTEX a = t.a;
         VERTEX b = t.b;
         VERTEX c = t.c;
+
+        VERTEX traNormol = getNormal(a, b, c);
         //不对啊，这里还有vvo和vv1？傻逼了
         //将顶点分配给这个float
-
+        //三角坐标
         TraVertex[0] = a.x;
         TraVertex[1] = a.y;
         TraVertex[2] = a.z;
+        //平面法向量实现光照
+        TraVertex[3] = traNormol.x;
+        TraVertex[4] = traNormol.y;
+        TraVertex[5] = traNormol.z;
         //纹理坐标
-        TraVertex[3] = 0.0f;
-        TraVertex[4] = 0.0f;
+        TraVertex[6] = 0.0f;
+        TraVertex[7] = 0.0f;
 
-        TraVertex[5] = b.x;
-        TraVertex[6] = b.y;
-        TraVertex[7] = b.z;
-        TraVertex[8] = 1.0f;
-        TraVertex[9] = 0.0f;
 
-        TraVertex[10] = c.x;
-        TraVertex[11] = c.y;
-        TraVertex[12] = c.z;
-        TraVertex[13] = 0.5f;
+        TraVertex[8] = b.x;
+        TraVertex[9] = b.y;
+        TraVertex[10] = b.z;
+        TraVertex[11] = traNormol.x;
+        TraVertex[12] = traNormol.y;
+        TraVertex[13] = traNormol.z;
         TraVertex[14] = 1.0f;
+        TraVertex[15] = 0.0f;
+
+
+        TraVertex[16] = c.x;
+        TraVertex[17] = c.y;
+        TraVertex[18] = c.z;
+        TraVertex[19] = traNormol.x;
+        TraVertex[20] = traNormol.y;
+        TraVertex[21] = traNormol.z;
+        TraVertex[22] = 0.5f;
+        TraVertex[23] = 1.0f;
+
+
+        //求三角平面法向量
+
+
+
 
 //        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
 //            continue;
@@ -1593,39 +1673,42 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned  int * 
         glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
 
         // position attribute
-        //这里的步长为3，之前的是5因为有纹理坐标
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
+        //这里的步长为8，之前的是5因为有纹理坐标，现在加入了光照漫反射
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
 
 
         // texture 1
         // ---------
         //绑定一下纹理
-        glGenTextures(1, &addTexture[i]);
-        glBindTexture(GL_TEXTURE_2D, addTexture[i]);
-        // set the texture wrapping parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        // set texture filtering parameters
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        // load image, create texture and generate mipmaps
-        int width, height, nrChannels;
-        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/bricks2.jpg").c_str(), &width, &height, &nrChannels, 0);
-        if (data)
-        {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            std::cout << "Failed to load texture" << std::endl;
-        }
-        stbi_image_free(data);
+        addTexture[i] = loadTexture(FileSystem::getPath("resources/textures/bricks2.jpg").c_str());
+//        glGenTextures(1, &addTexture[i]);
+//        glBindTexture(GL_TEXTURE_2D, addTexture[i]);
+//        // set the texture wrapping parameters
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//        // set texture filtering parameters
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//        // load image, create texture and generate mipmaps
+//        int width, height, nrChannels;
+//        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
+//        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+//        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/bricks2.jpg").c_str(), &width, &height, &nrChannels, 0);
+//        if (data)
+//        {
+//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+//            glGenerateMipmap(GL_TEXTURE_2D);
+//        }
+//        else
+//        {
+//            std::cout << "Failed to load texture" << std::endl;
+//        }
+//        stbi_image_free(data);
     }
 }
 
@@ -2022,6 +2105,45 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
     }
     moveBack = true;
 }
+
+
+unsigned int loadTexture(char const * path)
+{
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+    if (data)
+    {
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else
+    {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return textureID;
+}
+
 //判断直线是否相交
 //bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 //{

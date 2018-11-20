@@ -171,3 +171,16 @@ AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c)
     _triangle.c = c;
     return  _triangle;
 }
+
+VERTEX getNormal(VERTEX p1,VERTEX p2,VERTEX p3)
+{
+    VERTEX normal;
+
+    normal.x = ((p2.y - p1.y) * (p3.z - p1.z) - (p2.z - p1.z) * (p3.y - p1.y));
+
+    normal.y = ((p2.z - p1.z) * (p3.x - p1.x) - (p2.x - p1.x) * (p3.z - p1.z));
+
+    normal.z = ((p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x));
+
+    return  normal;
+}

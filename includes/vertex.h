@@ -70,4 +70,7 @@ float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s);
 float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index);
 
 AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);
+
+//获取平面法向量
+VERTEX getNormal(VERTEX p1,VERTEX p2,VERTEX p3);
 #endif //LEARNOPENGL_VERTEX_H
