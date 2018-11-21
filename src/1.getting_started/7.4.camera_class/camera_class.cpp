@@ -377,81 +377,31 @@ int main()
     glEnable(GL_DEPTH_TEST);
 
     //光照顶点缓冲
-    Shader lightingShader("7.4.lighting_maps.vs", "7.4.lighting_maps.fs");
-    Shader lampShader("7.4.lamp.vs", "7.4.lamp.fs");
-
-
-    unsigned int VBO;
-    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-    unsigned int lightVAO;
-    glGenVertexArrays(1, &lightVAO);
-    glBindVertexArray(lightVAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-
-    lightingShader.use();
-    lightingShader.setInt("material.diffuse", 0);
+//    Shader lightingShader("7.4.lighting_maps.vs", "7.4.lighting_maps.fs");
+//    Shader lampShader("7.4.lamp.vs", "7.4.lamp.fs");
+//
+//
+//    unsigned int VBO;
+//    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+//    unsigned int lightVAO;
+//    glGenVertexArrays(1, &lightVAO);
+//    glBindVertexArray(lightVAO);
+//
+//    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+//    glEnableVertexAttribArray(0);
+//
+//
+//    lightingShader.use();
+//    lightingShader.setInt("material.diffuse", 0);
 
     // build and compile our shader zprogram
     // ------------------------------------
     Shader ourShader("7.4.camera.vs", "7.4.camera.fs");
-    //看下怎么单独应用这个shader
-//    Shader ourShader_other("7.4.camera1.vs", "7.4.camera1.fs");
 
-    // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
-    //六个面的坐标值
-   cout << "test" << endl;
 
-//    float cube1[] = {
-//            -0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-//            0.5f, 0.5f,  -0.5f,  0.0f, 0.0f,
-//            0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//            -0.5f,-0.5f,  -0.5f,  0.0f, 0.0f,
-//    };
-//
-//    float cube22[] = {
-//            -0.5f, 0.5f,  -0.5f + 1.0f,  0.0f, 0.0f,
-//            0.5f, 0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
-//            0.5f, -0.5f, -0.5f+ 1.0f,  0.0f, 0.0f,
-//            -0.5f,-0.5f,  -0.5f+ 1.0f,  0.0f, 0.0f,
-//    };
-    // world space positions of our cubes
-    //正方体的位置
-//    glm::vec3 cubePositions[] = {
-//        glm::vec3( 0.0f,  0.0f,  0.0f),
-//        glm::vec3( 0.0f,  0.0f, -1.0f),
-//        glm::vec3(-1.5f, -2.2f, -2.5f),
-//        glm::vec3(-3.8f, -1.0f, -12.3f),
-//        glm::vec3( 2.4f, -0.4f, -3.5f),
-//        glm::vec3(-1.7f,  3.0f, -7.5f),
-//        glm::vec3( 1.3f, -1.0f, -2.5f),
-//        glm::vec3( 1.5f,  1.0f, -2.5f),
-//        glm::vec3( 1.5f,  0.2f, -1.5f),
-//        glm::vec3(-1.3f,  1.0f, -1.5f)
-//    };
-//    vector <Point> point;
-//    Point pointa(0.5f, 0.5f, 0.5f);
-//    point.push_back(pointa);
-//
-//    Point **outside = new Point* [4];
-//    outside[0] = new Point(-0.5f,0.5f,-0.5f);
-//    outside[1] = new Point(0.5f, 0.5f, -0.5f);
-//    outside[2] = new Point(0.5f, -0.5f, -0.5f);
-//    outside[3] = new Point(-0.5f, -0.5f, -0.5f);
-//
-////    Point point(0.5f,0.5f,0.5f);
-////    point[1].x = 0.5f;
-//    //指针，然后大小变为8了
-////    std::cout<<sizeof(*(point)<<std::endl;
-//    cout<<sizeof(*(outside[0])) * 4<<endl;
-//    cout<<sizeof(cube22)<<endl;
-    //两个面
-//    unsigned int VBOs[2], VAOs[2];
+
 
     //我尼玛，全都可以放在一个循环里了
     for(int i = 0;i < modelNum; i++)
@@ -703,7 +653,7 @@ int main()
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
-    ourShader.use();
+//    ourShader.use();
 //    ourShader.setInt("texture1", 0);
 //    ourShader.setInt("texture2", 1);
 
@@ -837,90 +787,55 @@ int main()
 
 
 
-        lightingShader.use();
-        lightingShader.setVec3("light.position", lightPos);
-        lightingShader.setVec3("viewPos", camera.Position);
-
-        // light properties
-        lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
-        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-
-        // material properties
-        lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-        lightingShader.setFloat("material.shininess", 64.0f);
-
-        // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        glm::mat4 view = camera.GetViewMatrix();
-        lightingShader.setMat4("projection", projection);
-        lightingShader.setMat4("view", view);
-
-        // world transformation
-        glm::mat4 model;
-        lightingShader.setMat4("model", model);
-
-
-        //这里是灯光的shadel
-        lampShader.use();
-        lampShader.setMat4("projection", projection);
-        lampShader.setMat4("view", view);
-        model = glm::mat4();
-        model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-        lampShader.setMat4("model", model);
-
-        glBindVertexArray(lightVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        // activate shader
-//        ourShader.use();
+//        lightingShader.use();
+//        lightingShader.setVec3("light.position", lightPos);
+//        lightingShader.setVec3("viewPos", camera.Position);
 //
-//        // pass projection matrix to shader (note that in this case it could change every frame)
+//        // light properties
+//        lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+//        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+//        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+//
+//        // material properties
+//        lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+//        lightingShader.setFloat("material.shininess", 64.0f);
+//
+//        // view/projection transformations
 //        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-//
-//
-//
-//        //这个变量很重要
-//        ourShader.setMat4("projection", projection);
-//
-//        // camera/view transformation
 //        glm::mat4 view = camera.GetViewMatrix();
-//        ourShader.setMat4("view", view);
+//        lightingShader.setMat4("projection", projection);
+//        lightingShader.setMat4("view", view);
+//
+//        // world transformation
+//        glm::mat4 model;
+//        lightingShader.setMat4("model", model);
+//
+////
+//        //这里是灯光的shadel
+//        lampShader.use();
+//        lampShader.setMat4("projection", projection);
+//        lampShader.setMat4("view", view);
+//        model = glm::mat4();
+//        model = glm::translate(model, lightPos);
+//        model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
+//        lampShader.setMat4("model", model);
+//
+//        glBindVertexArray(lightVAO);
+//        glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        // render boxes
-        //为什么只画了一个点？
-//        glBindVertexArray(faceVAO[0]);
-//
-//        for (unsigned int i = 0; i < 1; i++)
-//        {
-//            // calculate the model matrix for each object and pass it to shader before drawing
-//            glm::mat4 model;
-////            model = glm::translate(model, cubePositions[0]);
-//            float angle = 20.0f * i;
-//            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-//            ourShader.setMat4("model", model);
-//
-//            //可以先画这个外面的点，然后在画线啊真的蠢！
-//            glDrawArrays(GL_LINE_LOOP, 0, 4);
-//        }
-//        //绑定顶点数组
-//        glBindVertexArray(faceVAO[1]);
-//        for (unsigned int i = 0; i < 1; i++)
-//        {
-//            // calculate the model matrix for each object and pass it to shader before drawing
-//            glm::mat4 model;
-////            model = glm::translate(model, cubePositions[1]);
-//            float angle = 20.0f * i;
-//            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-//            ourShader.setMat4("model", model);
-////            std::cout<< (sizeof(cube22))/20 <<std::endl;
-//            //float是4个字节，然后一个坐标有5个值，那么就要除以20了。
-////            glDrawArrays(GL_LINE_STRIP, 0, (sizeof(cube22))/20);
-//            //先画一个Loop这个是外面的框
-//            glDrawArrays(GL_LINE_LOOP, 0, 4);
-//            //先固定个数
-//        }
-//可以直接画，那么就传入那个顶点数组好了。
+
+        // activate shader
+        ourShader.use();
+        // pass projection matrix to shader (note that in this case it could change every frame)
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        //这个变量很重要
+        ourShader.setMat4("projection", projection);
+
+        // camera/view transformation
+        glm::mat4 view = camera.GetViewMatrix();
+        ourShader.setMat4("view", view);
+
+
 
         //两条线，数据还是要改一下
         for(int i = 0; i < modelNum; i++)
@@ -933,6 +848,7 @@ int main()
             float angle = 20.0f * 0;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             ourShader.setMat4("model", model);
+//            lightingShader.setMat4("model", model);
 
             //可以先画这个外面的点，然后在画线啊真的蠢！
             glDrawArrays(GL_LINE_LOOP, 0, 4);
@@ -1006,19 +922,12 @@ int main()
                     if(!triangles[j][i]->isHide)
                     {
 
+                        //激活一下这个纹理
+                        glActiveTexture(GL_TEXTURE0);
+                        glBindTexture(GL_TEXTURE_2D, textures[j][i]);
 
-//                        glActiveTexture(GL_TEXTURE0);
-//                        glBindTexture(GL_TEXTURE_2D, textures[j][i]);
-//                        ourShader.use();
-//                        glm::mat4 model;
-////            model = glm::translate(model, cubePositions[0]);
-//                        float angle = 20.0f * 0;
-//                        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-//                        ourShader.setMat4("model", model);
 
-                        glColor3f(1, 0, 0);
                         glBindVertexArray(PolyVAOs[j][i]);
-
                         glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 
 
@@ -1481,7 +1390,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
     //循环读取Polyl里的三角形顶点数据
 //    float TraVertex[9];
     //这里用15，9是三个点的坐标，6是三个纹理坐标
-    float TraVertex[15];
+    float TraVertex[24];
     for (int i = 0; i < _triangle.size(); i++)
     {
 
@@ -1492,6 +1401,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
             Point &c = *t.GetPoint(2);
             //不对啊，这里还有vvo和vv1？傻逼了
             //将顶点分配给这个float
+
             int hideNumber = 0;
             if(a.isHide)
                 hideNumber++;
@@ -1512,24 +1422,42 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
 //            TraVertex[7] = c.y;
 //            TraVertex[8] = c.z;
 
+
+        //将point传入
+        VERTEX traNormol = getNormal(a.PointToVertex(), b.PointToVertex(), c.PointToVertex());
+        //不对啊，这里还有vvo和vv1？傻逼了
+        //将顶点分配给这个float
+        //三角坐标
         TraVertex[0] = a.x;
         TraVertex[1] = a.y;
         TraVertex[2] = a.z;
+        //平面法向量实现光照
+        TraVertex[3] = traNormol.x;
+        TraVertex[4] = traNormol.y;
+        TraVertex[5] = traNormol.z;
         //纹理坐标
-        TraVertex[3] = 0.0f;
-        TraVertex[4] = 0.0f;
+        TraVertex[6] = 0.0f;
+        TraVertex[7] = 0.0f;
 
-        TraVertex[5] = b.x;
-        TraVertex[6] = b.y;
-        TraVertex[7] = b.z;
-        TraVertex[8] = 1.0f;
-        TraVertex[9] = 0.0f;
 
-        TraVertex[10] = c.x;
-        TraVertex[11] = c.y;
-        TraVertex[12] = c.z;
-        TraVertex[13] = 0.5f;
+        TraVertex[8] = b.x;
+        TraVertex[9] = b.y;
+        TraVertex[10] = b.z;
+        TraVertex[11] = traNormol.x;
+        TraVertex[12] = traNormol.y;
+        TraVertex[13] = traNormol.z;
         TraVertex[14] = 1.0f;
+        TraVertex[15] = 0.0f;
+
+
+        TraVertex[16] = c.x;
+        TraVertex[17] = c.y;
+        TraVertex[18] = c.z;
+        TraVertex[19] = traNormol.x;
+        TraVertex[20] = traNormol.y;
+        TraVertex[21] = traNormol.z;
+        TraVertex[22] = 0.5f;
+        TraVertex[23] = 1.0f;
 
 
 //        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
@@ -1555,17 +1483,18 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
 
         // position attribute
         //这里的步长为3，之前的是5因为有纹理坐标
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
-        //这里的0和1就是顶点缓冲器里的layout
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
 
 
         // texture 1
         // ---------
         //绑定一下纹理
-        texture[i] = loadTexture(FileSystem::getPath("resources/textures/bricks2.jpg").c_str());
+        texture[i] = loadTexture(FileSystem::getPath("resources/textures/container.jpg").c_str());
 //        glGenTextures(1, &texture[i]);
 //        glBindTexture(GL_TEXTURE_2D, texture[i]);
 //        // set the texture wrapping parameters
