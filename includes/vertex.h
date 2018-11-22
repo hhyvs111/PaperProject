@@ -49,6 +49,7 @@ VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2);
 
 void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection);
 
+void faultScaleFunction(VERTEX *vertex, int num, float scaleSize, int whichDirection);
 
 bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
 

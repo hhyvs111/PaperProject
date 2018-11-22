@@ -83,6 +83,33 @@ void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirecti
     }
 }
 
+
+void faultScaleFunction(VERTEX *vertex, int num, float scaleSize, int whichDirection)
+{
+    if(whichDirection == xD)
+    {
+        for(int i = 0;i < num; i++)
+        {
+            vertex[i].x *= scaleSize;
+        }
+    }
+    if(whichDirection == yD)
+    {
+        //从1开头，然后加等于2
+        for(int i = 0;i < num; i++)
+        {
+            vertex[i].y *= scaleSize;
+        }
+    }
+    if(whichDirection == zD)
+    {
+        for(int i = 0;i < num;i++)
+        {
+            vertex[i].z *= scaleSize;
+        }
+    }
+}
+
 bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 {
     float fC = (C.y - A.y) * (A.x - B.x) - (C.x - A.x) * (A.y - B.y);
@@ -92,6 +119,9 @@ bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
     return true;
 
 }
+
+
+
 //主要原理就是另一条线的一个点是否在一条直线的同一侧？如果两条线都不在同一侧那么就是不想交的。
 bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 {
