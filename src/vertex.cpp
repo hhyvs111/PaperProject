@@ -150,6 +150,9 @@ bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number
     }
     return true;
 }
+
+
+
 //point点到直线ab的距离
 float DistanceOfPointLinesIn2D(VERTEX point, VERTEX a, VERTEX b)
 {
@@ -177,6 +180,7 @@ float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s)
 //求点到对线的最短距离。
 float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
 {
+    assert(Opposite);
 //    float minDistance = DistanceOfPointLinesIn3D(point, Opposite[0], Opposite[1]);
     float minDistance = DistanceOfPointToPointIn3D(point, Opposite[0]);
     for(int i = 1;i < num - 1; i++)
@@ -191,6 +195,18 @@ float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
         }
     }
     return minDistance;
+}
+
+bool VertexInVertexs(VERTEX target, VERTEX * source, int num)
+{
+    assert(source);
+    for(int i = 0;i < num; i++)
+    {
+        if(target == source[i])
+            return true;
+
+    }
+    return false;
 }
 
 AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c)

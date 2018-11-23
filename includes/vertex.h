@@ -16,6 +16,13 @@ typedef struct   tagVERTEX
     float   x;  // x坐标
     float   y;  // y坐标
     float   z;  // z坐标
+
+    //重载
+    bool operator==(const tagVERTEX b) const
+    {
+        return ((this->x == b.x) && (this->y == b.y) && (this->z == b.z));
+    }
+
 }VERTEX;
 
 
@@ -61,6 +68,8 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
 //
 bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number);
 
+//判断点是否在集合里
+bool VertexInVertexs(VERTEX target, VERTEX * source, int num);
 
 float DistanceOfPointLinesIn2D(VERTEX point, VERTEX a, VERTEX b);
 

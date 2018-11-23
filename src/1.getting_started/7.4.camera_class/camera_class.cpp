@@ -136,6 +136,9 @@ unsigned int EarVBOs[MaxNum], EarVAOs[MaxNum];
 //这个变量用来来记录面里平移的长度，一个面有两条线。每条线有三个方位的平移值
 moveSize faultMoveSize[MaxNum][2][3];
 
+//一个值就够了
+float scaleSize[MaxNum];
+
 //搞个三维数组玩玩
 float faultData[MaxNum][2][30] = {
         {
@@ -361,6 +364,10 @@ void poly2Tri(VERTEX * Merge, int num, int index);
 
 void lineBack(VERTEX * _faultUp, int num1, int indexLine, int indexTra);
 
+void closeLineBack(VERTEX * _fault, int num1, int indexTra);
+
+void scaleFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index);
+
 vector<Point*> VertexsToPoints(VERTEX * vertex, int num);
 
 int main()
@@ -466,12 +473,14 @@ int main()
 
         drawInit(faceVAO[i], faceVBO[i], closeLine[i], 39);
     }
-    //现在改为缩放，就是乘以这个缩放值。
-    faultScaleFunction(closeLine[1], 13, 0.6f, xD);
-    faultScaleFunction(closeLine[1], 13, 0.6f, yD);
+//    //现在改为缩放，就是乘以这个缩放值。
+//    faultScaleFunction(closeLine[1], 13, 0.6f, xD);
+//    faultScaleFunction(closeLine[1], 13, 0.6f, yD);
 
     //平移
     faultMoveFunction(closeLine[1], 13, -1.5f, zD);
+
+    scaleFunction(closeLine[0], 13, closeLine[1], 13, 0);
 
 
 
@@ -502,9 +511,15 @@ int main()
     map[index] = cdt[index]->GetMap();
     triangles[index] = cdt[index]->GetTriangles();
 
-    Poly2TriBind(PolyVAOs[index], PolyVBOs[index], textures[index],   triangles[index]);
 
 
+    closeLineBack(closeLine[1], 13, 0);
+
+
+
+    drawInit(faceVAO[1], faceVBO[1], closeLine[1], 39);
+
+    //开始closelineback
 
 
 
@@ -1423,29 +1438,7 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned  int * 
         // ---------
         //绑定一下纹理
         addTexture[i] = loadTexture(FileSystem::getPath("resources/textures/bricks2.jpg").c_str());
-//        glGenTextures(1, &addTexture[i]);
-//        glBindTexture(GL_TEXTURE_2D, addTexture[i]);
-//        // set the texture wrapping parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//        // set texture filtering parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//        // load image, create texture and generate mipmaps
-//        int width, height, nrChannels;
-//        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-//        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-//        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/bricks2.jpg").c_str(), &width, &height, &nrChannels, 0);
-//        if (data)
-//        {
-//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//            glGenerateMipmap(GL_TEXTURE_2D);
-//        }
-//        else
-//        {
-//            std::cout << "Failed to load texture" << std::endl;
-//        }
-//        stbi_image_free(data);
+
     }
 }
 
@@ -1668,7 +1661,20 @@ void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int inde
     }
 }
 
+//如果只是放缩那么我就不管这个平移了，直接判断放缩了！每次放缩1点
+void scaleFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index)
+{
+    scaleSize[index] = 1.0f;
+    //判断是否有相交对线
+    while( !faultIntersect(fault1, num1, fault2, num2) )
+    {
+        //每次改变0.1
+        scaleSize[index] -= 0.1f;
+        faultScaleFunction(fault2,num2, scaleSize[index] ,xD);
+        faultScaleFunction(fault2,num2, scaleSize[index] ,yD);
 
+    }
+}
 void poly2Tri(VERTEX * Merge, int num, int index)
 {
     //            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
@@ -1843,6 +1849,39 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
     moveBack = true;
 }
 
+//判断三角形里的顶点是否在闭线里，如果在则平移。
+void closeLineBack(VERTEX * _fault, int num1, int indexTra)
+{
+    int traSize = triangles[indexTra].size();
+    for (int i = 0; i < traSize; i++)
+    {
+        Triangle &t = *triangles[indexTra][i];
+        for(int j = 0 ;j < 3; j++)
+        {
+            Point &point = *t.GetPoint(j);
+            //如果这个点在
+            if(VertexInVertexs(point.PointToVertex(), _fault, num1))
+            {
+                point.isMove = true;
+                //这里先不写死看看。
+                point.z += 1.5f;
+
+                point.x *= (1.0f + (1.0f - scaleSize[indexTra]));
+                point.y *= (1.0f + (1.0f - scaleSize[indexTra]));
+            }
+        }
+
+    }
+    //将线平移回去
+    faultScaleFunction(_fault, num1, (1.0f + (1.0f - scaleSize[indexTra])), xD);
+    faultScaleFunction(_fault, num1, (1.0f + (1.0f - scaleSize[indexTra])), yD);
+    faultMoveFunction(_fault, num1, 1.5f, zD);
+
+    drawInit(faceVAO[indexTra + 1], faceVBO[indexTra + 1], _fault, num1);
+
+    Poly2TriBind(PolyVAOs[indexTra], PolyVBOs[indexTra], textures[indexTra],   triangles[indexTra]);
+
+}
 
 unsigned int loadTexture(char const * path)
 {
