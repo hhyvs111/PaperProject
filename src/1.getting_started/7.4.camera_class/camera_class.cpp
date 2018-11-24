@@ -121,7 +121,7 @@ unsigned int addTextures[MaxNum][MaxNum];
 //VERTEX *fault2_up, *fault2_down;
 
 //这个值为断层个数，现在暂时定为1个
-int modelNum = 2;
+int modelNum = 3;
 
 Delaunay *del;
 unsigned int DelTraVBOs[MaxNum], DelTraVAOs[MaxNum];
@@ -297,8 +297,14 @@ float faceData[MaxNum][12] = {
         }
 };
 
+
+VERTEX *closeLine[MaxNum];
+
+//还是要标出来每层对个数
+int closeDataNum[MaxNum] = {13, 13, 13};
+
 //后一个是前一个的洞，单层循环处理
-float closeData[MaxNum][39] = {
+float closeData[MaxNum][100] = {
         {
 
             -4.0f, 2.0f, -1.5f,
@@ -329,10 +335,25 @@ float closeData[MaxNum][39] = {
             -1.33f, -2.88f, 0,
             0.38f, -3.7f, 0,
             1.89f, -3.1f, 0,
+        },
+        {
+            3.26f, -3.31f, 1.5f,
+            3.65f, -2.04f, 1.5f,
+            3.52f, -0.33f, 1.5f,
+            3.13f, 1.42f, 1.5f,
+            1.92f, 2.98f, 1.5f,
+            0.87f, 4.23f, 1.5f,
+            -0.9f, 4.04f, 1.5f,
+            -2.8f, 3.37f, 1.5f,
+            -3.79f, 1.14f, 1.5f,
+            -2.86f, -1.04f, 1.5f,
+            -2.56f, -2.78f, 1.5f,
+            -0.28f, -4.19f, 1.5f,
+            1.66f, -3.99f, 1.5f
         }
 };
 
-VERTEX *closeLine[MaxNum];
+
 
 ////函数声明
 //void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection);
@@ -361,6 +382,8 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num,int in
 void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index, int which);
 
 void poly2Tri(VERTEX * Merge, int num, int index);
+
+void closePoly2Tri(VERTEX * closeOut, int num1, VERTEX * closeHole, int num2, int index);
 
 void lineBack(VERTEX * _faultUp, int num1, int indexLine, int indexTra);
 
@@ -467,57 +490,76 @@ int main()
 //
 //    }
 
+    //顺序处理，先把点输进去
     for(int i = 0 ;i < modelNum; i++)
     {
-        closeLine[i] = FloatToVertex(closeData[i], 39 * 3);
+        closeLine[i] = FloatToVertex(closeData[i], closeDataNum[i] * 3);
 
-        drawInit(faceVAO[i], faceVBO[i], closeLine[i], 39);
+        drawInit(faceVAO[i], faceVBO[i], closeLine[i], closeDataNum[i]);
+
+
+    }
+
+    for(int i = 0;i < modelNum - 1; i++)
+    {
+        //平移
+        faultMoveFunction(closeLine[i+1], closeDataNum[i+1], -1.5f, zD);
+        //放缩,对x和y
+        scaleFunction(closeLine[i], closeDataNum[i], closeLine[i+1], closeDataNum[i+1], i);
+
+        //--------
+        //转化
+        vector<Point*> out = VertexsToPoints(closeLine[i], closeDataNum[i]);
+        //三角化
+        closePoly2Tri(closeLine[i], closeDataNum[i], closeLine[i+1], closeDataNum[i+1], i);
+        //移回去
+        closeLineBack(closeLine[i+1], closeDataNum[i+1], i);
     }
 //    //现在改为缩放，就是乘以这个缩放值。
 //    faultScaleFunction(closeLine[1], 13, 0.6f, xD);
 //    faultScaleFunction(closeLine[1], 13, 0.6f, yD);
 
     //平移
-    faultMoveFunction(closeLine[1], 13, -1.5f, zD);
-
-    scaleFunction(closeLine[0], 13, closeLine[1], 13, 0);
-
-
-
-    drawInit(faceVAO[1], faceVBO[1], closeLine[1], 39);
-
-    //现在直接开始剖分，看一下怎么添加hole
-
-    int index = 0;
-    //输入这个外围
-    vector<Point*> out = VertexsToPoints(closeLine[0], 13);
-    polylines[index].push_back(out);
-
-    cdt[index] = new CDT(out);
-    vector<Point*> hole = VertexsToPoints(closeLine[1], 13);
-    cdt[index]->AddHole(hole);
-
-    polylines[index].push_back(hole);
-
-
-
-
-    //再插入洞
+//    faultMoveFunction(closeLine[1], 13, -1.5f, zD);
 //
-//        //开始剖分
-    cdt[index]->Triangulate();
-
-    //map是完整的剖分（包含空洞的剖分）？
-    map[index] = cdt[index]->GetMap();
-    triangles[index] = cdt[index]->GetTriangles();
-
-
-
-    closeLineBack(closeLine[1], 13, 0);
-
-
-
-    drawInit(faceVAO[1], faceVBO[1], closeLine[1], 39);
+//    scaleFunction(closeLine[0], 13, closeLine[1], 13, 0);
+//
+//
+//
+//    drawInit(faceVAO[1], faceVBO[1], closeLine[1], 39);
+//
+//    //现在直接开始剖分，看一下怎么添加hole
+//
+//    int index = 0;
+//    //输入这个外围
+//    vector<Point*> out = VertexsToPoints(closeLine[0], 13);
+//    polylines[index].push_back(out);
+//
+//    cdt[index] = new CDT(out);
+//    vector<Point*> hole = VertexsToPoints(closeLine[1], 13);
+//    cdt[index]->AddHole(hole);
+//
+//    polylines[index].push_back(hole);
+//
+//
+//
+//
+//    //再插入洞
+////
+////        //开始剖分
+//    cdt[index]->Triangulate();
+//
+//    //map是完整的剖分（包含空洞的剖分）？
+//    map[index] = cdt[index]->GetMap();
+//    triangles[index] = cdt[index]->GetTriangles();
+//
+//
+//
+//    closeLineBack(closeLine[1], 13, 0);
+//
+//
+//
+//    drawInit(faceVAO[1], faceVBO[1], closeLine[1], 39);
 
     //开始closelineback
 
@@ -691,6 +733,7 @@ int main()
         for(int j = 0; j < modelNum - 1 ; j++) {
 //                cout << j << endl;
             for (int i = 0; i < triangles[j].size(); i++) {
+                cout << triangles[j].size() << endl;
                 if (!triangles[j][i]->isHide) {
 
                     //激活一下这个纹理
@@ -700,7 +743,7 @@ int main()
 
                     glBindVertexArray(PolyVAOs[j][i]);
                     glDrawArrays(GL_LINE_STRIP, 0, 3);
-
+//                    glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
 
                 }
             }
@@ -1719,7 +1762,31 @@ void poly2Tri(VERTEX * Merge, int num, int index)
             Poly2TriOpen = true;
 }
 
+void closePoly2Tri(VERTEX * closeOut, int num1, VERTEX * closeHole, int num2, int index)
+{
+    //转换
+    vector<Point*> out = VertexsToPoints(closeOut, num1);
+    polylines[index].push_back(out);
 
+    cdt[index] = new CDT(out);
+    //加洞
+    vector<Point*> hole = VertexsToPoints(closeHole, num2);
+    cdt[index]->AddHole(hole);
+
+    polylines[index].push_back(hole);
+
+
+    //再插入洞
+//
+//        //开始剖分
+    cdt[index]->Triangulate();
+
+    //map是完整的剖分（包含空洞的剖分）？
+    map[index] = cdt[index]->GetMap();
+    triangles[index] = cdt[index]->GetTriangles();
+
+
+}
 void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
 {
     //0 为上层， 1 为下层
@@ -1862,8 +1929,11 @@ void closeLineBack(VERTEX * _fault, int num1, int indexTra)
             //如果这个点在
             if(VertexInVertexs(point.PointToVertex(), _fault, num1))
             {
+                if(point.isMove)
+                    continue;
+
                 point.isMove = true;
-                //这里先不写死看看。
+
                 point.z += 1.5f;
 
                 point.x *= (1.0f + (1.0f - scaleSize[indexTra]));
