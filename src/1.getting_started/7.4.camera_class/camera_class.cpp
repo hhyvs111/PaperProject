@@ -742,8 +742,8 @@ int main()
 
 
                     glBindVertexArray(PolyVAOs[j][i]);
-                    glDrawArrays(GL_LINE_STRIP, 0, 3);
-//                    glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
+//                    glDrawArrays(GL_LINE_STRIP, 0, 3);
+                    glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
 
                 }
             }
