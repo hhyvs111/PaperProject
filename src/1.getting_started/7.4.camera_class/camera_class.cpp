@@ -301,7 +301,7 @@ float faceData[MaxNum][12] = {
 VERTEX *closeLine[MaxNum];
 
 //还是要标出来每层对个数
-int closeDataNum[MaxNum] = {13, 13, 13};
+int closeDataNum[MaxNum] = {13, 13, 13, 7, 8};
 
 //后一个是前一个的洞，单层循环处理
 float closeData[MaxNum][100] = {
@@ -359,18 +359,22 @@ float closeData[MaxNum][100] = {
             -0.53f, 2.4f, 3.0f,
             -1.38f, 1.72f, 3.0f,
             -1.39f, 0.79f, 3.0f,
-            0.38f, 0.66f, 3.0f,
             -0.35f, 0.54f, 3.0f,
-            1.53f, -1.82, 3.0f,
-            1.72f, -1.15f, 3.0f,
-            0.8f, -1.13f, 3.0f,
-            -0.22f, -1.31f, 3.0f,
-            -0.98f, -1.6f, 3.0f,
-            -0.56f, -2.64f, 3.0f,
-            0.39f, -2.91f, 3.0f,
-            1.29f, -2.7f, 3.0f
+                0.38f, 0.66f, 3.0f
 
         }
+        ,
+        {
+            1.53f, -1.82, 3.0f,
+                    1.72f, -1.15f, 3.0f,
+                    0.8f, -1.13f, 3.0f,
+                    -0.22f, -1.31f, 3.0f,
+                    -0.98f, -1.6f, 3.0f,
+                    -0.56f, -2.64f, 3.0f,
+                    0.39f, -2.91f, 3.0f,
+                    1.29f, -2.7f, 3.0f
+        }
+
 };
 
 
@@ -510,16 +514,18 @@ int main()
 //
 //    }
 
-    //顺序处理，先把点输进去
-    for(int i = 0 ;i < modelNum; i++)
+    //顺序处理，先把点输进去，这里多处理了2个点。
+    for(int i = 0 ;i < modelNum + 2; i++)
     {
         closeLine[i] = FloatToVertex(closeData[i], closeDataNum[i] * 3);
 
+        cout << "closeLine raw " << closeLine[i][0].x << endl;
         drawInit(faceVAO[i], faceVBO[i], closeLine[i], closeDataNum[i]);
-
 
     }
 
+    
+    
     for(int i = 0;i < modelNum - 1; i++)
     {
         //平移
@@ -533,55 +539,58 @@ int main()
         //三角化
         closePoly2Tri(closeLine[i], closeDataNum[i], closeLine[i+1], closeDataNum[i+1], i);
         //移回去
+        cout << "closeLine befoe " << closeLine[i+1][0].x << endl;
         closeLineBack(closeLine[i+1], closeDataNum[i+1], i);
+
+        cout << "closeLine " << closeLine[i+1][0].x << endl;
     }
-//    //现在改为缩放，就是乘以这个缩放值。
-//    faultScaleFunction(closeLine[1], 13, 0.6f, xD);
-//    faultScaleFunction(closeLine[1], 13, 0.6f, yD);
 
-    //平移
-//    faultMoveFunction(closeLine[1], 13, -1.5f, zD);
-//
-//    scaleFunction(closeLine[0], 13, closeLine[1], 13, 0);
-//
-//
-//
-//    drawInit(faceVAO[1], faceVBO[1], closeLine[1], 39);
-//
-//    //现在直接开始剖分，看一下怎么添加hole
-//
-//    int index = 0;
-//    //输入这个外围
-//    vector<Point*> out = VertexsToPoints(closeLine[0], 13);
-//    polylines[index].push_back(out);
-//
-//    cdt[index] = new CDT(out);
-//    vector<Point*> hole = VertexsToPoints(closeLine[1], 13);
-//    cdt[index]->AddHole(hole);
-//
-//    polylines[index].push_back(hole);
-//
-//
-//
-//
-//    //再插入洞
-////
-////        //开始剖分
-//    cdt[index]->Triangulate();
-//
-//    //map是完整的剖分（包含空洞的剖分）？
-//    map[index] = cdt[index]->GetMap();
-//    triangles[index] = cdt[index]->GetTriangles();
-//
-//
-//
-//    closeLineBack(closeLine[1], 13, 0);
-//
-//
-//
-//    drawInit(faceVAO[1], faceVBO[1], closeLine[1], 39);
 
-    //开始closelineback
+    //放缩处理是一样的，主要是把两个圆放进去。
+    
+    for(int i = modelNum - 1; i < modelNum ; i++)
+    {
+        faultMoveFunction(closeLine[i+1], closeDataNum[i+1], -1.5f, zD);
+        faultMoveFunction(closeLine[i+2], closeDataNum[i+2], -1.5f, zD);
+        drawInit(faceVAO[i + 1], faceVBO[i + 1], closeLine[i + 1], closeDataNum[i + 1]);
+        drawInit(faceVAO[i + 2], faceVBO[i + 2], closeLine[i + 2], closeDataNum[i + 2]);
+
+        //放缩,对x和y
+        //不放缩了
+//        scaleFunction(closeLine[i], closeDataNum[i], closeLine[i+1], closeDataNum[i+1], i);
+
+        //--------
+        //转化 最外层
+        vector<Point*> out = VertexsToPoints(closeLine[i], closeDataNum[i]);
+
+        polylines[modelNum].push_back(out);
+
+        cdt[modelNum] = new CDT(out);
+        //加洞
+        vector<Point*> hole1 = VertexsToPoints(closeLine[i+1], closeDataNum[i+1]);
+        cdt[modelNum]->AddHole(hole1);
+        polylines[modelNum].push_back(hole1);
+
+        vector<Point*> hole2 = VertexsToPoints(closeLine[i+2], closeDataNum[i+2]);
+        cdt[modelNum]->AddHole(hole2);
+        polylines[modelNum].push_back(hole2);
+
+
+
+
+
+        //再插入洞
+//
+//        //开始剖分
+        cdt[modelNum]->Triangulate();
+
+        //map是完整的剖分（包含空洞的剖分）？
+        map[modelNum] = cdt[modelNum]->GetMap();
+        triangles[modelNum] = cdt[modelNum]->GetTriangles();
+
+        Poly2TriBind(PolyVAOs[modelNum], PolyVBOs[modelNum], textures[modelNum],   triangles[modelNum]);
+    }
+    
 
 
 
@@ -726,7 +735,7 @@ int main()
 
 
         //两条线，数据还是要改一下
-        for(int i = 0; i < modelNum; i++)
+        for(int i = 0; i < modelNum + 2; i++)
         {
 //            cout << "number : " << i << endl;
             //先画框
@@ -739,7 +748,7 @@ int main()
 //            lightingShader.setMat4("model", model);
 
             //可以先画这个外面的点，然后在画线啊真的蠢！
-            glDrawArrays(GL_LINE_LOOP, 0, 13);
+            glDrawArrays(GL_LINE_LOOP, 0, closeDataNum[i]);
 
 //            glBindVertexArray(faultUpVAO[i]);
 //            //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
@@ -750,10 +759,10 @@ int main()
         }
 
 
-        for(int j = 0; j < modelNum - 1 ; j++) {
-//                cout << j << endl;
+        for(int j = 0; j < modelNum + 1 ; j++) {
+                cout << j << endl;
             for (int i = 0; i < triangles[j].size(); i++) {
-                cout << triangles[j].size() << endl;
+//                cout << triangles[j].size() << endl;
                 if (!triangles[j][i]->isHide) {
 
                     //激活一下这个纹理
@@ -762,14 +771,14 @@ int main()
 
 
                     glBindVertexArray(PolyVAOs[j][i]);
-//                    glDrawArrays(GL_LINE_STRIP, 0, 3);
-                    glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
+                    glDrawArrays(GL_LINE_STRIP, 0, 3);
+//                    glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
 
                 }
             }
         }
 
-//        if(faultMove && cntMove == 0)µ
+//        if(faultMove && cntMove == 0)
 //        {
 //
 //
@@ -1728,13 +1737,23 @@ void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int inde
 void scaleFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index)
 {
     scaleSize[index] = 1.0f;
+
     //判断是否有相交对线
     while( !faultIntersect(fault1, num1, fault2, num2) )
     {
+        //这里的改变0.1是不是有问题，如果两次之后那么就是0.9 * 0.8 = 0.72
+        //还真是这样，
         //每次改变0.1
+
+        //变化之前先把它乘回来，不知道这样是不是开销有点大，我估摸着时间复杂度是O(N)
+        faultScaleFunction(fault2,num2, 1.0f / (scaleSize[index]) ,xD);
+        faultScaleFunction(fault2,num2, 1.0f / (scaleSize[index]) ,yD);
         scaleSize[index] -= 0.1f;
+//        cout << "index " << index << " fault[0] " << fault2[0].x << endl;
+//        cout << scaleSize[index] << endl;
         faultScaleFunction(fault2,num2, scaleSize[index] ,xD);
         faultScaleFunction(fault2,num2, scaleSize[index] ,yD);
+//        cout << "after index " << index << " fault[0] " << fault2[0].x << endl;
 
     }
 }
@@ -1956,15 +1975,16 @@ void closeLineBack(VERTEX * _fault, int num1, int indexTra)
 
                 point.z += 1.5f;
 
-                point.x *= (1.0f + (1.0f - scaleSize[indexTra]));
-                point.y *= (1.0f + (1.0f - scaleSize[indexTra]));
+                point.x *= (1.0f / scaleSize[indexTra]);
+                point.y *= (1.0f / scaleSize[indexTra]);
             }
         }
 
     }
     //将线平移回去
-    faultScaleFunction(_fault, num1, (1.0f + (1.0f - scaleSize[indexTra])), xD);
-    faultScaleFunction(_fault, num1, (1.0f + (1.0f - scaleSize[indexTra])), yD);
+    //放缩回去
+    faultScaleFunction(_fault, num1, (1.0f / scaleSize[indexTra]), xD);
+    faultScaleFunction(_fault, num1, (1.0f / scaleSize[indexTra]), yD);
     faultMoveFunction(_fault, num1, 1.5f, zD);
 
     drawInit(faceVAO[indexTra + 1], faceVBO[indexTra + 1], _fault, num1);
