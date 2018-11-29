@@ -760,7 +760,7 @@ int main()
 
 
         for(int j = 0; j < modelNum + 1 ; j++) {
-                cout << j << endl;
+//                cout << j << endl;
             for (int i = 0; i < triangles[j].size(); i++) {
 //                cout << triangles[j].size() << endl;
                 if (!triangles[j][i]->isHide) {
