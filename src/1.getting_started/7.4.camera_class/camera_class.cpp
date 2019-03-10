@@ -590,8 +590,49 @@ int main()
 
         Poly2TriBind(PolyVAOs[modelNum], PolyVBOs[modelNum], textures[modelNum],   triangles[modelNum]);
     }
-    
 
+    for(int i = modelNum - 1; i < modelNum ; i++)
+    {
+        faultMoveFunction(closeLine[i+1], closeDataNum[i+1], -1.5f, zD);
+        faultMoveFunction(closeLine[i+2], closeDataNum[i+2], -1.5f, zD);
+        drawInit(faceVAO[i + 1], faceVBO[i + 1], closeLine[i + 1], closeDataNum[i + 1]);
+        drawInit(faceVAO[i + 2], faceVBO[i + 2], closeLine[i + 2], closeDataNum[i + 2]);
+
+        //放缩,对x和y
+        //不放缩了
+//        scaleFunction(closeLine[i], closeDataNum[i], closeLine[i+1], closeDataNum[i+1], i);
+
+        //--------
+        //转化 最外层
+        vector<Point*> out = VertexsToPoints(closeLine[i], closeDataNum[i]);
+
+        polylines[modelNum].push_back(out);
+
+        cdt[modelNum] = new CDT(out);
+        //加洞
+        vector<Point*> hole1 = VertexsToPoints(closeLine[i+1], closeDataNum[i+1]);
+        cdt[modelNum]->AddHole(hole1);
+        polylines[modelNum].push_back(hole1);
+
+//        vector<Point*> hole2 = VertexsToPoints(closeLine[i+2], closeDataNum[i+2]);
+//        cdt[modelNum]->AddHole(hole2);
+//        polylines[modelNum].push_back(hole2);
+
+
+
+
+
+        //再插入洞
+//
+//        //开始剖分
+        cdt[modelNum]->Triangulate();
+
+        //map是完整的剖分（包含空洞的剖分）？
+        map[modelNum] = cdt[modelNum]->GetMap();
+        triangles[modelNum] = cdt[modelNum]->GetTriangles();
+
+        Poly2TriBind(PolyVAOs[modelNum], PolyVBOs[modelNum], textures[modelNum],   triangles[modelNum]);
+    }
 
 
 
@@ -679,7 +720,9 @@ int main()
 
     // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+//        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        //背景颜色
+        glClearColor(255, 255, 255, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -735,7 +778,7 @@ int main()
 
 
         //两条线，数据还是要改一下
-        for(int i = 0; i < modelNum + 2; i++)
+        for(int i = 2; i < modelNum + 2; i++)
         {
 //            cout << "number : " << i << endl;
             //先画框
@@ -759,7 +802,7 @@ int main()
         }
 
 
-        for(int j = 0; j < modelNum + 1 ; j++) {
+        for(int j = 2; j < modelNum + 1 ; j++) {
 //                cout << j << endl;
             for (int i = 0; i < triangles[j].size(); i++) {
 //                cout << triangles[j].size() << endl;
