@@ -1891,8 +1891,6 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
     }
 
     //线平移后要绑定一下
-
-
     //获取初始三角现在要改变这个三角里的数据
 //    cout << "get in indexTra:" << indexTra <<endl;
 //    cout << triangles[indexTra].size() << endl;
@@ -1925,7 +1923,6 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
                 {
                     //判断是上面的线还是下面的线，一半双数是上面的线，单数是下面的线
                     //0为上
-
                     if(faultMoveSize[indexLine][line][j].size == 0)
                         continue;
 //                    cout << "indexTra " << indexTra<<endl;
@@ -1967,8 +1964,6 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
             {
                 ExcessTraHandle(&t, faultDown[indexLine + 1], 10, indexTra);
             }
-
-
         }
         //多余三角在第二条边，那么传入的就是第一条边的线
         if(pointsInLineTwo == 3)

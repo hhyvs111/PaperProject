@@ -1,0 +1,9 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/tanwenbo/CLionProjects/PaperProject
+-- GLM_INCLUDE_DIR = /usr/local/include
+-- GLM included at /usr/local/include
+-- Found GLFW3 in /usr/local/include
+-- Found ASSIMP: /usr/local/lib/libassimp.dylib
+-- Found ASSIMP in /usr/local/include
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug
