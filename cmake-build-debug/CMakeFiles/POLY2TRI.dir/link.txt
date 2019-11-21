@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libPOLY2TRI.a  CMakeFiles/POLY2TRI.dir/poly2tri/common/shapes.cc.o CMakeFiles/POLY2TRI.dir/poly2tri/sweep/advancing_front.cc.o CMakeFiles/POLY2TRI.dir/poly2tri/sweep/cdt.cc.o CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep_context.cc.o CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep.cc.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libPOLY2TRI.a

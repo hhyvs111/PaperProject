@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="LearnOpenGL"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake\;CMake Files\cmake\modules\;CMake Files\configuration\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="1.getting_started__7.4.camera_class">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/bin/1.getting_started/1.getting_started__7.4.camera_class" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 1.getting_started__7.4.camera_class"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="1.getting_started__7.4.camera_class/fast">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/bin/1.getting_started/1.getting_started__7.4.camera_class" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 1.getting_started__7.4.camera_class/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="STB_IMAGE">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/libSTB_IMAGE.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 STB_IMAGE"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="STB_IMAGE/fast">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/libSTB_IMAGE.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 STB_IMAGE/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="POLY2TRI">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/libPOLY2TRI.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 POLY2TRI"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="POLY2TRI/fast">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/libPOLY2TRI.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 POLY2TRI/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GLAD">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/libGLAD.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 GLAD"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="GLAD/fast">
+				<Option output="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/libGLAD.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/configuration"/>
+					<Add directory="/Users/tanwenbo/CLionProjects/PaperProject/includes"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 GLAD/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/Delaunay.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/mapbox/earcut.hpp">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/vertex.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/common/shapes.cc">
+			<Option target="POLY2TRI"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/common/shapes.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/common/utils.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/poly2tri.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/advancing_front.cc">
+			<Option target="POLY2TRI"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/advancing_front.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/cdt.cc">
+			<Option target="POLY2TRI"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/cdt.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/sweep.cc">
+			<Option target="POLY2TRI"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/sweep.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/sweep_context.cc">
+			<Option target="POLY2TRI"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/poly2tri/sweep/sweep_context.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.camera.fs">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.camera.vs">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.lamp.fs">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.lamp.vs">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.fs">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.vs">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/camera_class.cpp">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/Delaunay.cpp">
+			<Option target="GLAD"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/glad.c">
+			<Option target="GLAD"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/stb_image.cpp">
+			<Option target="STB_IMAGE"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/vertex.cpp">
+			<Option target="GLAD"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/cmake/modules/FindASSIMP.cmake">
+			<Option virtualFolder="CMake Files\cmake\modules\"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/cmake/modules/FindGLFW3.cmake">
+			<Option virtualFolder="CMake Files\cmake\modules\"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/cmake/modules/FindGLM.cmake">
+			<Option virtualFolder="CMake Files\cmake\modules\"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/configuration/root_directory.h.in">
+			<Option virtualFolder="CMake Files\configuration\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

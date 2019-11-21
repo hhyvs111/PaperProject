@@ -1,0 +1,6 @@
+/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir
+/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/STB_IMAGE.dir
+/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/POLY2TRI.dir
+/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/GLAD.dir
