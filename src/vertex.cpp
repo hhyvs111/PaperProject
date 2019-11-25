@@ -45,7 +45,7 @@ VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
     {
         merge[i] = vertex1[i];
     }
-
+    //顺时针写入数据
     for(int i = num1,j = num2 -1 ;j >= 0;j--)
     {
         merge[i++] = vertex2[j];
@@ -83,7 +83,8 @@ void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirecti
     }
 }
 
-bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
+//判断线是否相交
+bool lineIntersectSide(const VERTEX &A, const VERTEX &B, const VERTEX &C, const VERTEX &D)
 {
     float fC = (C.y - A.y) * (A.x - B.x) - (C.x - A.x) * (A.y - B.y);
     float fD = (D.y - A.y) * (A.x - B.x) - (D.x - A.x) * (A.y - B.y);
@@ -92,8 +93,9 @@ bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
     return true;
 
 }
-//主要原理就是另一条线的一个点是否在一条直线的同一侧？如果两条线都不在同一侧那么就是不想交的。
-bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
+
+//主要原理就是另一条线的一个点是否在一条直线的同一侧？如果两条线都不在同一侧那么就是不相交的。
+bool sideIntersectSide(const VERTEX &A, const VERTEX &B, const VERTEX &C, const VERTEX &D)
 {
     if(!lineIntersectSide(A, B, C, D))
         return false;
@@ -163,6 +165,7 @@ float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
     return minDistance;
 }
 
+//顶点组成三角形
 AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c)
 {
     AddTriangle _triangle;

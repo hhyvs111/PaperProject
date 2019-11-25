@@ -869,6 +869,8 @@ vertex.h
 -
 cmath
 -
+iostream
+-
 
 ../poly2tri/poly2tri.h
 common/shapes.h

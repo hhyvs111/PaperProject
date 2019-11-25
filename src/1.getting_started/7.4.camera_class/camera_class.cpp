@@ -41,8 +41,6 @@ std::vector<N> indices;
 int EarTraSize = 0;
 
 
-
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -85,7 +83,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 //灯光的位置
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(0.5f, 1.0f, 0.0f);
 
 //function
 //设置一下变量，用按键实现一下功能
@@ -121,7 +119,9 @@ unsigned int addTextures[1024][1024];
 //VERTEX *fault2_up, *fault2_down;
 
 //这个值为断层个数，现在暂时定为1个
-int modelNum = 4;
+int modelNum = 2;
+
+const int MaxNum = 1e6;
 
 Delaunay *del;
 unsigned int DelTraVBOs[1024], DelTraVAOs[1024];
@@ -136,7 +136,6 @@ unsigned int EarVBOs[1024], EarVAOs[1024];
 //这个变量用来来记录面里平移的长度，一个面有两条线。每条线有三个方位的平移值
 moveSize faultMoveSize[1024][2][3];
 
-//搞个三维数组玩玩
 float faultData[1024][2][30] = {
         {
         {
@@ -151,23 +150,18 @@ float faultData[1024][2][30] = {
                 -0.38f, 0.25f, -0.5f + 1.0f,
                 -0.5f, 0.22f, -0.5f + 1.0f,
         }
-        //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f+ 1.0f,
-//            -0.5f, 0.22f,  -0.5f+ 1.0f,
-        //怎么这个点重复了，有毒。
-        //x下层
         ,
         {
-                -0.5f, -0.24f, -0.5f + 1.0f,
-                -0.41f, -0.23f, -0.5f + 1.0f,
-                -0.29f, -0.23f, -0.5f + 1.0f,
-                -0.23f, -0.29f, -0.5f + 1.0f,
-                -0.05f, -0.32f, -0.5f + 1.0f,
-                0.08f, -0.31f, -0.5f + 1.0f,
-                0.19f, -0.25f, -0.5f + 1.0f,
-                0.29f, -0.3f, -0.5f + 1.0f,
-                0.4f, -0.26f, -0.5f + 1.0f,
-                0.5f, -0.29f, -0.5f + 1.0f,
+                -0.5f, -0.24f + 0.3f, -0.5f + 1.0f,
+                -0.41f, -0.23f + 0.3f, -0.5f + 1.0f,
+                -0.29f, -0.23f + 0.3f, -0.5f + 1.0f,
+                -0.23f, -0.29f + 0.3f, -0.5f + 1.0f,
+                -0.05f, -0.32f + 0.3f, -0.5f + 1.0f,
+                0.08f, -0.31f + 0.3f, -0.5f + 1.0f,
+                0.19f, -0.25f + 0.3f, -0.5f + 1.0f,
+                0.29f, -0.3f + 0.3f, -0.5f + 1.0f,
+                0.4f, -0.26f + 0.3f, -0.5f + 1.0f,
+                0.5f, -0.29f + 0.3f, -0.5f + 1.0f,
         }
         }
         ,
@@ -183,23 +177,18 @@ float faultData[1024][2][30] = {
                         -0.30f, 0.25f,  -0.5f ,
                         -0.41f, 0.20f,  -0.5f ,
                         -0.5f, 0.22f,  -0.5f }
-            //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-            //怎么这个点重复了，有毒。
-            //x下层
             ,
             {
-                -0.5f, -0.24f,  -0.5f ,
-                        -0.42f, -0.21f,  -0.5f ,
-                        -0.35f, -0.22f,  -0.5f ,
-                        -0.20f, -0.29f,  -0.5f ,
-                        -0.05f, -0.32f,  -0.5f ,
-                        0.08f, -0.30f,  -0.5f ,
-                        0.19f, -0.25f,  -0.5f ,
-                        0.31f, -0.3f,  -0.5f ,
-                        0.43f, -0.27f,  -0.5f ,
-                        0.5f, -0.29f, -0.5f }
+                -0.5f, -0.24f + 0.3f,  -0.5f ,
+                        -0.42f, -0.21f + 0.3f,  -0.5f ,
+                        -0.35f, -0.22f + 0.3f,  -0.5f ,
+                        -0.20f, -0.29f + 0.3f,  -0.5f ,
+                        -0.05f, -0.32f + 0.3f,  -0.5f ,
+                        0.08f, -0.30f + 0.3f,  -0.5f ,
+                        0.19f, -0.25f + 0.3f,  -0.5f ,
+                        0.31f, -0.3f + 0.3f,  -0.5f ,
+                        0.43f, -0.27f + 0.3f,  -0.5f ,
+                        0.5f, -0.29f + 0.3f, -0.5f }
         }
         ,
         {
@@ -214,11 +203,6 @@ float faultData[1024][2][30] = {
                         -0.30f, 0.25f,  -0.5f - 1.0f ,
                         -0.41f, 0.20f,  -0.5f - 1.0f ,
                         -0.5f, 0.22f,  -0.5f - 1.0f }
-                //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-                //怎么这个点重复了，有毒。
-                //x下层
                 ,
                 {
                         -0.5f, -0.24f,  -0.5f - 1.0f ,
@@ -245,11 +229,6 @@ float faultData[1024][2][30] = {
                         -0.30f, 0.25f,  -0.5f - 2.0f ,
                         -0.41f, 0.20f,  -0.5f - 2.0f ,
                         -0.5f, 0.22f,  -0.5f - 2.0f }
-            //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-            //怎么这个点重复了，有毒。
-            //x下层
             ,
             {
                 -0.5f, -0.24f,  -0.5f - 2.0f ,
@@ -294,16 +273,6 @@ float faceData[1024][12] = {
         }
 };
 
-//第二个平面的断层
-//这种断层数据不要一样，主要是这个z坐标的区别。
-//float fault2[2][30] = {
-//
-////            0.5f, 0.4f,   -0.5f ,
-//};
-
-
-
-
 ////函数声明
 //void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection);
 ////将两个顶点数组合并为1个
@@ -333,6 +302,7 @@ void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int inde
 void poly2Tri(VERTEX * Merge, int num, int index);
 
 void lineBack(VERTEX * _faultUp, int num1, int indexLine, int indexTra);
+
 
 int main()
 {
@@ -376,361 +346,72 @@ int main()
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
 
-    //光照顶点缓冲
-//    Shader lightingShader("7.4.lighting_maps.vs", "7.4.lighting_maps.fs");
+
 //    Shader lampShader("7.4.lamp.vs", "7.4.lamp.fs");
-//
-//
-//    unsigned int VBO;
-//    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-//    unsigned int lightVAO;
-//    glGenVertexArrays(1, &lightVAO);
-//    glBindVertexArray(lightVAO);
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-//    glEnableVertexAttribArray(0);
-//
-//
-//    lightingShader.use();
-//    lightingShader.setInt("material.diffuse", 0);
+
+
+    unsigned int VBO;
+    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+    unsigned int lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+
+
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Shader ourShader("7.4.camera.vs", "7.4.camera.fs");
 
+    //导入纹理
+//    Shader ourShader("7.4.camera.vs", "7.4.camera.fs");
 
+    //光照顶点缓冲
+    Shader lightingShader("7.4.lighting_maps.vs", "7.4.lighting_maps.fs");
+//    Shader lightingShader("7.4.camera.vs", "7.4.camera.fs");
+    lightingShader.use();
+    lightingShader.setInt("material.diffuse", 0);
 
-
-    //我尼玛，全都可以放在一个循环里了
     for(int i = 0;i < modelNum; i++)
     {
+        //这里画的是外部的矩形
         glGenVertexArrays(1, &faceVAO[i]);
         glGenBuffers(1, &faceVBO[i]);
-
-
-        //第一个矩形
         glBindVertexArray(faceVAO[i]);
-
         glBindBuffer(GL_ARRAY_BUFFER, faceVBO[i]);
         glBufferData(GL_ARRAY_BUFFER, sizeof(faceData[i]), faceData[i], GL_STATIC_DRAW);
-//        cout << "number: " << i << endl;
-        // position attribute
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
 
-        //处理这个线
+        //将简单的数组转换成顶点类型
         faultUp[i] = FloatToVertex(faultData[i][0], (sizeof(faultData[i][0])) / 4);
-//        cout << "the z " << faultUp[i][0].z << endl;
+
         faultDown[i] = FloatToVertex(faultData[i][1], (sizeof(faultData[i][1])) / 4);
 
-        drawInit(faultUpVAO[i], faultUpVBO[i], faultUp[i], sizeof(faultData[i][0]) / 12);
-
-        drawInit(faultDownVAO[i], faultDownVBO[i], faultDown[i], sizeof(faultData[i][1]) / 12);
+        //绑定不同的数组
+//        drawInit(faultUpVAO[i], faultUpVBO[i], faultUp[i], sizeof(faultData[i][0]) / 12);
+//
+//        drawInit(faultDownVAO[i], faultDownVBO[i], faultDown[i], sizeof(faultData[i][1]) / 12);
 
     }
-//    glGenVertexArrays(2, VAOs);
-//    glGenBuffers(2, VBOs);
-//
-//
-//    //第一个矩形
-//    glBindVertexArray(VAOs[0]);
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(cube1), cube1, GL_STATIC_DRAW);
-//
-//    // position attribute
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-//    glEnableVertexAttribArray(0);
-//    //第二个矩形
-//    glBindVertexArray(VAOs[1]);
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(cube22),cube22, GL_STATIC_DRAW);
-//
-//    // position attribute
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-//    glEnableVertexAttribArray(0);
-
-
-//    VERTEX vertex[20];
-
-   //分配空间,sizeof是120，那么要除以4啊。
-
-   //三维数组处理
-
-//   fault1_up = FloatToVertex(fault1[0], (sizeof(fault1[0])) / 4);
-//   fault1_down = FloatToVertex(fault1[1], (sizeof(fault1[1])) / 4);
-
-
-   //把这个原来的线也要放进缓冲器
-//    unsigned int fault1_upVBO, fault1_upVAO;
-//    drawInit(fault1_upVAO, fault1_upVBO, fault1_up, sizeof(fault1[0]) / 12);
-//
-//    unsigned int fault1_downVBO, fault1_downVAO;
-//    drawInit(fault1_downVAO, fault1_downVBO, fault1_down, sizeof(fault1[1]) / 12);
-//
-//
-//    fault2_up = FloatToVertex(fault2[0], (sizeof(fault2[0])) / 4);
-//    fault2_down = FloatToVertex(fault2[1], (sizeof(fault2[1])) / 4);
-//
-//
-//    //把这个原来的线也要放进缓冲器
-//    unsigned int fault2_upVBO, fault2_upVAO;
-//    drawInit(fault2_upVAO, fault2_upVBO, fault2_up, sizeof(fault2[0]) / 12);
-//
-//    unsigned int fault2_downVBO, fault2_downVAO;
-//    drawInit(fault2_downVAO, fault2_downVBO, fault2_down, sizeof(fault2[1]) / 12);
-
-
-
-
-   //falut为断层，将其传入三角剖分的构造函数里去。
-   //现在改为这个传入顶点了，那么还是要做一个顶点集合，就是两个断层合入为一个断层。
-
-
-//    VERTEX *MergeFault = NULL;
-//    MergeFault = faultMerge(fault1_up, 10, fault1_up, 10);
-
-//    Delaunay del((faultMerge(fault1_up, 10, fault2_up, 10)), 20);
-      //初始化
-//      del = new Delaunay();
-
-
-
-
-
-////    Delaunay del(fault,60);
-//    cout <<"the size of :" << (sizeof(fault1)/4)<< endl;
-//
-//    //先声明一组vbo
-//    int DelTraNumber = del->HowMany + 1;
-//    //浪费了一个0这个顶点数据，三角剖分代码里都数据都是从1开始的
-//    unsigned int DelTraVBOs[DelTraNumber], DelTraVAOs[DelTraNumber];
-//    glGenVertexArrays(DelTraNumber,DelTraVAOs);
-//    glGenBuffers(DelTraNumber,DelTraVBOs);
-//
-//    //循环读取del里的三角形顶点数据
-//    for(int i = 1; i < DelTraNumber; i++)
-//    {
-//        float TraVertex[9];
-//        //不对啊，这里还有vvo和vv1？傻逼了
-//        //将顶点分配给这个float
-//        TraVertex[0] = del->Vertex[del->Triangle[i].vv0].x;
-//        TraVertex[1] = del->Vertex[del->Triangle[i].vv0].y;
-//        TraVertex[2] = del->Vertex[del->Triangle[i].vv0].z;
-//        TraVertex[3] = del->Vertex[del->Triangle[i].vv1].x;
-//        TraVertex[4] = del->Vertex[del->Triangle[i].vv1].y;
-//        TraVertex[5] = del->Vertex[del->Triangle[i].vv1].z;
-//        TraVertex[6] = del->Vertex[del->Triangle[i].vv2].x;
-//        TraVertex[7] = del->Vertex[del->Triangle[i].vv2].y;
-//        TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
-//        //一个个三角画的，主要是找顶点，为什么会有不存在的店。
-//        //0 0.24 1.5 比如这个点，有哦
-//
-//        cout<<"TraNumber:"<<i<<endl;
-//        for(int j = 0 ;j < 9; j++)
-//        {
-//            cout<<TraVertex[j]<<" ";
-//            //应该是这里出错了，尼玛哦，看了我半天日了你爹
-//            if((j+1)%3 == 0)
-//            {
-//                cout<<endl;
-//            }
-//        }
-//        cout<<endl;
-//
-//        //绑定到vbo里
-//        glBindVertexArray(DelTraVAOs[i]);
-//
-//        glBindBuffer(GL_ARRAY_BUFFER, DelTraVBOs[i]);
-//        glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
-//
-//        // position attribute
-//        //这里的步长为3，之前的是5因为有纹理坐标
-//        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//        glEnableVertexAttribArray(0);
-//    }
-
-
-
-
-
-//    //一个三角形有三点点，howmany为Delaunay三角的个数。
-//    float dataFinish[del.HowMany * 3 ];
-//    //但是循环不需要乘以3，是以三角形的结构体存在vertex里的。
-//    for(int i = 1, j = 0; i <= del.HowMany && j < del.HowMany * 3; i++,j+=3)
-//    {
-//        dataFinish[j] = del.Vertex[del.Triangle[i].vv0].x;
-//        dataFinish[j+1] = del.Vertex[del.Triangle[i].vv0].y;
-//        dataFinish[j+2] = del.Vertex[del.Triangle[i].vv0].z;
-//        cout << "the "<<i << "vertex: x:"<<dataFinish[j]<<" y:"<<dataFinish[j+1] << " z:"<< dataFinish[j+2]<<endl;
-//    }
-//    //放个局部变量
-//    //构造完float数组后将其传入顶点缓存器
-//    unsigned int DelaunayVBO, DelaunayVAO;
-//    glGenVertexArrays(1, &DelaunayVAO);
-//    glGenBuffers(1, &DelaunayVBO);
-//
-//    //第一个矩形
-//    glBindVertexArray(DelaunayVAO);
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, DelaunayVBO);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(dataFinish), dataFinish, GL_STATIC_DRAW);
-//
-//    // position attribute
-//    //这里的步长为3，之前的是5因为有纹理坐标
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//    glEnableVertexAttribArray(0);
-//   float fault2[] = {
-//           -0.5f, -0.24f,  -0.5f+ 1.0f,
-//            -0.41f, -0.23f,  -0.5f+ 1.0f,
-//            -0.29f, -0.23f,  -0.5f+ 1.0f,
-//            -0.23f, -0.29f,  -0.5f+ 1.0f,
-//            -0.05f, -0.32f,  -0.5f+ 1.0f,
-//            0.08f, -0.31f,  -0.5f+ 1.0f,
-//            0.19f, -0.25f,  -0.5f+ 1.0f,
-//            0.29f, -0.3f,  -0.5f+ 1.0f,
-//            0.4f, -0.26f,  -0.5f+ 1.0f,
-//            0.5f, -0.29f, -0.5f+ 1.0f,
-//            0.5f, 0.4f,   -0.5f+ 1.0f,
-//            0.5f, -0.29f,  -0.5f+ 1.0f
-//   };
-
-
-
-    // load and create a texture
-    // -------------------------
-//    unsigned int texture1, texture2;
-//    // texture 1
-//    // ---------
-//    glGenTextures(1, &texture1);
-//    glBindTexture(GL_TEXTURE_2D, texture1);
-//    // set the texture wrapping parameters
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//    // set texture filtering parameters
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//    // load image, create texture and generate mipmaps
-//    int width, height, nrChannels;
-//    stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-//    unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/container.jpg").c_str(), &width, &height, &nrChannels, 0);
-//    if (data)
-//    {
-//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//        glGenerateMipmap(GL_TEXTURE_2D);
-//    }
-//    else
-//    {
-//        std::cout << "Failed to load texture" << std::endl;
-//    }
-//    stbi_image_free(data);
-//    // texture 2
-//    // ---------
-//    glGenTextures(1, &texture2);
-//    glBindTexture(GL_TEXTURE_2D, texture2);
-//    // set the texture wrapping parameters
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//    // set texture filtering parameters
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//    // load image, create texture and generate mipmaps
-//    data = stbi_load(FileSystem::getPath("resources/textures/awesomeface.png").c_str(), &width, &height, &nrChannels, 0);
-//    if (data)
-//    {
-//        // note that the awesomeface.png has transparency and thus an alpha channel, so make sure to tell OpenGL the data type is of GL_RGBA
-//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-//        glGenerateMipmap(GL_TEXTURE_2D);
-//    }
-//    else
-//    {
-//        std::cout << "Failed to load texture" << std::endl;
-//    }
-//    stbi_image_free(data);
-
-    // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
-    // -------------------------------------------------------------------------------------------
-//    ourShader.use();
-//    ourShader.setInt("texture1", 0);
-//    ourShader.setInt("texture2", 1);
-
-//这个三角剖分的地方不应该放在画图的位置，画图只管画顶点就好了。
-    // render loop
-    // -----------
-
-//    int cnt = 0;
-//    for(int i = 0;i < 186; i++)
-//    {
-//        double x = test[i++];
-//        double y = test[i];
-//        polyline.push_back(new Point(x,y));
-//        cnt ++;
-//        cout << " double "<< x<< " " << y<< endl;
-//    }
-//
-//    cout << "Number of constrained edges = " << polyline.size() << endl;
-//
-//
-//    cout << cnt <<endl;
-
-
-
-
-
-// Fill polygon structure with actual data. Any winding order works.
-// The first polyline defines the main polygon.
-
-//    polygon.push_back({{100, 0, 1}, {100, 100, 1}, {0, 100, 1}, {0, 0, 3}});
-//// Following polylines define holes.
-//    polygon.push_back({{75, 25,1}, {75, 75,2 }, {25, 75,3}, {25, 25, 4}});
-//    cout << "polygon size :" << polygon.size() << endl;
-
-//    std::vector<N> indices = mapbox::earcut<N>(polygon);
-//
-//    cout << "the indices size: " << indices.size() <<endl;
-//    for (const auto& i : indices) {
-//        Point point;
-//        cout  << i<< endl;
-////        cout << indices.at(i) << endl;
-////        cout << endl;
-//        //因为这个polygon只有一个，那么就是第一个，那么怎么访问第2个poly呢？这个是个问题了
-//        //如果大于4则是访问第二个多边形
-//        if(i >= 4)
-//        {
-//            point.x = polygon.at(1).at(i - 4).at(0);
-//            point.y = polygon.at(1).at(i - 4).at(1);
-//            point.z = polygon.at(1).at(i - 4).at(2);
-//        }
-//        else
-//        {
-//            point.x = polygon.at(0).at(i).at(0);
-//            point.y = polygon.at(0).at(i).at(1);
-//            point.z = polygon.at(0).at(i).at(2);
-//        }
-//
-//        cout <<  point.x<< " " << point.y << " "  << point.z << endl;
-//
-//    }
 
     //开始全自动处理,减1是因为n个面只做n-1次处理
     for(int i = 0, j = 0; i < modelNum - 1; i++)
     {
+        //上下建模，继续完成侧面的数据。
+        poly2Tri(faultMerge(faultUp[i], 10, faultDown[i], 10), 20, j + modelNum);
+        Poly2TriBind(PolyVAOs[j + modelNum], PolyVBOs[j + modelNum], textures[j + modelNum],   triangles[j + modelNum]);
         //主要也是这个循环，感觉这个循环可以做很多事了。
 
         //平移
-//        cout << " before move " <<  faultUp[i][1].y << endl;
-//        cout << " before move " <<  faultUp[i+1][1].y << endl;
         moveFunction(faultUp[i], 10, faultUp[i+1], 10, i, 0);
-//        cout << " after move " <<  faultUp[i][1].y << endl;
-//        cout << " after move " <<  faultUp[i+1][1].y << endl;
         moveFunction(faultDown[i], 10, faultDown[i+1], 10, i , 1);
-
         //测试效果
-
-
         //平移完后就开始三角化
         //这里的i和i+1不能这样用，这里的三角
         poly2Tri(faultMerge(faultUp[i], 10, faultUp[i+1], 10), 20, j);
@@ -738,9 +419,13 @@ int main()
 
         //i为线的值，但是要在里面判断一下是哪一条，可以通过j来判断
         //只处理up的线
-        lineBack(faultUp[i+1], 10, i, j++ );
+        lineBack(faultUp[i+1], 10, i, j++);
+
         poly2Tri(faultMerge(faultDown[i], 10, faultDown[i+1], 10), 20, j);
         lineBack(faultDown[i+1], 10, i, j++);
+
+
+
 //
 //        //计算多余三角和撤回
 //        //只算这个面的其中一半
@@ -754,7 +439,6 @@ int main()
 
         drawInit(faultUpVAO[i+1], faultUpVBO[i+1], faultUp[i+1], sizeof(faultData[i+1][0]) / 12);
         drawInit(faultDownVAO[i+1], faultDownVBO[i+1], faultDown[+1], sizeof(faultData[i+1][1]) / 12);
-
     }
 //    ourShader.use();
 //    ourShader.setInt("texture1", 0);
@@ -762,13 +446,13 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         //更新mojave后的bug，加入以下代码才能正常显示
-        bool needDraw = true;
-        if (needDraw) {
-            glfwShowWindow(window);
-            glfwHideWindow(window);
-            glfwShowWindow(window);
-            needDraw = false;
-        }
+//        bool needDraw = true;
+//        if (needDraw) {
+//            glfwShowWindow(window);
+//            glfwHideWindow(window);
+//            glfwShowWindow(window);
+//            needDraw = false;
+//        }
 
         // per-frame time logic
         // --------------------
@@ -782,36 +466,42 @@ int main()
 
     // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        //背景色
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        //光照漫反射实现
+        lightingShader.use();
+        lightingShader.setVec3("light.position", lightPos);
+        lightingShader.setVec3("viewPos", camera.Position);
+
+        // light properties
+        //环境光照
+        lightingShader.setVec3("light.ambient", 0.3f, 0.3f, 0.3f);
+        //漫反射光照
+        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+        //镜面光照
+        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+        // material properties
+        lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+        lightingShader.setFloat("material.shininess", 64.0f);
+
+        // view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.GetViewMatrix();
+        lightingShader.setMat4("projection", projection);
+        lightingShader.setMat4("view", view);
+
+        // world transformation
+        glm::mat4 model;
+        lightingShader.setMat4("model", model);
 
 
-//        lightingShader.use();
-//        lightingShader.setVec3("light.position", lightPos);
-//        lightingShader.setVec3("viewPos", camera.Position);
-//
-//        // light properties
-//        lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
-//        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
-//        lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-//
-//        // material properties
-//        lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-//        lightingShader.setFloat("material.shininess", 64.0f);
-//
-//        // view/projection transformations
-//        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-//        glm::mat4 view = camera.GetViewMatrix();
-//        lightingShader.setMat4("projection", projection);
-//        lightingShader.setMat4("view", view);
-//
-//        // world transformation
-//        glm::mat4 model;
-//        lightingShader.setMat4("model", model);
+        //绑定纹理
 //
 ////
-//        //这里是灯光的shadel
+        //这里是灯光的shadel
 //        lampShader.use();
 //        lampShader.setMat4("projection", projection);
 //        lampShader.setMat4("view", view);
@@ -819,35 +509,37 @@ int main()
 //        model = glm::translate(model, lightPos);
 //        model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 //        lampShader.setMat4("model", model);
-//
+
 //        glBindVertexArray(lightVAO);
 //        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
         // activate shader
-        ourShader.use();
-        // pass projection matrix to shader (note that in this case it could change every frame)
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        //这个变量很重要
-        ourShader.setMat4("projection", projection);
+//        ourShader.use();
+//        // pass projection matrix to shader (note that in this case it could change every frame)
+//        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+//        //这个变量很重要
+//        ourShader.setMat4("projection", projection);
+//
+//        // camera/view transformation
+//        glm::mat4 view = camera.GetViewMatrix();
+//        ourShader.setMat4("view", view);
+//
+//
+//        glm::mat4 model;
+//        float angle = 20.0f * 0;
+//        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+//        ourShader.setMat4("model", model);
 
-        // camera/view transformation
-        glm::mat4 view = camera.GetViewMatrix();
-        ourShader.setMat4("view", view);
-
-
-
-        //两条线，数据还是要改一下
+        //画线和框
         for(int i = 0; i < modelNum; i++)
         {
 //            cout << "number : " << i << endl;
             //先画框
             glBindVertexArray(faceVAO[i]);
-            glm::mat4 model;
-//            model = glm::translate(model, cubePositions[0]);
-            float angle = 20.0f * 0;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            ourShader.setMat4("model", model);
+
+
+
 //            lightingShader.setMat4("model", model);
 
             //可以先画这个外面的点，然后在画线啊真的蠢！
@@ -856,115 +548,44 @@ int main()
             glBindVertexArray(faultUpVAO[i]);
             //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
             glDrawArrays(GL_LINE_STRIP,0 , (sizeof(faultData[i][0])) / 12);
-
             glBindVertexArray(faultDownVAO[i]);
             glDrawArrays(GL_LINE_STRIP,0 , (sizeof(faultData[i][1])) / 12);
         }
 
-
-
-
-//        if(faultMove && cntMove == 0)
-//        {
-//
-//
-//
-//
-//            cntMove = 1;
-//            //重新载入一下，加入缓冲
-//            drawInit(faultUpVAO[0], faultUpVBO[0], faultUp[0], sizeof(faultData[0]) / 12);
-//            drawInit(faultUpVAO[1], faultUpVBO[1], faultUp[1], sizeof(faultData[1]) / 12);
-//
-//            del->Init((faultMerge(faultUp[0], 10, faultUp[1], 10)), 20);
-//
-//        }
-//        if(moveBack && cntBack == 0)
-//        {
-//            cntBack = 1;
-//            //重新载入一下，加入缓冲
-//            drawInit(faultUpVAO[0], faultUpVBO[0], faultUp[0], sizeof(faultData[0]) / 12);
-//            drawInit(faultUpVAO[1], faultUpVBO[1], faultUp[1], sizeof(faultData[1]) / 12);
-//
-//            del->Init((faultMerge(faultUp[0], 10, faultUp[1], 10)), 20);
-//
-//        }
-//        glBindVertexArray(fault2_upVAO);
-//        //这里算不出结构体指针所指向的大小，只能用之前的数组代替了。
-//        glDrawArrays(GL_LINE_STRIP, 0 , sizeof(fault2[0]) / 12);
-//
-//        glBindVertexArray(fault2_downVAO);
-//        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault2[1])) / 12);
-//
-//        glBindVertexArray(fault1VAO);
-//        glDrawArrays(GL_LINE_STRIP,0 , (sizeof(fault1))/12);
-//        glBindVertexArray(DelaunayVAO);
-//        glDrawArrays(GL_LINE_STRIP,0,del.HowMany * 3);
-//
-//        if(DelaunayOpen)
-//        {
-//            //将剖分三角缓冲画出来
-//            for (int i = 1; i < del->HowMany + 1 ; i++)
-//            {
-//                glColor3f(1, 0, 0);
-//                glBindVertexArray(DelTraVAOs[i]);
-//
-//                glDrawArrays(GL_LINE_LOOP, 0, 3);
-//            }
-//        }
-//
+        //开始渲染三角形
         if(Poly2TriOpen)
         {
-            for(int j = 0; j < (modelNum - 1) * 2 ; j++)
+            //不同层次的平面，因为有n个平面，每个平面两层数据
+            for(int j = 0; j < (modelNum - 1) * 4 ; j++)
             {
-//                cout << j << endl;
+//                cout << j << " " <<triangles[j].size() << endl;
+//              //三角形的数量
                 for (int i = 0; i < triangles[j].size(); i++)
                 {
+                    //看三角形是否隐藏，如果没有隐藏则渲染。
                     if(!triangles[j][i]->isHide)
                     {
-
                         //激活一下这个纹理
                         glActiveTexture(GL_TEXTURE0);
                         glBindTexture(GL_TEXTURE_2D, textures[j][i]);
-
-
                         glBindVertexArray(PolyVAOs[j][i]);
                         glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
-
-
                     }
-//                    else
-//                    {
-//                        cout << "test :" << i << " " << j << endl;
-//                    }
 
                 }
-
+                //渲染额外的三角形
                 if( isAddTra[j] )
                 {
+                    cout << " addTra"  << j << endl;
                     for(int i = 0; i < extraTriangles[j].size(); i++)
                     {
-//                    cout<<"add "<<i<<endl;
                         glBindVertexArray(AddVAOs[j][i]);
-
                         glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
                     }
                 }
             }
-//            将剖分三角缓冲画出来
-
         }
-//
-//        if(EarCutOpen)
-//        {
-//            //将剖分三角缓冲画出来
-//            for (int i = 0; i < EarTraSize; i++)
-//            {
-//                glColor3f(1, 0, 0);
-//                glBindVertexArray(EarVAOs[i]);
-//
-//                glDrawArrays(GL_LINE_LOOP, 0, 3);
-//            }
-//        }
+
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -982,7 +603,6 @@ int main()
     glDeleteBuffers(1024, AddVBOs[1023]);
     glDeleteVertexArrays(1024, PolyVAOs[1023]);
     glDeleteBuffers(1024, PolyVBOs[1023]);
-
 
     //这里不能直接释放1024，有很多都没有分配
     delete []faultUp[modelNum];
@@ -1274,6 +894,8 @@ void processInput(GLFWwindow *window)
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
+
+//绘制窗口
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and
@@ -1313,6 +935,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 //写一个顶点缓冲绑定的函数
 //参数要做地址引用，不然都是形参
+//将顶点函数绑定到vao和vbo上，这里有点意思。
 void drawInit(unsigned int & VAO, unsigned int & VBO, VERTEX *target, int num)
 {
     //还是要逐个复制啊，这感觉有点浪费空间哦。个人感觉也是没效果的
@@ -1367,8 +990,6 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
         TraVertex[8] = del->Vertex[del->Triangle[i].vv2].z;
         //一个个三角画的，主要是找顶点，为什么会有不存在的店。
 
-
-
         //绑定到vbo里
         glBindVertexArray(DeVAOs[i]);
 
@@ -1395,10 +1016,15 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
     {
 
         Triangle &t = *_triangle[i];
+        t.DebugPrint();
+
 
             Point &a = *t.GetPoint(0);
             Point &b = *t.GetPoint(1);
             Point &c = *t.GetPoint(2);
+
+            if(a.index < 0 || a.index > MaxNum || b.index > MaxNum ||  b.index < 0 || c.index > MaxNum || c.index < 0)
+                continue;
             //不对啊，这里还有vvo和vv1？傻逼了
             //将顶点分配给这个float
 
@@ -1494,31 +1120,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
         // texture 1
         // ---------
         //绑定一下纹理
-        texture[i] = loadTexture(FileSystem::getPath("resources/textures/container.jpg").c_str());
-//        glGenTextures(1, &texture[i]);
-//        glBindTexture(GL_TEXTURE_2D, texture[i]);
-//        // set the texture wrapping parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//        // set texture filtering parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//        // load image, create texture and generate mipmaps
-//        int width, height, nrChannels;
-//        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-//        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-//        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/container.jpg").c_str(), &width, &height, &nrChannels, 0);
-//        if (data)
-//        {
-//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//            glGenerateMipmap(GL_TEXTURE_2D);
-//        }
-//        else
-//        {
-//            std::cout << "Failed to load texture" << std::endl;
-//        }
-//        stbi_image_free(data);
-//
+        texture[i] = loadTexture(FileSystem::getPath("resources/textures/toy_box_diffuse.png").c_str());
     }
 }
 
@@ -1615,29 +1217,6 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned  int * 
         // ---------
         //绑定一下纹理
         addTexture[i] = loadTexture(FileSystem::getPath("resources/textures/bricks2.jpg").c_str());
-//        glGenTextures(1, &addTexture[i]);
-//        glBindTexture(GL_TEXTURE_2D, addTexture[i]);
-//        // set the texture wrapping parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//        // set texture filtering parameters
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//        // load image, create texture and generate mipmaps
-//        int width, height, nrChannels;
-//        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-//        // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-//        unsigned char *data = stbi_load(FileSystem::getPath("resources/textures/bricks2.jpg").c_str(), &width, &height, &nrChannels, 0);
-//        if (data)
-//        {
-//            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-//            glGenerateMipmap(GL_TEXTURE_2D);
-//        }
-//        else
-//        {
-//            std::cout << "Failed to load texture" << std::endl;
-//        }
-//        stbi_image_free(data);
     }
 }
 
@@ -1838,7 +1417,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int i
 }
 
 
-
+//平移函数，将数据线投影到同一平面，并且会判断是否相交，如果相交则放缩。
 void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int index, int which)
 {
 //    cout << " move" << endl;
@@ -1854,13 +1433,14 @@ void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int inde
     while( !faultIntersect(fault1, num1, fault2, num2) )
     {
         //一般是只要平移这个y轴？这样以后处理不了转弯的情况了。
+        //每次减少0.1f，但是感觉还是不太够的样子。
         faultMoveSize[index][which][moveDirectionCnt].size = (yMoveSize += -0.1f);
         faultMoveSize[index][which][moveDirectionCnt].md = yD;
         faultMoveFunction(fault2, num1, faultMoveSize[index][which][moveDirectionCnt].size, faultMoveSize[index][which][moveDirectionCnt].md);
     }
 }
 
-
+//三角剖分主要代码，传入顶点即可，因为这里的z是在同一平面的，就不需要考虑z
 void poly2Tri(VERTEX * Merge, int num, int index)
 {
     //            VERTEX *Merge = faultMerge(faultUp[0], 10, faultUp[1], 10);
@@ -1875,7 +1455,7 @@ void poly2Tri(VERTEX * Merge, int num, int index)
                 //加入序列号，看是否有用
                 point->index = i;
                 polyline[index].push_back(point);
-
+                cout << index << endl;
 //                cout << " double "<< x<< " " << y <<" "<< z <<endl;
             }
 
@@ -1905,7 +1485,7 @@ void poly2Tri(VERTEX * Merge, int num, int index)
             Poly2TriOpen = true;
 }
 
-
+//将线还原到原来的位置，并且判断是否有平台三角形，对该种三角形进行插点操作，并隐藏掉无用的三角。
 void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
 {
     //0 为上层， 1 为下层
@@ -1950,7 +1530,7 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
 //            cout << "point.indexTra" << point.indexTra<<endl;
             //好像这个不同的三角point数据也是共享的，那么猜测可能这个三角用的也是这个索引数据。
             //在point结构体里加个是否移动的属性
-            //这个10是分界值
+            //这个10是分界值，就是10个点啊
             if(point.index >= 10)
                 pointsInLineTwo++;
             else
@@ -1981,7 +1561,9 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
         }
 //        cout<< " the point " << pointsInLineOne<<endl;
 //        cout<< " the point " << pointsInLineTwo<<endl;
-//        cout<<endl;
+//        cout<<endl
+
+
         //如果不需要平移的线段有多余三角
         if(pointsInLineOne == 3)
         {
@@ -1997,15 +1579,12 @@ void lineBack(VERTEX * _fault, int num1, int indexLine, int indexTra)
             //如果是上层
             if(line == 0)
             {
-                cout << "0" << endl;
                 ExcessTraHandle(&t, faultUp[indexLine + 1], 10, indexTra);
             }
             else
             {
                 ExcessTraHandle(&t, faultDown[indexLine + 1], 10, indexTra);
             }
-
-
         }
         //多余三角在第二条边，那么传入的就是第一条边的线
         if(pointsInLineTwo == 3)

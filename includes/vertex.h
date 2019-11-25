@@ -50,10 +50,11 @@ VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2);
 void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection);
 
 
-bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
+//判断线是否相交
+bool lineIntersectSide(const VERTEX &A, const VERTEX &B, const VERTEX &C, const VERTEX &D);
 
 //主要原理就是另一条线的一个点是否在一条直线的同一侧？如果两条线都不在同一侧那么就是不想交的。
-bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
+bool sideIntersectSide(const VERTEX &A, const VERTEX &B, const VERTEX &C, const VERTEX &D);
 
 
 //判断这两个断层是否相交

@@ -38,6 +38,7 @@
 #include <assert.h>
 #include <vertex.h>
 #include <cmath>
+#include <iostream>
 
 namespace p2t {
 
@@ -130,7 +131,6 @@ struct Point {
     y /= len;
     return len;
   }
-
 };
 //三角的边
 // Represents a simple polygon's edge
