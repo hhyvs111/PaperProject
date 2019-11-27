@@ -15,6 +15,7 @@
 #include <array>
 #include <cstring>
 #include <vertex.h>
+#include <fstream>
 
 using namespace std;
 
@@ -136,6 +137,31 @@ unsigned int EarVBOs[1024], EarVAOs[1024];
 //这个变量用来来记录面里平移的长度，一个面有两条线。每条线有三个方位的平移值
 moveSize faultMoveSize[1024][2][3];
 
+//
+//0.5    0.15      0.5
+//0.41    0.29      0.5
+//0.3    0.32      0.5
+//0.18    0.26      0.5
+//0.0    0.24      0.5
+//-0.13    0.29      0.5
+//-0.21    0.25      0.5
+//-0.26    0.50      0.5
+//-0.38    0.25      0.5
+//-0.5    0.22      0.5
+//a
+//-0.5    -0.24         0.5
+//-0.41    -0.23         0.5
+//-0.29    -0.23         0.5
+//-0.23    -0.29         0.5
+//-0.05    -0.32         0.5
+//0.08    -0.31         0.5
+//0.19    -0.25         0.5
+//0.29    -0.3         0.5
+//0.4    -0.26         0.5
+//0.5    -0.29         0.5
+
+//1024一个数组是一个平面，有两个面
+
 float faultData[1024][2][30] = {
         {
         {
@@ -146,9 +172,10 @@ float faultData[1024][2][30] = {
                 0.0f, 0.24f, -0.5f + 1.0f,
                 -0.13f, 0.29f, -0.5f + 1.0f,
                 -0.21f, 0.25f, -0.5f + 1.0f,
-                -0.26f, 0.29f, -0.5f + 1.0f,
+                -0.26f, 0.50f, -0.5f + 1.0f,
                 -0.38f, 0.25f, -0.5f + 1.0f,
                 -0.5f, 0.22f, -0.5f + 1.0f,
+
         }
         ,
         {
@@ -363,7 +390,12 @@ int main()
     glEnableVertexAttribArray(0);
 
 
+    vector<VERTEX> p;
+    InputDataToVector(p);
 
+    for(int i = 0;i < p.size();i++){
+        p[i].Print();
+    }
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -397,36 +429,37 @@ int main()
 //        drawInit(faultUpVAO[i], faultUpVBO[i], faultUp[i], sizeof(faultData[i][0]) / 12);
 //
 //        drawInit(faultDownVAO[i], faultDownVBO[i], faultDown[i], sizeof(faultData[i][1]) / 12);
-
     }
 
     //开始全自动处理,减1是因为n个面只做n-1次处理
     for(int i = 0, j = 0; i < modelNum - 1; i++)
     {
         //上下建模，继续完成侧面的数据。
-        poly2Tri(faultMerge(faultUp[i], 10, faultDown[i], 10), 20, j + modelNum);
+        int upLen = (sizeof(faultData[i][0])) / 12;
+        int downLen = (sizeof(faultData[i][1])) / 12;
+        poly2Tri(faultMergeSame(faultUp[i], upLen , faultDown[i], downLen), upLen + downLen, j + modelNum);
         Poly2TriBind(PolyVAOs[j + modelNum], PolyVBOs[j + modelNum], textures[j + modelNum],   triangles[j + modelNum]);
         //主要也是这个循环，感觉这个循环可以做很多事了。
 
+        int nextUpLen = (sizeof(faultData[i+1][0])) / 12;
+        int nextDownLen = (sizeof(faultData[i+1][1])) / 12;
+
         //平移
-        moveFunction(faultUp[i], 10, faultUp[i+1], 10, i, 0);
-        moveFunction(faultDown[i], 10, faultDown[i+1], 10, i , 1);
+        moveFunction(faultUp[i], upLen, faultUp[i+1], nextUpLen, i, 0);
+        moveFunction(faultDown[i], downLen, faultDown[i+1], nextDownLen, i , 1);
         //测试效果
         //平移完后就开始三角化
         //这里的i和i+1不能这样用，这里的三角
-        poly2Tri(faultMerge(faultUp[i], 10, faultUp[i+1], 10), 20, j);
+        poly2Tri(faultMergeDivide(faultUp[i], upLen, faultUp[i+1], nextUpLen), upLen+ nextUpLen, j);
         //不能用这个j，j和i没有对应
 
         //i为线的值，但是要在里面判断一下是哪一条，可以通过j来判断
         //只处理up的线
-        lineBack(faultUp[i+1], 10, i, j++);
+        lineBack(faultUp[i+1], nextUpLen, i, j++);
 
-        poly2Tri(faultMerge(faultDown[i], 10, faultDown[i+1], 10), 20, j);
-        lineBack(faultDown[i+1], 10, i, j++);
+        poly2Tri(faultMergeDivide(faultDown[i], downLen, faultDown[i+1], nextDownLen), downLen + nextDownLen, j);
+        lineBack(faultDown[i+1], nextDownLen, i, j++);
 
-
-
-//
 //        //计算多余三角和撤回
 //        //只算这个面的其中一半
 
@@ -437,8 +470,8 @@ int main()
 
 //        cout << i << " line back z " << faultDown[i+1][0].z << endl;
 
-        drawInit(faultUpVAO[i+1], faultUpVBO[i+1], faultUp[i+1], sizeof(faultData[i+1][0]) / 12);
-        drawInit(faultDownVAO[i+1], faultDownVBO[i+1], faultDown[+1], sizeof(faultData[i+1][1]) / 12);
+        drawInit(faultUpVAO[i+1], faultUpVBO[i+1], faultUp[i+1], nextUpLen);
+        drawInit(faultDownVAO[i+1], faultDownVBO[i+1], faultDown[+1], nextDownLen);
     }
 //    ourShader.use();
 //    ourShader.setInt("texture1", 0);
@@ -477,7 +510,7 @@ int main()
 
         // light properties
         //环境光照
-        lightingShader.setVec3("light.ambient", 0.3f, 0.3f, 0.3f);
+        lightingShader.setVec3("light.ambient", 0.5f, 0.5f, 0.5f);
         //漫反射光照
         lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
         //镜面光照
@@ -570,17 +603,17 @@ int main()
                         glBindTexture(GL_TEXTURE_2D, textures[j][i]);
                         glBindVertexArray(PolyVAOs[j][i]);
                         glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+//                        glDrawArrays(GL_LINE_STRIP,0,3);
                     }
-
                 }
                 //渲染额外的三角形
                 if( isAddTra[j] )
                 {
-                    cout << " addTra"  << j << endl;
                     for(int i = 0; i < extraTriangles[j].size(); i++)
                     {
                         glBindVertexArray(AddVAOs[j][i]);
                         glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+//                        glDrawArrays(GL_LINE_STRIP,0,3);
                     }
                 }
             }
@@ -1016,7 +1049,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
     {
 
         Triangle &t = *_triangle[i];
-        t.DebugPrint();
+//        t.DebugPrint();
 
 
             Point &a = *t.GetPoint(0);
@@ -1139,6 +1172,7 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned  int * 
         VERTEX a = t.a;
         VERTEX b = t.b;
         VERTEX c = t.c;
+
 
         VERTEX traNormol = getNormal(a, b, c);
         //不对啊，这里还有vvo和vv1？傻逼了
@@ -1280,7 +1314,7 @@ void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> i
 }
 
 
-//多余的三角形，需要处理掉
+//多余的三角形，需要处理掉，这个就是插值算法？
 void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int index)
 {
     //从三角里找到需要处理的那条线,如果序列号不是相邻的那么就是相邻的线
@@ -1333,12 +1367,13 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int i
 //    cout << "Lines "<< Lines << endl;
 //    cout << "projection point" << projectionPoint.x <<" " << projectionPoint.y<< " " << projectionPoint.z<<endl;
     //这个d就是总偏移量了，也就是point，z的偏移量
+    //加权距离反比
     float d = fabs(((a->z / pow(d1, 2) ) + (oppositeLines[0].z / pow(d2, 2))) / ((1 / pow(d1, 2)) + (1 / pow(d2, 2))));
 
-//    cout << "the d1 d2 d " << d1<<" "<<d2<<" "<<d<<endl;
+    cout << "the d1 d2 d " << d1<<" "<<d2<<" "<<d<<endl;
 
     VERTEX centerPoint, left, mid, right;
-
+    //对面的两个点
     VERTEX oppositePointOne, oppositePointTwo;
 
     oppositePointOne.x = oppositeLines[oppositeIndex].x;
@@ -1349,10 +1384,15 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int i
     oppositePointTwo.y = oppositeLines[oppositeIndex + 1].y;
     oppositePointTwo.z = oppositeLines[oppositeIndex + 1].z;
 
+
+    //ab判断是条线？
     if(Lines == ab)
     {
         centerPoint.x = c->x;
-        centerPoint.y = c->y;
+
+
+        centerPoint.y = c->y - (c->y - oppositePointOne.y) / 2;
+        //
         centerPoint.z = c->z - d;
 
         mid = c->PointToVertex();
@@ -1371,7 +1411,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int i
     else if( Lines == ac)
     {
         centerPoint.x = b->x;
-        centerPoint.y = b->y;
+        centerPoint.y = b->y - (b->y - oppositePointOne.y) / 2;
         centerPoint.z = b->z - d;
         mid = b->PointToVertex();
         if(a->index < c->index)
@@ -1388,7 +1428,8 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int i
     else
     {
         centerPoint.x = a->x;
-        centerPoint.y = a->y;
+        //平滑计算
+        centerPoint.y = a->y - (a->y - oppositePointOne.y) / 2;
         centerPoint.z = a->z - d;
         mid = a->PointToVertex();
         if(c->index < b->index)
@@ -1402,7 +1443,7 @@ void ExcessTraHandle(Triangle* _triangle, VERTEX oppositeLines[], int num, int i
             right = c->PointToVertex();
         }
     }
-//    cout << " center "<< centerPoint.x << " " << centerPoint.y << " " << centerPoint.z << endl;
+    cout << " center "<< centerPoint.x << " " << centerPoint.y << " " << centerPoint.z << endl;
 //
     cout << " left "<< left.x << " " << left.y << " " << left.z << endl;
     //把这5个三角形放入数组里
@@ -1455,7 +1496,7 @@ void poly2Tri(VERTEX * Merge, int num, int index)
                 //加入序列号，看是否有用
                 point->index = i;
                 polyline[index].push_back(point);
-                cout << index << endl;
+//                cout << index << endl;
 //                cout << " double "<< x<< " " << y <<" "<< z <<endl;
             }
 

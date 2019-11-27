@@ -857,6 +857,10 @@ arm_neon.h
 -
 
 ../includes/vertex.h
+vector
+-
+iostream
+-
 
 ../poly2tri/common/shapes.h
 vector
@@ -932,6 +936,8 @@ array
 cstring
 -
 vertex.h
+-
+fstream
 -
 ../poly2tri/poly2tri.h
 /Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/poly2tri/poly2tri.h

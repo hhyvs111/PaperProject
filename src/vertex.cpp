@@ -5,6 +5,8 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
+#include <vector>
+#include <fstream>
 float * VertexToFloat(VERTEX vertex[], int num)
 {
     if(vertex == NULL)
@@ -37,7 +39,7 @@ VERTEX * FloatToVertex(float _float[], int num)
     return vertex;
 }
 
-VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
+VERTEX * faultMergeDivide(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
 {
     VERTEX *merge = new VERTEX[num1 + num2];
     //不用考虑排序就这样插入吧。
@@ -47,6 +49,21 @@ VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
     }
     //顺时针写入数据
     for(int i = num1,j = num2 -1 ;j >= 0;j--)
+    {
+        merge[i++] = vertex2[j];
+    }
+    return merge;
+}
+VERTEX * faultMergeSame(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
+{
+    VERTEX *merge = new VERTEX[num1 + num2];
+    //不用考虑排序就这样插入吧。
+    for(int i = 0;i < num1;i++)
+    {
+        merge[i] = vertex1[i];
+    }
+    //顺时针写入数据
+    for(int i = num1,j = 0 ;j <num2;j++)
     {
         merge[i++] = vertex2[j];
     }
@@ -186,4 +203,29 @@ VERTEX getNormal(VERTEX p1,VERTEX p2,VERTEX p3)
     normal.z = ((p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x));
 
     return  normal;
+}
+
+
+//读入数据
+void InputDataToVector(vector<VERTEX>& p){
+    ifstream infile;
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data.txt", ios::in);
+    if(!infile){
+        cout << "fail to open the file " << endl;
+        exit(1);
+    }
+    float x, y ,z;
+
+    //分隔符读入
+    for(int i = 0; !infile.eof();i++){
+        infile >> x >> y >> z;
+        VERTEX v;
+//        cout << x  << " " << y << z  << endl;
+        v.x = x;
+        v.y = y;
+        v.z = z;
+        p.push_back(v);
+    }
+    cout << "end" << endl;
+    infile.close();
 }

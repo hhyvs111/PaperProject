@@ -8,7 +8,8 @@
 #ifndef LEARNOPENGL_VERTEX_H
 #define LEARNOPENGL_VERTEX_H
 
-
+#include<vector>
+#include<iostream>
 
 using namespace std;
 typedef struct   tagVERTEX
@@ -16,6 +17,14 @@ typedef struct   tagVERTEX
     float   x;  // x坐标
     float   y;  // y坐标
     float   z;  // z坐标
+
+
+public:
+    void Print(){
+        cout << "x: "<< x << ",y: " << y << ",z: " << z << endl;
+    }
+
+
 }VERTEX;
 
 
@@ -44,7 +53,9 @@ float * VertexToFloat(VERTEX vertex[], int num);
 VERTEX * FloatToVertex(float _float[], int num);
 
 
-VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2);
+VERTEX * faultMergeDivide(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2);
+
+VERTEX * faultMergeSame(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2);
 
 
 void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection);
@@ -74,4 +85,12 @@ AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);
 
 //获取平面法向量
 VERTEX getNormal(VERTEX p1,VERTEX p2,VERTEX p3);
+
+
+void InputDataToVector(vector<VERTEX>& p);
+
+//std::ostream &operator<< (std::ostream& os, const VERTEX& v){
+//    os << "x: "<< v.x << ",y: " << v.y << ",z: " << v.z;
+//    return os;
+//}
 #endif //LEARNOPENGL_VERTEX_H

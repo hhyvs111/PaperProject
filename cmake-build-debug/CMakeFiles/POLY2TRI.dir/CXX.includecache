@@ -7,6 +7,10 @@
 #IncludeRegexTransform: 
 
 ../includes/vertex.h
+vector
+-
+iostream
+-
 
 /Users/tanwenbo/CLionProjects/PaperProject/poly2tri/common/shapes.cc
 shapes.h
