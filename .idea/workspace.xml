@@ -14,27 +14,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b57f9fec-48e4-47ea-8e9d-f3bc6d721f8f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/data.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/Delaunay.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/Delaunay.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/common/shapes.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/common/shapes.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/advancing_front.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/advancing_front.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/cdt.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/cdt.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep_context.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep_context.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/vertex.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vertex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vertex.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="b57f9fec-48e4-47ea-8e9d-f3bc6d721f8f" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -160,7 +140,7 @@
           <entry key="cc" value="253" />
           <entry key="cpp" value="36272" />
           <entry key="fs" value="126" />
-          <entry key="h" value="2387" />
+          <entry key="h" value="2389" />
           <entry key="md" value="186" />
           <entry key="txt" value="3535" />
           <entry key="vs" value="7" />
@@ -171,7 +151,7 @@
           <entry key="CMakeLists.txt" value="259" />
           <entry key="GDBCommands" value="17" />
           <entry key="Markdown" value="186" />
-          <entry key="ObjectiveC" value="38949" />
+          <entry key="ObjectiveC" value="38951" />
           <entry key="PLAIN_TEXT" value="3409" />
         </counts>
       </usages-collector>
@@ -200,11 +180,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="432" column="5" lean-forward="true" selection-start-line="432" selection-start-column="5" selection-end-line="432" selection-end-column="5" />
+            <state relative-caret-position="1281">
+              <caret line="449" column="14" lean-forward="true" selection-start-line="449" selection-start-column="14" selection-end-line="449" selection-end-column="14" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
                 <element signature="e#19996#28924#0" />
@@ -233,8 +213,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/includes/vertex.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+            <state relative-caret-position="339">
+              <caret line="57" column="19" lean-forward="true" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
               <folding>
                 <element signature="e#102#118#0" expanded="true" />
               </folding>
@@ -265,11 +245,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1167">
-              <caret line="192" column="1" lean-forward="true" selection-start-line="192" selection-start-column="1" selection-end-line="192" selection-end-column="1" />
+            <state relative-caret-position="248">
+              <caret line="209" column="42" lean-forward="true" selection-start-line="209" selection-start-column="42" selection-end-line="209" selection-end-column="42" />
               <folding>
                 <element signature="e#39#58#0" expanded="true" />
               </folding>
@@ -950,7 +930,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="571737000" />
+    <option name="totallyTimeSpent" value="572110000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1286,16 +1266,6 @@
     <entry file="file://$PROJECT_DIR$/includes/stb_image_aug.h">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/vertex.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
-          <folding>
-            <element signature="e#102#118#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -1303,29 +1273,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
+    <entry file="file://$PROJECT_DIR$/includes/vertex.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1167">
-          <caret line="192" column="1" lean-forward="true" selection-start-line="192" selection-start-column="1" selection-end-line="192" selection-end-column="1" />
+        <state relative-caret-position="339">
+          <caret line="57" column="19" lean-forward="true" selection-start-line="57" selection-start-column="19" selection-end-line="57" selection-end-column="19" />
           <folding>
-            <element signature="e#39#58#0" expanded="true" />
+            <element signature="e#102#118#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/data.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="432" column="5" lean-forward="true" selection-start-line="432" selection-start-column="5" selection-end-line="432" selection-end-column="5" />
+        <state relative-caret-position="1281">
+          <caret line="449" column="14" lean-forward="true" selection-start-line="449" selection-start-column="14" selection-end-line="449" selection-end-column="14" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
             <element signature="e#19996#28924#0" />
             <element signature="e#30181#31025#0" />
             <element signature="e#31030#32304#0" />
             <element signature="e#38623#40488#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="209" column="42" lean-forward="true" selection-start-line="209" selection-start-column="42" selection-end-line="209" selection-end-column="42" />
+          <folding>
+            <element signature="e#39#58#0" expanded="true" />
           </folding>
         </state>
       </provider>
