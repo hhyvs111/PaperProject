@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/GLAD.dir/src/glad.c.o"
   "CMakeFiles/GLAD.dir/src/Delaunay.cpp.o"
   "CMakeFiles/GLAD.dir/src/vertex.cpp.o"
+  "CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o"
   "libGLAD.pdb"
   "libGLAD.a"
 )

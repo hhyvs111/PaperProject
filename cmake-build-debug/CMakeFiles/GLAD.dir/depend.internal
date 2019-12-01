@@ -7,8 +7,20 @@ CMakeFiles/GLAD.dir/src/glad.c.o
  /Users/tanwenbo/CLionProjects/PaperProject/src/glad.c
 CMakeFiles/GLAD.dir/src/Delaunay.cpp.o
  ../includes/Delaunay.h
+ ../includes/GLFW/glfw3.h
+ ../includes/KHR/khrplatform.h
+ ../includes/glad/glad.h
  ../includes/vertex.h
  /Users/tanwenbo/CLionProjects/PaperProject/src/Delaunay.cpp
+CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o
+ ../includes/GLFW/glfw3.h
+ ../includes/KHR/khrplatform.h
+ ../includes/glad/glad.h
+ ../includes/vertex.h
+ /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes.cpp
 CMakeFiles/GLAD.dir/src/vertex.cpp.o
+ ../includes/GLFW/glfw3.h
+ ../includes/KHR/khrplatform.h
+ ../includes/glad/glad.h
  ../includes/vertex.h
  /Users/tanwenbo/CLionProjects/PaperProject/src/vertex.cpp

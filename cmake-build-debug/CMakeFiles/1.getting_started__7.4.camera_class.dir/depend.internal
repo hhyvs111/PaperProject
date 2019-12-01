@@ -5,6 +5,7 @@ CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.cam
  ../includes/Delaunay.h
  ../includes/GLFW/glfw3.h
  ../includes/KHR/khrplatform.h
+ ../includes/Sum.h
  ../includes/glad/glad.h
  ../includes/glm/common.hpp
  ../includes/glm/detail/_fixes.hpp

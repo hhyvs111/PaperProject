@@ -42,6 +42,8 @@ inttypes.h
 stdint.h
 -
 
+../includes/Sum.h
+
 ../includes/glad/glad.h
 windows.h
 -
@@ -857,6 +859,22 @@ arm_neon.h
 -
 
 ../includes/vertex.h
+iostream
+-
+vector
+-
+stdlib.h
+-
+string.h
+-
+stdio.h
+../includes/stdio.h
+math.h
+../includes/math.h
+glad/glad.h
+-
+GLFW/glfw3.h
+-
 
 ../poly2tri/common/shapes.h
 vector
@@ -930,11 +948,13 @@ array
 cstring
 -
 vertex.h
--
+/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/vertex.h
 ../poly2tri/poly2tri.h
 /Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/poly2tri/poly2tri.h
 ../includes/mapbox/earcut.hpp
 /Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/includes/mapbox/earcut.hpp
+Sum.h
+/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/Sum.h
 
 configuration/root_directory.h
 

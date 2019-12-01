@@ -225,6 +225,9 @@
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/Delaunay.h">
 			<Option target="1.getting_started__7.4.camera_class"/>
 		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/Sum.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/mapbox/earcut.hpp">
 			<Option target="1.getting_started__7.4.camera_class"/>
 		</Unit>
@@ -289,6 +292,9 @@
 			<Option target="1.getting_started__7.4.camera_class"/>
 		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/Delaunay.cpp">
+			<Option target="GLAD"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes.cpp">
 			<Option target="GLAD"/>
 		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/glad.c">

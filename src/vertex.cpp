@@ -5,6 +5,10 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
+#include <vector>
+#include <fstream>
+
+
 float * VertexToFloat(VERTEX vertex[], int num)
 {
     if(vertex == NULL)
@@ -53,9 +57,12 @@ VERTEX * faultMerge(VERTEX vertex1[], int num1, VERTEX vertex2[], int num2)
     return merge;
 }
 
-void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirection)
+//断层平移函数
+
+void faultMoveFunction(vector<VERTEX>& vertex, float moveSize, int whichDirection)
 {
-    if(vertex == NULL)
+    int num = vertex.size();
+    if(num == 0)
         return;
 //    cout<<"movefunction"<<endl;
     //先写一下这个yd得了
@@ -83,9 +90,13 @@ void faultMoveFunction(VERTEX *vertex, int num, float moveSize, int whichDirecti
     }
 }
 
-
-void faultScaleFunction(VERTEX *vertex, int num, float scaleSize, int whichDirection)
+//断层放缩函数
+void faultScaleFunction(vector<VERTEX>& vertex, float scaleSize, int whichDirection)
 {
+    int num = vertex.size();
+    if(num == 0)
+        return;
+
     if(whichDirection == xD)
     {
         for(int i = 0;i < num; i++)
@@ -110,6 +121,7 @@ void faultScaleFunction(VERTEX *vertex, int num, float scaleSize, int whichDirec
     }
 }
 
+//判断两条线是否相交
 bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 {
     float fC = (C.y - A.y) * (A.x - B.x) - (C.x - A.x) * (A.y - B.y);
@@ -135,8 +147,10 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 
 //判断这两个断层是否相交
 //
-bool faultIntersect(VERTEX fault1[], int f1Number, VERTEX fault2[], int f2Number)
+bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2)
 {
+
+    int f1Number = fault1.size(), f2Number = fault2.size();
     //断层里的线是依次的，基本上第一个点的ip是基本在同一起点，那么还是要判断多重啊。不能单一的判断，那么就是一个线段是否与另一条的所有线段相交
     //如果相交则要平移一下，但是这样感觉效率好低啊，不管了，先这样做吧。应该计算量不大，这个东西的话是一个基本的算法，时间复杂度应该不高。
     for(int i = 0; i < f1Number - 1; i++)
@@ -178,9 +192,9 @@ float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s)
 }
 
 //求点到对线的最短距离。
-float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
+float DistanceOfOpposite(VERTEX point, const vector<VERTEX>& Opposite, int &index)
 {
-    assert(Opposite);
+    int num = Opposite.size();
 //    float minDistance = DistanceOfPointLinesIn3D(point, Opposite[0], Opposite[1]);
     float minDistance = DistanceOfPointToPointIn3D(point, Opposite[0]);
     for(int i = 1;i < num - 1; i++)
@@ -197,16 +211,17 @@ float DistanceOfOpposite(VERTEX point, VERTEX Opposite[], int num, int &index)
     return minDistance;
 }
 
-bool VertexInVertexs(VERTEX target, VERTEX * source, int num)
+//判断顶点是否在该数组里
+int VertexInVertexs(VERTEX target, const vector<VERTEX>& source)
 {
-    assert(source);
-    for(int i = 0;i < num; i++)
+
+    for(int i = 0;i < source.size(); i++)
     {
         if(target == source[i])
-            return true;
+            return i;
 
     }
-    return false;
+    return -1;
 }
 
 AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c)
@@ -218,7 +233,7 @@ AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c)
     return  _triangle;
 }
 
-VERTEX getNormal(VERTEX p1,VERTEX p2,VERTEX p3)
+VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 {
     VERTEX normal;
 
@@ -229,4 +244,45 @@ VERTEX getNormal(VERTEX p1,VERTEX p2,VERTEX p3)
     normal.z = ((p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x));
 
     return  normal;
+}
+
+
+//从文本读入数据
+void InputDataToVector(vector<VERTEX>& p){
+    ifstream infile;
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data1.txt", ios::in);
+    if(!infile){
+        cout << "fail to open the file " << endl;
+        exit(1);
+    }
+    float x, y ,z;
+
+    //分隔符读入
+    for(int i = 0; !infile.eof();i++){
+        infile >> x >> y >> z;
+        VERTEX v;
+//        cout << x  << " " << y << z  << endl;
+        v.x = x;
+        v.y = y;
+        v.z = z;
+        p.push_back(v);
+    }
+    cout << "end" << endl;
+    infile.close();
+}
+
+void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV){
+    int index = 0;
+    for(int i = 0;i < v.size();i++){
+        auto zIndex = v[i].z;
+        vector<VERTEX> mV;
+        int j = i;
+        for(; v[j].z == zIndex;j++){
+            v[j].index = index;
+            mV.push_back(v[j]);
+        }
+        i = j;
+        index++;
+        closeLineV.push_back(mV);
+    }
 }

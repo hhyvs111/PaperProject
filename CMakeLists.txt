@@ -64,7 +64,6 @@ set(1.getting_started
 
 
 
-
 configure_file(configuration/root_directory.h.in configuration/root_directory.h)
 include_directories(${CMAKE_BINARY_DIR}/configuration)
 
@@ -73,7 +72,7 @@ add_library(STB_IMAGE "src/stb_image.cpp")
 set(LIBS ${LIBS} STB_IMAGE)
 
 add_library(GLAD "src/glad.c" src/Delaunay.cpp src/vertex.cpp
-        )
+        src/MarchingCubes.cpp)
 set(LIBS ${LIBS} GLAD)
 
 add_library( POLY2TRI  poly2tri/common/shapes.cc poly2tri/sweep/advancing_front.cc poly2tri/sweep/cdt.cc poly2tri/sweep/sweep_context.cc
@@ -98,7 +97,7 @@ foreach(CHAPTER ${CHAPTERS})
         set(NAME "${CHAPTER}__${DEMO}")
         add_executable(${NAME} ${SOURCE} includes/Delaunay.h includes/vertex.h
                 poly2tri/poly2tri.h poly2tri/sweep/cdt.h poly2tri/sweep/sweep_context.h poly2tri/sweep/sweep.h poly2tri/common/shapes.h  poly2tri/common/utils.h poly2tri/sweep/advancing_front.h
-                includes/mapbox/earcut.hpp)
+                includes/mapbox/earcut.hpp includes/Sum.h)
         target_link_libraries(${NAME} ${LIBS})
         if(WIN32)
             set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/${CHAPTER}")

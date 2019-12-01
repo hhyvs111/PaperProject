@@ -6,9 +6,21 @@ CMakeFiles/GLAD.dir/src/glad.c.o: ../includes/glad/glad.h
 CMakeFiles/GLAD.dir/src/glad.c.o: ../src/glad.c
 
 CMakeFiles/GLAD.dir/src/Delaunay.cpp.o: ../includes/Delaunay.h
+CMakeFiles/GLAD.dir/src/Delaunay.cpp.o: ../includes/GLFW/glfw3.h
+CMakeFiles/GLAD.dir/src/Delaunay.cpp.o: ../includes/KHR/khrplatform.h
+CMakeFiles/GLAD.dir/src/Delaunay.cpp.o: ../includes/glad/glad.h
 CMakeFiles/GLAD.dir/src/Delaunay.cpp.o: ../includes/vertex.h
 CMakeFiles/GLAD.dir/src/Delaunay.cpp.o: ../src/Delaunay.cpp
 
+CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../includes/GLFW/glfw3.h
+CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../includes/KHR/khrplatform.h
+CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../includes/glad/glad.h
+CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../includes/vertex.h
+CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../src/MarchingCubes.cpp
+
+CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../includes/GLFW/glfw3.h
+CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../includes/KHR/khrplatform.h
+CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../includes/glad/glad.h
 CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../includes/vertex.h
 CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../src/vertex.cpp
 

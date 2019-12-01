@@ -351,6 +351,33 @@ src/Delaunay.cpp.s:
 	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/Delaunay.cpp.s
 .PHONY : src/Delaunay.cpp.s
 
+src/MarchingCubes.o: src/MarchingCubes.cpp.o
+
+.PHONY : src/MarchingCubes.o
+
+# target to build an object file
+src/MarchingCubes.cpp.o:
+	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o
+.PHONY : src/MarchingCubes.cpp.o
+
+src/MarchingCubes.i: src/MarchingCubes.cpp.i
+
+.PHONY : src/MarchingCubes.i
+
+# target to preprocess a source file
+src/MarchingCubes.cpp.i:
+	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.i
+.PHONY : src/MarchingCubes.cpp.i
+
+src/MarchingCubes.s: src/MarchingCubes.cpp.s
+
+.PHONY : src/MarchingCubes.s
+
+# target to generate assembly for a file
+src/MarchingCubes.cpp.s:
+	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.s
+.PHONY : src/MarchingCubes.cpp.s
+
 src/glad.o: src/glad.c.o
 
 .PHONY : src/glad.o
@@ -465,6 +492,9 @@ help:
 	@echo "... src/Delaunay.o"
 	@echo "... src/Delaunay.i"
 	@echo "... src/Delaunay.s"
+	@echo "... src/MarchingCubes.o"
+	@echo "... src/MarchingCubes.i"
+	@echo "... src/MarchingCubes.s"
 	@echo "... src/glad.o"
 	@echo "... src/glad.i"
 	@echo "... src/glad.s"

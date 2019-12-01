@@ -47,6 +47,7 @@ struct Point {
 
   double x, y, z;
   int index;
+  int lenIndex;
   bool isMove = false;
   bool isHide = false;
 
@@ -63,7 +64,7 @@ struct Point {
     vertex.x = this->x;
     vertex.y = this->y;
     vertex.z = this->z;
-
+//    vertex.index = this->lenIndex;
     return vertex;
   }
 
