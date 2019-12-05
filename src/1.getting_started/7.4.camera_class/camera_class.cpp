@@ -25,7 +25,11 @@ using namespace p2t;
 #include "../includes/mapbox/earcut.hpp"
 
 //引入移动立方体
-//#include "MarchingCube.h"
+//#include "MarchingCubes.h"
+
+#include "MakeSurface.h"
+
+
 
 //ear cutting
 using Coord = float;
@@ -74,6 +78,10 @@ vector<AddTriangle> extraTriangles[MaxNum];
 
 //
 vector<AddTriangle> McTri;
+
+vector<vector<VERTEX>> McLine;
+
+double mcScale = 50.0;
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -134,7 +142,7 @@ unsigned int PolyVBOs[modelNum*2][MaxNum], PolyVAOs[modelNum*2][MaxNum];
 unsigned int AddVBOs[modelNum*2][MaxNum], AddVAOs[modelNum*2][MaxNum];
 
 //移动立方体的数据
-unsigned int McVBOs[1][MaxNum * 100], McVAOs[1][MaxNum * 100];
+unsigned int McVBOs[1][MaxNum * 10], McVAOs[1][MaxNum * 10];
 
 
 bool isAddTra[MaxNum] = {false};
@@ -400,7 +408,7 @@ float closeData[MaxNum][100] = {
 //VERTEX * faultMerge(VERTEX vertex1[],int num1, VERTEX vertex2[], int num2);
 
 //初始化
-void drawInit(unsigned int & VAO, unsigned int & VBO, vector<VERTEX>& v, int num);
+void drawInit(unsigned int & VAO, unsigned int & VBO, vector<VERTEX>&target);
 
 ////两个转换的函数
 //float * VertexToFloat(VERTEX vertex[], int num);
@@ -489,7 +497,7 @@ void LineProcess(){
     VertexDivide(v, closeLineV);
 
     for(int i = 0;i < closeLineV.size();i++){
-        cout << closeLineV[i].size();
+        cout << closeLineV[i].size() << endl;
         for(int j = 0;j < closeLineV[i].size();j++)
             closeLineV[i][j].Print();
     }
@@ -498,7 +506,7 @@ void LineProcess(){
     for(int i = 0;i < modelNum - 1; i++)
     {
         //平移到同一平面
-        faultMoveFunction(closeLineV[i+1], 1.0f, zD);
+        faultMoveFunction(closeLineV[i+1], -2.5f, zD);
 //        cout << endl;
         closeLineV[i+1][0].Print();
         //放缩判断
@@ -516,15 +524,15 @@ void LineProcess(){
 //        cout << "closeLine " << closeLine[i+1][0].x << endl;
     }
     //三角化本身
-    for(int i = 0;i < modelNum;i++){
-        poly2Tri(closeLineV[i], i+modelNum);
-    }
+//    for(int i = 0;i < modelNum;i++){
+//        poly2Tri(closeLineV[i], i+modelNum);
+//    }
 }
 
 void DrawLine(){
 
 
-    for(int j = 0; j < modelNum * 2 ; j++) {
+    for(int j = 0; j < modelNum ; j++) {
 //                cout << j << endl;
         for (int i = 0; i < triangles[j].size(); i++) {
 //                cout << triangles[j].size() << endl;
@@ -561,6 +569,23 @@ void DrawLine(){
 }
 
 
+void MarchingCubesProcess(){
+     MakeSurface m;
+     string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/Circle.sec";
+     m.ReadSectionData((char*)file.data());
+     //创建好表面后，可以进行渲染了。
+     m.CreateSurface2();
+
+    //获取剖面个数
+    cout << McTri.size() << endl;
+    AddTriBind(McVAOs[0], McVBOs[0], textures[0], McTri);
+
+//    for(int i = 0;i < McLine.size();i++){
+//        drawInit(faceVAO[i], faceVBO[i], McLine[i]);
+//    }
+
+}
+
 void McProcess(){
 //    readFile();
 
@@ -574,8 +599,6 @@ void McProcess(){
 //    for(int i = 0;i < v.size();i++) {
 //        vMarchCube(v[i].x, v[i].y, v[i].z, 1.0/ 16.0);
 //    }
-
-
     cout << McTri.size() << endl;
     AddTriBind(McVAOs[0], McVBOs[0], textures[0], McTri);
 
@@ -583,6 +606,7 @@ void McProcess(){
 
 void DrawMc(){
     for(int i = 0; i < McTri.size();i++){
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textures[0][i]);
         glBindVertexArray(McVAOs[0][i]);
@@ -592,6 +616,13 @@ void DrawMc(){
         else
             glDrawArrays(GL_LINE_STRIP, 0, 3);
     }
+
+//    for(int i = 0;i < McLine.size();i++){
+//        glBindVertexArray(faceVAO[i]);
+////            cout << McLine[i].size() << endl;
+//        glDrawArrays(GL_LINE_STRIP, 0, McLine[i].size());
+//    }
+
 }
 
 
@@ -645,12 +676,13 @@ int main()
 
 
     //处理MC
-    McProcess();
+//    McProcess();
 
 
 
 //    LineProcess();
 
+    MarchingCubesProcess();
 
     //显示代码
     while (!glfwWindowShouldClose(window))
@@ -706,7 +738,6 @@ int main()
         // world transformation
         glm::mat4 model;
         lightingShader.setMat4("model", model);
-
 
         //渲染MC
         DrawMc();
@@ -1082,28 +1113,26 @@ void drawInit(unsigned int & VAO, unsigned int & VBO, vector<VERTEX>&target)
 {
     //还是要逐个复制啊，这感觉有点浪费空间哦。个人感觉也是没效果的
     int num = target.size();
-    VERTEX source[num];
-    for(int i = 0; i < num; i++)
-    {
-        source[i] = target[i];
-//        cout << "the z :" << source[i].z << endl;
-//        cout<<source[i].x<<" ";
-//        cout<<source[i].y<<" ";
-//        cout<<source[i].z<<endl;
+
+    float source[3 * num];
+    for(int i = 0;i < num;i++){
+        source[i] = target[i].x;
+        source[i+1] = target[i].y;
+        source[i+2] = target[i].z;
+
+        cout << source[i] << " " << source[i+1] << " " << source[i+2] <<endl;
     }
+
 
     //这里要直接用引用还是要去了？感觉好像没报错是没毛病的。
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-
     glBindVertexArray(VAO);
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//    cout << "sizeof " << sizeof(source) << endl;
     glBufferData(GL_ARRAY_BUFFER, sizeof(source), source, GL_STATIC_DRAW);
-
     // position attribute
-    //这里的步长为3，之前的是5因为有纹理坐标
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 }
@@ -1204,25 +1233,19 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
 
         //绑定到vbo里
         glBindVertexArray(PolyVAOs[i]);
-
         glBindBuffer(GL_ARRAY_BUFFER, PolyVBOs[i]);
         glBufferData(GL_ARRAY_BUFFER, sizeof(TraVertex), TraVertex, GL_STATIC_DRAW);
-
         // position attribute
-        //这里的步长为3，之前的是5因为有纹理坐标
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(2);
-
-
         // texture 1
         // ---------
         //绑定一下纹理
         texture[i] = loadTexture(FileSystem::getPath("resources/textures/container.jpg").c_str());
-
     }
 }
 
@@ -1295,7 +1318,7 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned  int * 
         // texture 1
         // ---------
         //绑定一下纹理
-        addTexture[i] = loadTexture(FileSystem::getPath("resources/textures/bricks2.jpg").c_str());
+//        addTexture[i] = loadTexture(FileSystem::getPath("resources/textures/bricks2.jpg").c_str());
 
     }
 }
@@ -1607,7 +1630,7 @@ void closeLineBack(vector<VERTEX>& _fault, int indexTra)
 //    faultScaleFunction(_fault, (1.0f / scaleSize[indexTra]), yD);
 //    faultMoveFunction(_fault, 1.0f, zD);
 
-
+    //画线
     drawInit(faceVAO[indexTra + 1], faceVBO[indexTra + 1], _fault);
 
     Poly2TriBind(PolyVAOs[indexTra], PolyVBOs[indexTra], textures[indexTra],  triangles[indexTra]);

@@ -73,7 +73,7 @@ CMakeFiles/1.getting_started__7.4.camera_class.dir/all: CMakeFiles/POLY2TRI.dir/
 CMakeFiles/1.getting_started__7.4.camera_class.dir/all: CMakeFiles/GLAD.dir/all
 	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/depend
 	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target 1.getting_started__7.4.camera_class"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target 1.getting_started__7.4.camera_class"
 .PHONY : CMakeFiles/1.getting_started__7.4.camera_class.dir/all
 
 # Include target in all.
@@ -83,7 +83,7 @@ all: CMakeFiles/1.getting_started__7.4.camera_class.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/1.getting_started__7.4.camera_class.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles 20
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/1.getting_started__7.4.camera_class.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/1.getting_started__7.4.camera_class.dir/rule
@@ -110,7 +110,7 @@ clean: CMakeFiles/1.getting_started__7.4.camera_class.dir/clean
 CMakeFiles/STB_IMAGE.dir/all:
 	$(MAKE) -f CMakeFiles/STB_IMAGE.dir/build.make CMakeFiles/STB_IMAGE.dir/depend
 	$(MAKE) -f CMakeFiles/STB_IMAGE.dir/build.make CMakeFiles/STB_IMAGE.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=14,15 "Built target STB_IMAGE"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=19,20 "Built target STB_IMAGE"
 .PHONY : CMakeFiles/STB_IMAGE.dir/all
 
 # Include target in all.
@@ -147,7 +147,7 @@ clean: CMakeFiles/STB_IMAGE.dir/clean
 CMakeFiles/POLY2TRI.dir/all:
 	$(MAKE) -f CMakeFiles/POLY2TRI.dir/build.make CMakeFiles/POLY2TRI.dir/depend
 	$(MAKE) -f CMakeFiles/POLY2TRI.dir/build.make CMakeFiles/POLY2TRI.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=8,9,10,11,12,13 "Built target POLY2TRI"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=13,14,15,16,17,18 "Built target POLY2TRI"
 .PHONY : CMakeFiles/POLY2TRI.dir/all
 
 # Include target in all.
@@ -184,7 +184,7 @@ clean: CMakeFiles/POLY2TRI.dir/clean
 CMakeFiles/GLAD.dir/all:
 	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/depend
 	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=3,4,5,6,7 "Built target GLAD"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=7,8,9,10,11,12 "Built target GLAD"
 .PHONY : CMakeFiles/GLAD.dir/all
 
 # Include target in all.
@@ -194,7 +194,7 @@ all: CMakeFiles/GLAD.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/GLAD.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/GLAD.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/GLAD.dir/rule

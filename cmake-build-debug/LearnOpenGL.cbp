@@ -225,7 +225,19 @@
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/Delaunay.h">
 			<Option target="1.getting_started__7.4.camera_class"/>
 		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/MakeSurface.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/MarchingCubes.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/PseudoDelaunay.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/Sum.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/common.h">
 			<Option target="1.getting_started__7.4.camera_class"/>
 		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/mapbox/earcut.hpp">
@@ -295,6 +307,24 @@
 			<Option target="GLAD"/>
 		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes.cpp">
+			<Option target="GLAD"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MakeSurface.cpp">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MarchingCubes.cpp">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/PseudoDelaunay.cpp">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.cpp">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/common.cpp">
 			<Option target="GLAD"/>
 		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/src/glad.c">

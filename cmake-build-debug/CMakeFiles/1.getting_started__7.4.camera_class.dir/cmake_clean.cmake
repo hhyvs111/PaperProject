@@ -1,5 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o"
+  "CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o"
+  "CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o"
+  "CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o"
+  "CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o"
   "bin/1.getting_started/1.getting_started__7.4.camera_class.pdb"
   "bin/1.getting_started/1.getting_started__7.4.camera_class"
 )

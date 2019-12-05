@@ -4,7 +4,10 @@
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/Delaunay.h
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/GLFW/glfw3.h
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/KHR/khrplatform.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/MakeSurface.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/MarchingCubes.h
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/Sum.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/common.h
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/glad/glad.h
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/glm/common.hpp
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../includes/glm/detail/_fixes.hpp
@@ -107,4 +110,28 @@ CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.cam
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../poly2tri/sweep/sweep_context.h
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: ../src/1.getting_started/7.4.camera_class/camera_class.cpp
 CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o: configuration/root_directory.h
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../includes/GLFW/glfw3.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../includes/KHR/khrplatform.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../includes/MakeSurface.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../includes/MarchingCubes.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../includes/common.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../includes/glad/glad.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../includes/vertex.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../src/MarchingCubes/MakeSurface.cpp
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../includes/GLFW/glfw3.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../includes/KHR/khrplatform.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../includes/MarchingCubes.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../includes/PseudoDelaunay.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../includes/common.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../includes/glad/glad.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../includes/vertex.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../src/MarchingCubes/MarchingCubes.cpp
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../src/MarchingCubes/Tables.h
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o: ../src/MarchingCubes/PseudoDelaunay.cpp
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o: ../src/MarchingCubes/Tables.cpp
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o: ../src/MarchingCubes/Tables.h
 

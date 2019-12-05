@@ -775,6 +775,7 @@ void SetSample(float NewTime)
     std::cout << SourcePoint[0].x << " haha " << SourcePoint[1].y << " " << SourcePoint[2].z << std::endl;
 }
 
+//距离场
 float Dist(GLfloat x, GLfloat y, GLfloat z)
 {
     double Result = 0.0;
@@ -888,6 +889,8 @@ GLvoid vMarchCube(GLfloat x, GLfloat y, GLfloat z, GLfloat fScale)              
 ////        [(int)(y + a2fVertexOffset[iVertex][1])]
 ////        [(int)(z + a2fVertexOffset[iVertex][2])] ;
 
+
+        //offset是偏移量？
         afCubeValue[iVertex] = Dist(  x + a2fVertexOffset[iVertex][0]*fScale,
                                       y + a2fVertexOffset[iVertex][1]*fScale,
                                       z + a2fVertexOffset[iVertex][2]*fScale);

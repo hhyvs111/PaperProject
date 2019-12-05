@@ -29,7 +29,7 @@ typedef struct   tagVERTEX
     }
 
     void Print(){
-        cout << "x: "<< x << ",y: " << y << ",z: " << z << endl;
+        cout << x << "," << y << "," << z << endl;
     }
     //层数
     int index;

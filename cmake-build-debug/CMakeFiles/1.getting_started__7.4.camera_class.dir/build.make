@@ -70,14 +70,74 @@ CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.cam
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/camera_class.cpp -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.s
 
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: CMakeFiles/1.getting_started__7.4.camera_class.dir/flags.make
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o: ../src/MarchingCubes/MarchingCubes.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o -c /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MarchingCubes.cpp
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MarchingCubes.cpp > CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.i
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MarchingCubes.cpp -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.s
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o: CMakeFiles/1.getting_started__7.4.camera_class.dir/flags.make
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o: ../src/MarchingCubes/PseudoDelaunay.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o -c /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/PseudoDelaunay.cpp
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/PseudoDelaunay.cpp > CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.i
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/PseudoDelaunay.cpp -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.s
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o: CMakeFiles/1.getting_started__7.4.camera_class.dir/flags.make
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o: ../src/MarchingCubes/Tables.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o -c /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.cpp
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.cpp > CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.i
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.cpp -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.s
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: CMakeFiles/1.getting_started__7.4.camera_class.dir/flags.make
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o: ../src/MarchingCubes/MakeSurface.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o -c /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MakeSurface.cpp
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MakeSurface.cpp > CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.i
+
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MakeSurface.cpp -o CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.s
+
 # Object files for target 1.getting_started__7.4.camera_class
 1_getting_started__7_4_camera_class_OBJECTS = \
-"CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o"
+"CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" \
+"CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o" \
+"CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o" \
+"CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o" \
+"CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o"
 
 # External object files for target 1.getting_started__7.4.camera_class
 1_getting_started__7_4_camera_class_EXTERNAL_OBJECTS =
 
 bin/1.getting_started/1.getting_started__7.4.camera_class: CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o
+bin/1.getting_started/1.getting_started__7.4.camera_class: CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o
+bin/1.getting_started/1.getting_started__7.4.camera_class: CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o
+bin/1.getting_started/1.getting_started__7.4.camera_class: CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o
+bin/1.getting_started/1.getting_started__7.4.camera_class: CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o
 bin/1.getting_started/1.getting_started__7.4.camera_class: CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make
 bin/1.getting_started/1.getting_started__7.4.camera_class: /usr/local/lib/libglfw.dylib
 bin/1.getting_started/1.getting_started__7.4.camera_class: /usr/local/lib/libassimp.dylib
@@ -85,7 +145,7 @@ bin/1.getting_started/1.getting_started__7.4.camera_class: libSTB_IMAGE.a
 bin/1.getting_started/1.getting_started__7.4.camera_class: libGLAD.a
 bin/1.getting_started/1.getting_started__7.4.camera_class: libPOLY2TRI.a
 bin/1.getting_started/1.getting_started__7.4.camera_class: CMakeFiles/1.getting_started__7.4.camera_class.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/1.getting_started/1.getting_started__7.4.camera_class"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable bin/1.getting_started/1.getting_started__7.4.camera_class"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/1.getting_started__7.4.camera_class.dir/link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "mklink /Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.camera.fs -> /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/bin/1.getting_started/7.4.camera.fs"
 	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E create_symlink /Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/7.4.camera.fs /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/bin/1.getting_started/7.4.camera.fs

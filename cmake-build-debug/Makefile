@@ -378,6 +378,141 @@ src/MarchingCubes.cpp.s:
 	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.s
 .PHONY : src/MarchingCubes.cpp.s
 
+src/MarchingCubes/MakeSurface.o: src/MarchingCubes/MakeSurface.cpp.o
+
+.PHONY : src/MarchingCubes/MakeSurface.o
+
+# target to build an object file
+src/MarchingCubes/MakeSurface.cpp.o:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o
+.PHONY : src/MarchingCubes/MakeSurface.cpp.o
+
+src/MarchingCubes/MakeSurface.i: src/MarchingCubes/MakeSurface.cpp.i
+
+.PHONY : src/MarchingCubes/MakeSurface.i
+
+# target to preprocess a source file
+src/MarchingCubes/MakeSurface.cpp.i:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.i
+.PHONY : src/MarchingCubes/MakeSurface.cpp.i
+
+src/MarchingCubes/MakeSurface.s: src/MarchingCubes/MakeSurface.cpp.s
+
+.PHONY : src/MarchingCubes/MakeSurface.s
+
+# target to generate assembly for a file
+src/MarchingCubes/MakeSurface.cpp.s:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.s
+.PHONY : src/MarchingCubes/MakeSurface.cpp.s
+
+src/MarchingCubes/MarchingCubes.o: src/MarchingCubes/MarchingCubes.cpp.o
+
+.PHONY : src/MarchingCubes/MarchingCubes.o
+
+# target to build an object file
+src/MarchingCubes/MarchingCubes.cpp.o:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o
+.PHONY : src/MarchingCubes/MarchingCubes.cpp.o
+
+src/MarchingCubes/MarchingCubes.i: src/MarchingCubes/MarchingCubes.cpp.i
+
+.PHONY : src/MarchingCubes/MarchingCubes.i
+
+# target to preprocess a source file
+src/MarchingCubes/MarchingCubes.cpp.i:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.i
+.PHONY : src/MarchingCubes/MarchingCubes.cpp.i
+
+src/MarchingCubes/MarchingCubes.s: src/MarchingCubes/MarchingCubes.cpp.s
+
+.PHONY : src/MarchingCubes/MarchingCubes.s
+
+# target to generate assembly for a file
+src/MarchingCubes/MarchingCubes.cpp.s:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.s
+.PHONY : src/MarchingCubes/MarchingCubes.cpp.s
+
+src/MarchingCubes/PseudoDelaunay.o: src/MarchingCubes/PseudoDelaunay.cpp.o
+
+.PHONY : src/MarchingCubes/PseudoDelaunay.o
+
+# target to build an object file
+src/MarchingCubes/PseudoDelaunay.cpp.o:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o
+.PHONY : src/MarchingCubes/PseudoDelaunay.cpp.o
+
+src/MarchingCubes/PseudoDelaunay.i: src/MarchingCubes/PseudoDelaunay.cpp.i
+
+.PHONY : src/MarchingCubes/PseudoDelaunay.i
+
+# target to preprocess a source file
+src/MarchingCubes/PseudoDelaunay.cpp.i:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.i
+.PHONY : src/MarchingCubes/PseudoDelaunay.cpp.i
+
+src/MarchingCubes/PseudoDelaunay.s: src/MarchingCubes/PseudoDelaunay.cpp.s
+
+.PHONY : src/MarchingCubes/PseudoDelaunay.s
+
+# target to generate assembly for a file
+src/MarchingCubes/PseudoDelaunay.cpp.s:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.s
+.PHONY : src/MarchingCubes/PseudoDelaunay.cpp.s
+
+src/MarchingCubes/Tables.o: src/MarchingCubes/Tables.cpp.o
+
+.PHONY : src/MarchingCubes/Tables.o
+
+# target to build an object file
+src/MarchingCubes/Tables.cpp.o:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o
+.PHONY : src/MarchingCubes/Tables.cpp.o
+
+src/MarchingCubes/Tables.i: src/MarchingCubes/Tables.cpp.i
+
+.PHONY : src/MarchingCubes/Tables.i
+
+# target to preprocess a source file
+src/MarchingCubes/Tables.cpp.i:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.i
+.PHONY : src/MarchingCubes/Tables.cpp.i
+
+src/MarchingCubes/Tables.s: src/MarchingCubes/Tables.cpp.s
+
+.PHONY : src/MarchingCubes/Tables.s
+
+# target to generate assembly for a file
+src/MarchingCubes/Tables.cpp.s:
+	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.s
+.PHONY : src/MarchingCubes/Tables.cpp.s
+
+src/common.o: src/common.cpp.o
+
+.PHONY : src/common.o
+
+# target to build an object file
+src/common.cpp.o:
+	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/common.cpp.o
+.PHONY : src/common.cpp.o
+
+src/common.i: src/common.cpp.i
+
+.PHONY : src/common.i
+
+# target to preprocess a source file
+src/common.cpp.i:
+	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/common.cpp.i
+.PHONY : src/common.cpp.i
+
+src/common.s: src/common.cpp.s
+
+.PHONY : src/common.s
+
+# target to generate assembly for a file
+src/common.cpp.s:
+	$(MAKE) -f CMakeFiles/GLAD.dir/build.make CMakeFiles/GLAD.dir/src/common.cpp.s
+.PHONY : src/common.cpp.s
+
 src/glad.o: src/glad.c.o
 
 .PHONY : src/glad.o
@@ -495,6 +630,21 @@ help:
 	@echo "... src/MarchingCubes.o"
 	@echo "... src/MarchingCubes.i"
 	@echo "... src/MarchingCubes.s"
+	@echo "... src/MarchingCubes/MakeSurface.o"
+	@echo "... src/MarchingCubes/MakeSurface.i"
+	@echo "... src/MarchingCubes/MakeSurface.s"
+	@echo "... src/MarchingCubes/MarchingCubes.o"
+	@echo "... src/MarchingCubes/MarchingCubes.i"
+	@echo "... src/MarchingCubes/MarchingCubes.s"
+	@echo "... src/MarchingCubes/PseudoDelaunay.o"
+	@echo "... src/MarchingCubes/PseudoDelaunay.i"
+	@echo "... src/MarchingCubes/PseudoDelaunay.s"
+	@echo "... src/MarchingCubes/Tables.o"
+	@echo "... src/MarchingCubes/Tables.i"
+	@echo "... src/MarchingCubes/Tables.s"
+	@echo "... src/common.o"
+	@echo "... src/common.i"
+	@echo "... src/common.s"
 	@echo "... src/glad.o"
 	@echo "... src/glad.i"
 	@echo "... src/glad.s"

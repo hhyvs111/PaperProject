@@ -18,6 +18,9 @@ CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../includes/glad/glad.h
 CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../includes/vertex.h
 CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o: ../src/MarchingCubes.cpp
 
+CMakeFiles/GLAD.dir/src/common.cpp.o: ../includes/common.h
+CMakeFiles/GLAD.dir/src/common.cpp.o: ../src/common.cpp
+
 CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../includes/GLFW/glfw3.h
 CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../includes/KHR/khrplatform.h
 CMakeFiles/GLAD.dir/src/vertex.cpp.o: ../includes/glad/glad.h

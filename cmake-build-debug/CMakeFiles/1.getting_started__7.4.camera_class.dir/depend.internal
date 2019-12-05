@@ -5,7 +5,10 @@ CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.cam
  ../includes/Delaunay.h
  ../includes/GLFW/glfw3.h
  ../includes/KHR/khrplatform.h
+ ../includes/MakeSurface.h
+ ../includes/MarchingCubes.h
  ../includes/Sum.h
+ ../includes/common.h
  ../includes/glad/glad.h
  ../includes/glm/common.hpp
  ../includes/glm/detail/_fixes.hpp
@@ -108,3 +111,27 @@ CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.cam
  ../poly2tri/sweep/sweep_context.h
  /Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/camera_class.cpp
  configuration/root_directory.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o
+ ../includes/GLFW/glfw3.h
+ ../includes/KHR/khrplatform.h
+ ../includes/MakeSurface.h
+ ../includes/MarchingCubes.h
+ ../includes/common.h
+ ../includes/glad/glad.h
+ ../includes/vertex.h
+ /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MakeSurface.cpp
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o
+ ../includes/GLFW/glfw3.h
+ ../includes/KHR/khrplatform.h
+ ../includes/MarchingCubes.h
+ ../includes/PseudoDelaunay.h
+ ../includes/common.h
+ ../includes/glad/glad.h
+ ../includes/vertex.h
+ /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MarchingCubes.cpp
+ /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.h
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o
+ /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/PseudoDelaunay.cpp
+CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o
+ /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.cpp
+ /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.h

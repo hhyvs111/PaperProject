@@ -109,12 +109,26 @@ CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes.cpp -o CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.s
 
+CMakeFiles/GLAD.dir/src/common.cpp.o: CMakeFiles/GLAD.dir/flags.make
+CMakeFiles/GLAD.dir/src/common.cpp.o: ../src/common.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/GLAD.dir/src/common.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GLAD.dir/src/common.cpp.o -c /Users/tanwenbo/CLionProjects/PaperProject/src/common.cpp
+
+CMakeFiles/GLAD.dir/src/common.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GLAD.dir/src/common.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/tanwenbo/CLionProjects/PaperProject/src/common.cpp > CMakeFiles/GLAD.dir/src/common.cpp.i
+
+CMakeFiles/GLAD.dir/src/common.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GLAD.dir/src/common.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/tanwenbo/CLionProjects/PaperProject/src/common.cpp -o CMakeFiles/GLAD.dir/src/common.cpp.s
+
 # Object files for target GLAD
 GLAD_OBJECTS = \
 "CMakeFiles/GLAD.dir/src/glad.c.o" \
 "CMakeFiles/GLAD.dir/src/Delaunay.cpp.o" \
 "CMakeFiles/GLAD.dir/src/vertex.cpp.o" \
-"CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o"
+"CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o" \
+"CMakeFiles/GLAD.dir/src/common.cpp.o"
 
 # External object files for target GLAD
 GLAD_EXTERNAL_OBJECTS =
@@ -123,9 +137,10 @@ libGLAD.a: CMakeFiles/GLAD.dir/src/glad.c.o
 libGLAD.a: CMakeFiles/GLAD.dir/src/Delaunay.cpp.o
 libGLAD.a: CMakeFiles/GLAD.dir/src/vertex.cpp.o
 libGLAD.a: CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o
+libGLAD.a: CMakeFiles/GLAD.dir/src/common.cpp.o
 libGLAD.a: CMakeFiles/GLAD.dir/build.make
 libGLAD.a: CMakeFiles/GLAD.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libGLAD.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libGLAD.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/GLAD.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/GLAD.dir/link.txt --verbose=$(VERBOSE)
 

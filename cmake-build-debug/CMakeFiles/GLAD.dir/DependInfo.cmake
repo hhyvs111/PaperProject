@@ -18,6 +18,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/tanwenbo/CLionProjects/PaperProject/src/Delaunay.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/GLAD.dir/src/Delaunay.cpp.o"
   "/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o"
+  "/Users/tanwenbo/CLionProjects/PaperProject/src/common.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/GLAD.dir/src/common.cpp.o"
   "/Users/tanwenbo/CLionProjects/PaperProject/src/vertex.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")

@@ -5,6 +5,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/tanwenbo/CLionProjects/PaperProject/src/1.getting_started/7.4.camera_class/camera_class.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o"
+  "/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MakeSurface.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o"
+  "/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/MarchingCubes.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o"
+  "/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/PseudoDelaunay.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/PseudoDelaunay.cpp.o"
+  "/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes/Tables.cpp" "/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/Tables.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 

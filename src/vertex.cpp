@@ -250,7 +250,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据
 void InputDataToVector(vector<VERTEX>& p){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data1.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/cricle.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
@@ -260,8 +260,8 @@ void InputDataToVector(vector<VERTEX>& p){
     //分隔符读入
     for(int i = 0; !infile.eof();i++){
         infile >> x >> y >> z;
+        cout << x  << " " << y << " " << z  << endl;
         VERTEX v;
-//        cout << x  << " " << y << z  << endl;
         v.x = x;
         v.y = y;
         v.z = z;
@@ -281,7 +281,7 @@ void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV){
             v[j].index = index;
             mV.push_back(v[j]);
         }
-        i = j;
+        i = j - 1;
         index++;
         closeLineV.push_back(mV);
     }
