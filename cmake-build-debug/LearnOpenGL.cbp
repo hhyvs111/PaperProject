@@ -237,6 +237,9 @@
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/Sum.h">
 			<Option target="1.getting_started__7.4.camera_class"/>
 		</Unit>
+		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/TriangularPrism.h">
+			<Option target="1.getting_started__7.4.camera_class"/>
+		</Unit>
 		<Unit filename="/Users/tanwenbo/CLionProjects/PaperProject/includes/common.h">
 			<Option target="1.getting_started__7.4.camera_class"/>
 		</Unit>

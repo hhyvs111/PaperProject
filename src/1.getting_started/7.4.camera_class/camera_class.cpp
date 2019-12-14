@@ -81,7 +81,7 @@ vector<AddTriangle> McTri;
 
 vector<vector<VERTEX>> McLine;
 
-double mcScale = 50.0;
+double mcScale = 1.0;
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -98,7 +98,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 //灯光的位置
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(0.0f, 0.0f, 5.0f);
 
 //function
 //设置一下变量，用按键实现一下功能
@@ -144,6 +144,8 @@ unsigned int AddVBOs[modelNum*2][MaxNum], AddVAOs[modelNum*2][MaxNum];
 //移动立方体的数据
 unsigned int McVBOs[1][MaxNum * 10], McVAOs[1][MaxNum * 10];
 
+unsigned int VAOs[2], VBOs[2];
+
 
 bool isAddTra[MaxNum] = {false};
 
@@ -156,250 +158,8 @@ vector<vector<VERTEX>> closeLineV;
 //这个变量用来来记录面里平移的长度，一个面有两条线。每条线有三个方位的平移值
 moveSize faultMoveSize[MaxNum][2][3];
 
-//一个值就够了
+//一个值就够了，用来记录每一层的平移量
 float scaleSize[MaxNum];
-
-//搞个三维数组玩玩
-float faultData[MaxNum][2][30] = {
-        {
-        {
-                0.5f, 0.15f, -0.5f + 1.0f,
-                0.41f, 0.29f, -0.5f + 1.0f,
-                0.3f, 0.32f, -0.5f + 1.0f,
-                0.18f, 0.26f, -0.5f + 1.0f,
-                0.0f, 0.24f, -0.5f + 1.0f,
-                -0.13f, 0.29f, -0.5f + 1.0f,
-                -0.21f, 0.25f, -0.5f + 1.0f,
-                -0.26f, 0.29f, -0.5f + 1.0f,
-                -0.38f, 0.25f, -0.5f + 1.0f,
-                -0.5f, 0.22f, -0.5f + 1.0f,
-        }
-        //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f+ 1.0f,
-//            -0.5f, 0.22f,  -0.5f+ 1.0f,
-        //怎么这个点重复了，有毒。
-        //x下层
-        ,
-        {
-                -0.5f, -0.24f, -0.5f + 1.0f,
-                -0.41f, -0.23f, -0.5f + 1.0f,
-                -0.29f, -0.23f, -0.5f + 1.0f,
-                -0.23f, -0.29f, -0.5f + 1.0f,
-                -0.05f, -0.32f, -0.5f + 1.0f,
-                0.08f, -0.31f, -0.5f + 1.0f,
-                0.19f, -0.25f, -0.5f + 1.0f,
-                0.29f, -0.3f, -0.5f + 1.0f,
-                0.4f, -0.26f, -0.5f + 1.0f,
-                0.5f, -0.29f, -0.5f + 1.0f,
-        }
-        }
-        ,
-        {
-            {
-                0.5f, 0.15f,  -0.5f ,
-                        0.39f, 0.25f,  -0.5f ,
-                        0.28f, 0.30f,  -0.5f ,
-                        0.13f, 0.28f,  -0.5f ,
-                        0.0f, 0.25f,  -0.5f ,
-                        -0.15f, 0.19f,  -0.5f ,
-                        -0.24f, 0.22f, -0.5f,
-                        -0.30f, 0.25f,  -0.5f ,
-                        -0.41f, 0.20f,  -0.5f ,
-                        -0.5f, 0.22f,  -0.5f }
-            //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-            //怎么这个点重复了，有毒。
-            //x下层
-            ,
-            {
-                -0.5f, -0.24f,  -0.5f ,
-                        -0.42f, -0.21f,  -0.5f ,
-                        -0.35f, -0.22f,  -0.5f ,
-                        -0.20f, -0.29f,  -0.5f ,
-                        -0.05f, -0.32f,  -0.5f ,
-                        0.08f, -0.30f,  -0.5f ,
-                        0.19f, -0.25f,  -0.5f ,
-                        0.31f, -0.3f,  -0.5f ,
-                        0.43f, -0.27f,  -0.5f ,
-                        0.5f, -0.29f, -0.5f }
-        }
-        ,
-        {
-                {
-                        0.5f, 0.15f,  -0.5f - 1.0f,
-                        0.39f, 0.25f,  -0.5f - 1.0f ,
-                        0.28f, 0.30f,  -0.5f - 1.0f ,
-                        0.13f, 0.28f,  -0.5f - 1.0f ,
-                        0.0f, 0.25f,  -0.5f  - 1.0f ,
-                        -0.15f, 0.19f,  -0.5f - 1.0f ,
-                        -0.24f, 0.22f, -0.5f - 1.0f ,
-                        -0.30f, 0.25f,  -0.5f - 1.0f ,
-                        -0.41f, 0.20f,  -0.5f - 1.0f ,
-                        -0.5f, 0.22f,  -0.5f - 1.0f }
-                //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-                //怎么这个点重复了，有毒。
-                //x下层
-                ,
-                {
-                        -0.5f, -0.24f,  -0.5f - 1.0f ,
-                        -0.42f, -0.21f,  -0.5f - 1.0f ,
-                        -0.35f, -0.22f,  -0.5f - 1.0f ,
-                        -0.20f, -0.29f,  -0.5f - 1.0f ,
-                        -0.05f, -0.32f,  -0.5f - 1.0f ,
-                        0.08f, -0.30f,  -0.5f - 1.0f ,
-                        0.19f, -0.25f,  -0.5f - 1.0f ,
-                        0.31f, -0.3f,  -0.5f - 1.0f ,
-                        0.43f, -0.27f,  -0.5f - 1.0f ,
-                        0.5f, -0.29f, -0.5f - 1.0f}
-        }
-        ,
-        {
-            {
-                0.5f, 0.15f,  -0.5f - 2.0f,
-                        0.39f, 0.25f,  -0.5f - 2.0f ,
-                        0.28f, 0.30f,  -0.5f - 2.0f ,
-                        0.13f, 0.28f,  -0.5f - 2.0f ,
-                        0.0f, 0.25f,  -0.5f  - 2.0f ,
-                        -0.15f, 0.19f,  -0.5f - 2.0f ,
-                        -0.24f, 0.22f, -0.5f - 2.0f ,
-                        -0.30f, 0.25f,  -0.5f - 2.0f ,
-                        -0.41f, 0.20f,  -0.5f - 2.0f ,
-                        -0.5f, 0.22f,  -0.5f - 2.0f }
-            //这个点是尼玛外面的点吧
-//            -0.5f, 0.5f, -0.5f ,
-//            -0.5f, 0.22f,  -0.5f ,
-            //怎么这个点重复了，有毒。
-            //x下层
-            ,
-            {
-                -0.5f, -0.24f,  -0.5f - 2.0f ,
-                        -0.42f, -0.21f,  -0.5f - 2.0f ,
-                        -0.35f, -0.22f,  -0.5f - 2.0f ,
-                        -0.20f, -0.29f,  -0.5f - 2.0f ,
-                        -0.05f, -0.32f,  -0.5f - 2.0f ,
-                        0.08f, -0.30f,  -0.5f - 2.0f ,
-                        0.19f, -0.25f,  -0.5f - 2.0f ,
-                        0.31f, -0.3f,  -0.5f - 2.0f ,
-                        0.43f, -0.27f,  -0.5f - 2.0f ,
-                        0.5f, -0.29f, -0.5f - 2.0f}
-        }
-};
-
-//这个就主要是框架的数据
-float faceData[MaxNum][12] = {
-        {
-                -0.5f, 0.5f,  0.5f,
-                0.5f, 0.5f,  0.5f,
-                0.5f, -0.5f, 0.5f,
-                -0.5f,-0.5f,  0.5f
-        },
-        {
-                -0.5f, 0.5f,  0.5f -1.0f,
-                0.5f, 0.5f,  0.5f - 1.0f,
-                0.5f, -0.5f, 0.5f - 1.0f,
-                -0.5f,-0.5f,  0.5f -  1.0f
-        },
-        {
-                -0.5f, 0.5f,  0.5f - 2.0f,
-                0.5f, 0.5f,  0.5f - 2.0f,
-                0.5f, -0.5f, 0.5f - 2.0f,
-                -0.5f,-0.5f,  0.5f - 2.0f
-        }
-        ,
-        {
-                -0.5f, 0.5f,  0.5f - 3.0f,
-                0.5f, 0.5f,  0.5f - 3.0f,
-                0.5f, -0.5f, 0.5f - 3.0f,
-                -0.5f,-0.5f,  0.5f - 3.0f
-        }
-};
-
-
-//VERTEX *closeLine[MaxNum];
-
-
-
-
-//还是要标出来每层对个数
-int closeDataNum[MaxNum] = {13, 13, 13, 7, 8};
-
-//后一个是前一个的洞，单层循环处理
-float closeData[MaxNum][100] = {
-        {
-
-            -4.0f, 2.0f, -1.5f,
-            -2.63f, -1.84f, -1.5f,
-            -1.91f, -1.84f, -1.5f,
-            -1.71f, -4.08f, -1.5f,
-            0.88f, -4.47f, -1.5f,
-            2.89f, -3.73f, -1.5f,
-            4.2f, -2.91f, -1.5f,
-            4.17f, -1.67f, -1.5f,
-            3.76f, 1.24f, -1.5f,
-            2.51f, 3.44f, -1.5f,
-            1.09f, 4.82f, -1.5f,
-            -0.26f, 3.36f, -1.5f,
-            -2.18f, 4.0f, -1.5f,
-        },
-        {
-            3.34f, -2.85f, 0,
-            3.35f, -1.19f, 0,
-            2.89f, 0.81f, 0,
-            2.75f, 2.21f, 0,
-            2.0f, 4.0f, 0,
-            0.37f, 3.96f, 0,
-            -1.6f, 3.35f, 0,
-            -3.52f, 2.5f, 0,
-            -2.79f, 1.04f, 0,
-            -1.85f, -0.85f, 0,
-            -1.33f, -2.88f, 0,
-            0.38f, -3.7f, 0,
-            1.89f, -3.1f, 0,
-        },
-        {
-            3.26f, -3.31f, 1.5f,
-            3.65f, -2.04f, 1.5f,
-            3.52f, -0.33f, 1.5f,
-            3.13f, 1.42f, 1.5f,
-            1.92f, 2.98f, 1.5f,
-            0.87f, 4.23f, 1.5f,
-            -0.9f, 4.04f, 1.5f,
-            -2.8f, 3.37f, 1.5f,
-            -3.79f, 1.14f, 1.5f,
-            -2.86f, -1.04f, 1.5f,
-            -2.56f, -2.78f, 1.5f,
-            -0.28f, -4.19f, 1.5f,
-            1.66f, -3.99f, 1.5f
-        }
-        ,
-        //这一组是分支数据，估计要重新设计这个数组了。得多安排一个数组，还要考虑不同高度的，可能放为一组的。
-        {
-            0.91f, 1.47f, 3.0f,
-            0.65f, 2.28f, 3.0f,
-            -0.53f, 2.4f, 3.0f,
-            -1.38f, 1.72f, 3.0f,
-            -1.39f, 0.79f, 3.0f,
-            -0.35f, 0.54f, 3.0f,
-                0.38f, 0.66f, 3.0f
-
-        }
-        ,
-        {
-            1.53f, -1.82, 3.0f,
-                    1.72f, -1.15f, 3.0f,
-                    0.8f, -1.13f, 3.0f,
-                    -0.22f, -1.31f, 3.0f,
-                    -0.98f, -1.6f, 3.0f,
-                    -0.56f, -2.64f, 3.0f,
-                    0.39f, -2.91f, 3.0f,
-                    1.29f, -2.7f, 3.0f
-        }
-
-};
-
 
 
 ////函数声明
@@ -444,12 +204,14 @@ void closeLineBack(vector<VERTEX>& _fault, int indexTra);
 
 //放缩如果有交线则缩小
 //如果只是放缩那么我就不管这个平移了，直接判断放缩了！每次放缩1点
+
+
 void scaleFunction(vector<VERTEX>& fault1, vector<VERTEX>& fault2, int index)
 {
 //    int num1 = fault1.size(), num2 = fault2.size();
     scaleSize[index] = 1.0f;
 
-    //判断是否有相交对线
+    //判断是否有相交的线，这里效率也太低了，如果是那种奇怪的图形，估计也是弄不出来什么效果的。
     while(!faultIntersect(fault1, fault2))
     {
         //这里的改变0.1是不是有问题，如果两次之后那么就是0.9 * 0.8 = 0.72
@@ -459,11 +221,11 @@ void scaleFunction(vector<VERTEX>& fault1, vector<VERTEX>& fault2, int index)
         faultScaleFunction(fault2, 1.0f / (scaleSize[index]) ,xD);
         faultScaleFunction(fault2, 1.0f / (scaleSize[index]) ,yD);
         scaleSize[index] -= 0.3f;
-        cout << "index " << index << " fault[0] " << fault2[0].x << endl;
+//        cout << "index " << index << " fault[0] " << fault2[0].x << endl;
         cout << scaleSize[index] << endl;
         faultScaleFunction(fault2, scaleSize[index] ,xD);
         faultScaleFunction(fault2, scaleSize[index] ,yD);
-        cout << "after index " << index << " fault[0] " << fault2[0].x << endl;
+//        cout << "after index " << index << " fault[0] " << fault2[0].x << endl;
 
     }
 }
@@ -485,31 +247,29 @@ vector<Point*> VertexsToPoints(vector<VERTEX>& vertex)
     }
     return Points;
 }
-//void PlatformTriangleSearch(Triangle* )
 
 
 void LineProcess(){
     vector<VERTEX> v;
 
-    InputDataToVector(v);
+    InputDataToVector(closeLineV);
 
-    //根据z值不同将其放入不同的数组中
-    VertexDivide(v, closeLineV);
-
-    for(int i = 0;i < closeLineV.size();i++){
-        cout << closeLineV[i].size() << endl;
-        for(int j = 0;j < closeLineV[i].size();j++)
-            closeLineV[i][j].Print();
+    if(closeLineV.size() < 2){
+        cout << "error, closeLine num is less than 2" << endl;
+        exit(0);
     }
+    int dif = closeLineV[0][0].z - closeLineV[1][0].z;
+
 
     //自动处理
     for(int i = 0;i < modelNum - 1; i++)
     {
         //平移到同一平面
-        faultMoveFunction(closeLineV[i+1], -2.5f, zD);
+        faultMoveFunction(closeLineV[i+1], dif, zD);
 //        cout << endl;
         closeLineV[i+1][0].Print();
         //放缩判断
+
         scaleFunction(closeLineV[i], closeLineV[i+1], i);
 
         //--------
@@ -518,10 +278,14 @@ void LineProcess(){
         //三角化
         closePoly2Tri(closeLineV[i], closeLineV[i+1], i);
 
+        //绑定本身的线
+        drawInit(faceVAO[i], faceVBO[i], closeLineV[i]);
+        drawInit(faceVAO[i+1], faceVBO[i+1], closeLineV[i+1]);
 
         closeLineBack(closeLineV[i+1], i);
 
 //        cout << "closeLine " << closeLine[i+1][0].x << endl;
+
     }
     //三角化本身
 //    for(int i = 0;i < modelNum;i++){
@@ -542,10 +306,10 @@ void DrawLine(){
                 glBindTexture(GL_TEXTURE_2D, textures[j][i]);
                 glBindVertexArray(PolyVAOs[j][i]);
 
-                if(ShowTexture)
+//                if(ShowTexture)
                     glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
-                else
-                    glDrawArrays(GL_LINE_STRIP, 0, 3);
+//                else
+                    glDrawArrays(GL_LINE_LOOP, 0, 3);
 
 
             }
@@ -565,13 +329,19 @@ void DrawLine(){
                     glDrawArrays(GL_LINE_STRIP, 0, 3);
             }
         }
+        //画线
+        glBindVertexArray(faceVAO[j]);
+//            cout << McLine[i].size() << endl;
+        glDrawArrays(GL_LINE_LOOP, 0, closeLineV[j].size());
     }
 }
 
 
+//mc算法的问题
 void MarchingCubesProcess(){
      MakeSurface m;
-     string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/Circle.sec";
+//     string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/Circle.sec";
+    string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/mctest.txt";
      m.ReadSectionData((char*)file.data());
      //创建好表面后，可以进行渲染了。
      m.CreateSurface2();
@@ -580,10 +350,9 @@ void MarchingCubesProcess(){
     cout << McTri.size() << endl;
     AddTriBind(McVAOs[0], McVBOs[0], textures[0], McTri);
 
-//    for(int i = 0;i < McLine.size();i++){
-//        drawInit(faceVAO[i], faceVBO[i], McLine[i]);
-//    }
-
+    for(int i = 0;i < McLine.size();i++){
+        drawInit(faceVAO[i], faceVBO[i], McLine[i]);
+    }
 }
 
 void McProcess(){
@@ -617,11 +386,12 @@ void DrawMc(){
             glDrawArrays(GL_LINE_STRIP, 0, 3);
     }
 
-//    for(int i = 0;i < McLine.size();i++){
-//        glBindVertexArray(faceVAO[i]);
-////            cout << McLine[i].size() << endl;
-//        glDrawArrays(GL_LINE_STRIP, 0, McLine[i].size());
-//    }
+    for(int i = 0;i < McLine.size();i++){
+//        glBindVertexArray(VAOs[i]);
+        glBindVertexArray(faceVAO[i]);
+//            cout << McLine[i].size() << endl;
+        glDrawArrays(GL_LINE_LOOP, 0, McLine[i].size());
+    }
 
 }
 
@@ -680,21 +450,21 @@ int main()
 
 
 
-//    LineProcess();
+    LineProcess();
 
-    MarchingCubesProcess();
+//    MarchingCubesProcess();
 
     //显示代码
     while (!glfwWindowShouldClose(window))
     {
         //更新mojave后的bug，加入以下代码才能正常显示
-//        bool needDraw = true;
-//        if (needDraw) {
-//            glfwShowWindow(window);
-//            glfwHideWindow(window);
-//            glfwShowWindow(window);
-//            needDraw = false;
-//        }
+        bool needDraw = true;
+        if (needDraw) {
+            glfwShowWindow(window);
+            glfwHideWindow(window);
+            glfwShowWindow(window);
+            needDraw = false;
+        }
 
         // per-frame time logic
         // --------------------
@@ -740,8 +510,8 @@ int main()
         lightingShader.setMat4("model", model);
 
         //渲染MC
-        DrawMc();
-//        DrawLine();
+//        DrawMc();
+        DrawLine();
 
 
 
@@ -1115,12 +885,12 @@ void drawInit(unsigned int & VAO, unsigned int & VBO, vector<VERTEX>&target)
     int num = target.size();
 
     float source[3 * num];
-    for(int i = 0;i < num;i++){
-        source[i] = target[i].x;
-        source[i+1] = target[i].y;
-        source[i+2] = target[i].z;
+    for(int i = 0, j = 0;i < num;i++, j+=3){
+        source[j] = target[i].x;
+        source[j+1] = target[i].y;
+        source[j+2] = target[i].z;
 
-        cout << source[i] << " " << source[i+1] << " " << source[i+2] <<endl;
+//        cout << source[i] << " " << source[i+1] << " " << source[i+2] <<endl;
     }
 
 
@@ -1130,23 +900,13 @@ void drawInit(unsigned int & VAO, unsigned int & VBO, vector<VERTEX>&target)
     glGenBuffers(1, &VBO);
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//    cout << "sizeof " << sizeof(source) << endl;
+    cout << "sizeof " << sizeof(source) << endl;
     glBufferData(GL_ARRAY_BUFFER, sizeof(source), source, GL_STATIC_DRAW);
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 }
 
-//void McTriBind(unsigned int * McVAOs, unsigned int * McVBOs, unsigned int * texture, vector<McTriangle> _triangle){
-//    glGenVertexArrays(_triangle.size(), McVAOs);
-//    glGenBuffers(_triangle.size(), McVBOs);
-//    float TraVertex[24];
-//    for (int i = 0; i < _triangle.size(); i++){
-//        McTriangle &mcTri = _triangle[i];
-//
-//    }
-//
-//}
 
 
 
@@ -1214,22 +974,6 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
         TraVertex[21] = traNormol.z;
         TraVertex[22] = 0.5f;
         TraVertex[23] = 1.0f;
-
-
-//        if(TraVertex[2] == 0 || TraVertex[5] == 0 || TraVertex[8] == 0)
-//            continue;
-
-//        cout << "TraNumber:" << i << endl;
-//        for (int j = 0; j < 9; j++)
-//        {
-//            cout << TraVertex[j] << " ";
-//            //应该是这里出错了，尼玛哦，看了我半天日了你爹
-//            if ((j + 1) % 3 == 0)
-//            {
-//                cout << endl;
-//            }
-//        }
-//        cout << endl;
 
         //绑定到vbo里
         glBindVertexArray(PolyVAOs[i]);
@@ -1655,14 +1399,26 @@ void closePoly2Tri(vector<VERTEX>& closeOut, vector<VERTEX>& closeHole, int inde
     vector<Point*> hole = VertexsToPoints(closeHole);
     cdt[index]->AddHole(hole);
 
+    //添加施耐德点，这个点怎么计算才好？
+    Point *point1 = new Point(-4.24, 1.06);
+    Point *point2 = new Point(-4.32, -0.42);
+    Point *point3 = new Point(-2.6, -0.26);
+    point1->z = 1.0;
+    point2->z = 1.0;
+    point3->z = 1.0;
+    cdt[index]->AddPoint(point1);
+    cdt[index]->AddPoint(point2);
+    cdt[index]->AddPoint(point3);
+
     polylines[index].push_back(hole);
     //开始剖分
     cdt[index]->Triangulate();
 
     //map是完整的剖分（包含空洞的剖分）？
-    map[index] = cdt[index]->GetMap();
+//    map[index] = cdt[index]->GetMap();
     triangles[index] = cdt[index]->GetTriangles();
 
+    //纹理绑定
     Poly2TriBind(PolyVAOs[index], PolyVBOs[index], textures[index],triangles[index]);
 }
 

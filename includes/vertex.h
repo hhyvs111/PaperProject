@@ -31,9 +31,22 @@ typedef struct   tagVERTEX
     void Print(){
         cout << x << "," << y << "," << z << endl;
     }
+
     //层数
     int index;
 }VERTEX,GLvector;
+
+class PolyLine{
+public:
+    vector<VERTEX> v;
+    int sectionNum;
+
+
+    void add(VERTEX& t){
+        v.push_back(t);
+    }
+
+};
 
 
 typedef struct tagAddTriangle
@@ -127,7 +140,7 @@ AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);
 VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3);
 
 //文本输入
-void InputDataToVector(vector<VERTEX>& p);
+void InputDataToVector(vector<vector<VERTEX>>& closeLineV);
 
 //数据划分
 void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV);

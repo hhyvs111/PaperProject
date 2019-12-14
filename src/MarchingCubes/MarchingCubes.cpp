@@ -25,11 +25,11 @@ MarchingCube::MarchingCube(int sizeI, int sizeJ, int sizeK, float isoLevel) {
 MarchingCube::MarchingCube()
 {
     m_sizeI      = 1;
-    m_sizeJ      = 30;
-    m_sizeK      = 30;
+    m_sizeJ      = 60;
+    m_sizeK      = 60;
     //分叉的80dd
     //越大的话，三角面片越少
-    m_IsoLevel   = 180;
+    m_IsoLevel   = 1;
     m_Cubes  = NULL;
     m_GridPoints = NULL;
 
@@ -607,6 +607,8 @@ int MarchingCube::CreateSurface(void) {
 //    }
 //}
 
+
+//追踪？
 void MarchingCube::TracePointsToContours(Line3DArrayEx lineArray, PolyPoint3DArrayEx &contours)
 {
     int i, j, num, num1;
@@ -781,15 +783,15 @@ int MarchingCube::GenerateSurface(/*const*/ Cube* cube, float isoLevel, Line3DAr
 //        tri.Debug();
 
         AddTriangle add;
-        add.a.x = tri.point[0].m_x/mcScale;
-        add.a.y = tri.point[0].m_y/mcScale;
-        add.a.z = tri.point[0].m_z/mcScale;
-        add.b.x = tri.point[1].m_x/mcScale;
-        add.b.y = tri.point[1].m_y/mcScale;
-        add.b.z = tri.point[1].m_z/mcScale;
-        add.c.x = tri.point[2].m_x/mcScale;
-        add.c.y = tri.point[2].m_y/mcScale;
-        add.c.z = tri.point[2].m_z/mcScale;
+        add.a.x = tri.point[0].m_x;
+        add.a.y = tri.point[0].m_y;
+        add.a.z = tri.point[0].m_z;
+        add.b.x = tri.point[1].m_x;
+        add.b.y = tri.point[1].m_y;
+        add.b.z = tri.point[1].m_z;
+        add.c.x = tri.point[2].m_x;
+        add.c.y = tri.point[2].m_y;
+        add.c.z = tri.point[2].m_z;
 
         McTri.push_back(add);
 //        m_TriangleEx.push_back(tri);
@@ -846,9 +848,11 @@ int MarchingCube::GenerateSurface(/*const*/ Cube* cube, float isoLevel, Line3DAr
     return triCount;
 }
 
+//插值公式？求出对应的棱边
 Point3D MarchingCube::Interpolate(float isoLevel, const GridPoint* gridPoint1, const GridPoint* gridPoint2) {
     float mu;
     Point3D p;
+    //这里是否将这个轮廓线给缩小了？我日了，十分的怀疑是被缩小了。
     mu = (isoLevel - gridPoint1->val) / (gridPoint2->val - gridPoint1->val);
     p.m_x = gridPoint1->point.m_x + mu * (gridPoint2->point.m_x - gridPoint1->point.m_x);
     p.m_y = gridPoint1->point.m_y + mu * (gridPoint2->point.m_y - gridPoint1->point.m_y);
@@ -1373,11 +1377,11 @@ void MarchingCube::CreateBox(PolyPoint3DArrayEx polyPointArray, Point3D *secPoin
     double maxRight = 1e-9, maxLeft = 1e-9, maxUp = 1e-9, maxDown = 1e9;
     //简单的方法求包围盒，这里x 是不变的，那么就只要变动y和z即可。
     int index = -1;
-    //求最z值，这里包围盒还是有点问题，只有z和y，那么到时候如果要改成x y z的那种，那么还是要有点问题了。明天再弄了吧，数据真的是难搞。
+    //求最x值，这里包围盒还是有点问题，只有z和y，那么到时候如果要改成x y z的那种，那么还是要有点问题了。明天再弄了吧，数据真的是难搞。
     for(int i = 0;i < num1;i++){
         point = convexHullPoints.at(i);
-        if(point.m_z > maxRight){
-            maxRight = point.m_z;
+        if(point.m_x > maxRight){
+            maxRight = point.m_x;
             index = i;
         }
     }
@@ -1398,8 +1402,8 @@ void MarchingCube::CreateBox(PolyPoint3DArrayEx polyPointArray, Point3D *secPoin
 
     for(int i = 0;i < num1;i++){
         point = convexHullPoints.at(i);
-        if(point.m_z < maxLeft){
-            maxLeft = point.m_z;
+        if(point.m_x < maxLeft){
+            maxLeft = point.m_x;
             index = i;
         }
 
@@ -1728,8 +1732,8 @@ void MarchingCube::CreateNewGrid(Point3D *point, PolyPoint3DArrayEx FrontPolyPoi
                 gridPoint->point.m_z = (double)((CurPoint1.m_z - CurPoint0.m_z)/m_sizeK) * k + CurPoint0.m_z;
 
                 TempPoint1 = &gridPoint->point;
-//                cout << "temp point : ";
-//                TempPoint1->Debug();
+                cout << "temp point : ";
+                TempPoint1->Debug();
                 //当立方体顶点在前剖面时;
                 if (i == 0)
                 {

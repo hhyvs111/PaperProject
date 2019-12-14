@@ -43,6 +43,7 @@ namespace p2t {
         sweep_context_->AddHole(polyline);
     }
 
+    //添加斯提尔点，这个不知道有啥用
     void CDT::AddPoint(Point* point) {
         sweep_context_->AddPoint(point);
     }

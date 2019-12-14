@@ -123,7 +123,7 @@ struct Point {
     return sqrt(x * x + y * y);
   }
 
-  /// Convert this point into a unit point. Returns the Length.
+  /// Convert this point into a unit point. Returns the Length. 坐标归一化？变成0到1的范围？
   double Normalize()
   {
     double len = Length();
@@ -149,6 +149,7 @@ struct Edge {
       if (p1.x > p2.x) {
         q = &p1;
         p = &p2;
+        //出现重复的点会出问题
       } else if (p1.x == p2.x) {
         // Repeat points
         assert(false);
@@ -175,6 +176,7 @@ void HidePoints();
 //判断是否要隐藏，入股
 bool isHide = false;
 
+//两种边，一种约束边，一种德内诺边。
 /// Flags to determine if an edge is a Constrained edge
 bool constrained_edge[3];
 /// Flags to determine if an edge is a Delauney edge
@@ -238,6 +240,25 @@ Triangle* neighbors_[3];
 
 /// Has this triangle been marked as an interior triangle?
 bool interior_;
+};
+
+
+
+//定义一个三棱柱类，其是有三角形组成，三角形又是由这个三个点组成
+class TriPrism {
+    Triangle *t;
+
+    TriPrism(Triangle* m_t){
+        t = m_t;
+    }
+
+    //判断是哪一层？如何生成等值面？其实我都不用生成等值面了，生成尼玛p哦。就假装生成体素吧，难受的一批。
+    int TriPrismType(){
+        Point *a, *b, *c;
+        a = t->GetPoint(0);
+        b = t->GetPoint(1);
+        c = t->GetPoint(2);
+    }
 };
 
 inline bool cmp(const Point* a, const Point* b)

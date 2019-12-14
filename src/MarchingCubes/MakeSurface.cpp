@@ -63,8 +63,8 @@ bool MakeSurface::ReadSectionData(char* strFilePath){
         return false;
 
     //中心坐标
-    fscanf(fp,"%lf%lf%lf",&m_minX,&m_minY,&m_minZ);
-    fscanf(fp,"%lf%lf%lf",&m_dX,&m_dY,&m_dZ);
+//    fscanf(fp,"%lf%lf%lf",&m_minX,&m_minY,&m_minZ);
+//    fscanf(fp,"%lf%lf%lf",&m_dX,&m_dY,&m_dZ);
     //轮廓数目
     fscanf(fp,"%d",&nSectionNum);
 //    cout << m_minX << endl;
@@ -93,13 +93,16 @@ bool MakeSurface::ReadSectionData(char* strFilePath){
             {
                 fscanf(fp,"%lf%lf%lf",&x1,&y1,&z1);                           //点的实际坐标
                 //point.Set(x1,y1,z1);//相对于区域中心点的坐标
-                v.x = (x1-m_minX-m_dX/2) / mcScale;
-                v.y = (y1-m_minY-m_dY/2) / mcScale;
-                v.z = (z1-m_minZ-m_dZ/2) / mcScale;
+//                v.x = (x1-m_minX-m_dX/2) / mcScale;
+//                v.y = (y1-m_minY-m_dY/2) / mcScale;
+//                v.z = (z1-m_minZ-m_dZ/2) / mcScale;
+                v.x = x1;
+                v.y = y1;
+                v.z = z1;
                 line.push_back(v);
                 v.Print();
-                point.Set(x1-m_minX-m_dX/2,y1-m_minY-m_dY/2,z1-m_minZ-m_dZ/2);//相对于区域中心点的坐标
-//                point.Set(x1,y1,z1);//相对于区域中心点的坐标
+//                point.Set(x1-m_minX-m_dX/2,y1-m_minY-m_dY/2,z1-m_minZ-m_dZ/2);//相对于区域中心点的坐标
+                point.Set(x1,y1,z1);//相对于区域中心点的坐标
                 //afxDump<<m_minX+m_dX/2<<" "<<m_minY+m_dY/2<<" "<<m_minZ+m_dZ/2<<"\n";
 //                point.Debug();
                 polyPoint.Add(point);
@@ -252,9 +255,9 @@ void MakeSurface::CreateSurface2()
 
     //取得剖面个数和已选曲线组;还选个鸡儿，直接弄上去就完事了。
 
-    //这个取剖面好像也没什么鸟用的样子日了他妈
     PreCreateSurface(m_FrameNum, polyPointArray);
     cout << "size: " << polyPointArray.size() << endl;
+
 
 //    cout << "int array" << m_IntArray.size() << endl;
     //直接将所有的传入就行了。
@@ -286,7 +289,6 @@ void MakeSurface::CreateSurface2()
                 m_profileCurveArray.erase(i+1);
             }
         }
-
     }
 
     //这里应该是要加入所有的东西，而不是只有一个？cout << "poly " <<  m_profileCurveArray.at(i).m_ID << endl;
@@ -386,7 +388,7 @@ void MakeSurface::CreateSurface2()
 
             tempGrid.m_fPolyPointArray = &FrontPolyPointArray;
             tempGrid.m_bPolyPointArray = &BackPolyPointArray;
-
+            cout << " mc point " << tempGrid.m_fPolyPointArray->at(0).size() << " back " << tempGrid.m_bPolyPointArray->at(0).size() << endl;
             //如果不要求轮廓线吻合的情况，则直接重建
             if (!isSurfaceClose)
             {

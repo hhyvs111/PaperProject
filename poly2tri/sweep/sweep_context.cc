@@ -33,7 +33,7 @@
 #include "advancing_front.h"
 
 namespace p2t {
-
+    //初始化边
 SweepContext::SweepContext(std::vector<Point*> polyline) :
   front_(0),
   head_(0),
@@ -46,18 +46,20 @@ SweepContext::SweepContext(std::vector<Point*> polyline) :
   edge_event = EdgeEvent();
 
   points_ = polyline;
-
+  //这里也初始化了边，那么和下面的addhole有什么区别？
   InitEdges(points_);
 }
 
 void SweepContext::AddHole(std::vector<Point*> polyline)
 {
+  //这里初始化了边，应该是带了约束边
   InitEdges(polyline);
   for(unsigned int i = 0; i < polyline.size(); i++) {
     points_.push_back(polyline[i]);
   }
 }
 
+//好像就是单纯的加入点啊，这个有啥用我日
 void SweepContext::AddPoint(Point* point) {
   points_.push_back(point);
 }
@@ -78,7 +80,7 @@ void SweepContext::InitTriangulation()
   double ymax(points_[0]->y), ymin(points_[0]->y);
 
   // Calculate bounds.
-  //
+  //计算边界，也就是包围盒
   for (unsigned int i = 0; i < points_.size(); i++) {
     Point& p = *points_[i];
     if (p.x > xmax)
@@ -93,10 +95,12 @@ void SweepContext::InitTriangulation()
 
   double dx = kAlpha * (xmax - xmin);
   double dy = kAlpha * (ymax - ymin);
+  //头和尾这里的点好像是比之前的边界还要宽了？
   head_ = new Point(xmax + dx, ymin - dy);
   tail_ = new Point(xmin - dx, ymin - dy);
 
   // Sort points along y-axis
+  //对y点进行排序，如果y相等则对比x的大小
   std::sort(points_.begin(), points_.end(), cmp);
 
 }
@@ -105,7 +109,9 @@ void SweepContext::InitEdges(std::vector<Point*> polyline)
 {
   int num_points = polyline.size();
   for (int i = 0; i < num_points; i++) {
+    //首位相连
     int j = i < num_points - 1 ? i + 1 : 0;
+    //加入边数组
     edge_list.push_back(new Edge(*polyline[i], *polyline[j]));
   }
 }
@@ -142,6 +148,7 @@ void SweepContext::CreateAdvancingFront(std::vector<Node*> nodes)
 
   // TODO: More intuitive if head is middles next and not previous?
   //       so swap head and tail
+  //建立链表
   af_head_->next = af_middle_;
   af_middle_->next = af_tail_;
   af_middle_->prev = af_head_;

@@ -39,7 +39,7 @@
 #define SWEEP_H
 
 #include <vector>
-
+//整个的核心
 namespace p2t {
 
 class SweepContext;
@@ -74,6 +74,8 @@ private:
   void SweepPoints(SweepContext& tcx);
 
   /**
+   * 查找在新点左侧的闭合节点，然后
+   * 创建一个新的三角形。如果需要，将填充新的孔和盆。
    * Find closes node to the left of the new point and
    * create a new triangle. If needed new holes and basins
    * will be filled to.
@@ -113,13 +115,14 @@ private:
   void Fill(SweepContext& tcx, Node& node);
 
   /**
-   * Returns true if triangle was legalized
+   * Returns true if triangle was legalized，三角形是否合法
    */
   bool Legalize(SweepContext& tcx, Triangle& t);
 
   /**
    * <b>Requirement</b>:<br>
    * 1. a,b and c form a triangle.<br>
+   * //已知a和d是在bc的两边
    * 2. a and d is know to be on opposite side of bc<br>
    * <pre>
    *                a
@@ -133,7 +136,7 @@ private:
    * </pre>
    * <b>Fact</b>: d has to be in area B to have a chance to be inside the circle formed by
    *  a,b and c<br>
-   *  d is outside B if orient2d(a,b,d) or orient2d(c,a,d) is CW<br>
+   *  d is outside B if orient2d(a,b,d) or orient2d(c,a,d) is CW<br>  cw是什么东西？
    *  This preknowledge gives us a way to optimize the incircle test
    * @param a - triangle point, opposite d
    * @param b - triangle point
@@ -143,7 +146,7 @@ private:
    */
   bool Incircle(Point& pa, Point& pb, Point& pc, Point& pd);
 
-  /**
+  /**，调整边
    * Rotates a triangle pair one vertex CW
    *<pre>
    *       n2                    n2

@@ -248,41 +248,53 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 
 
 //从文本读入数据
-void InputDataToVector(vector<VERTEX>& p){
+void InputDataToVector(vector<vector<VERTEX>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/cricle.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/snd.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
     }
-    float x, y ,z;
 
-    //分隔符读入
-    for(int i = 0; !infile.eof();i++){
-        infile >> x >> y >> z;
-        cout << x  << " " << y << " " << z  << endl;
-        VERTEX v;
-        v.x = x;
-        v.y = y;
-        v.z = z;
-        p.push_back(v);
+    //读入剖面数，和轮廓线数
+    int sectionNum, lineNum;
+    float x, y ,z;
+    infile >> sectionNum >> lineNum;
+
+    int sectionNo, pointNum;
+    for(int i = 0;i < sectionNum;i++){
+        //读入轮廓点
+        infile >> sectionNo >> pointNum;
+        vector<VERTEX> closeLine;
+
+        for(int j = 0;j < pointNum;j++){
+            infile >> x >> y >> z;
+            cout << x  << " " << y << " " << z  << endl;
+            VERTEX v;
+            v.x = x;
+            v.y = y;
+            v.z = z;
+            closeLine.push_back(v);
+        }
+        closeLines.push_back(closeLine);
     }
     cout << "end" << endl;
     infile.close();
 }
 
-void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV){
-    int index = 0;
-    for(int i = 0;i < v.size();i++){
-        auto zIndex = v[i].z;
-        vector<VERTEX> mV;
-        int j = i;
-        for(; v[j].z == zIndex;j++){
-            v[j].index = index;
-            mV.push_back(v[j]);
-        }
-        i = j - 1;
-        index++;
-        closeLineV.push_back(mV);
-    }
-}
+
+//void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV){
+//    int index = 0;
+//    for(int i = 0;i < v.size();i++){
+//        auto zIndex = v[i].z;
+//        vector<VERTEX> mV;
+//        int j = i;
+//        for(; v[j].z == zIndex;j++){
+//            v[j].index = index;
+//            mV.push_back(v[j]);
+//        }
+//        i = j - 1;
+//        index++;
+//        closeLineV.push_back(mV);
+//    }
+//}

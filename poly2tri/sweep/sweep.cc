@@ -39,7 +39,9 @@ namespace p2t {
 // Triangulate simple polygon with holes
     void Sweep::Triangulate(SweepContext& tcx)
     {
+        //找到当前的最大边界，并计算tail和head，这里暂时不知道是什么用意
         tcx.InitTriangulation();
+
         tcx.CreateAdvancingFront(nodes_);
         // Sweep points; build mesh
         SweepPoints(tcx);
@@ -328,7 +330,7 @@ namespace p2t {
         double by = node.prev->point->y - node.point->y;
         return atan2(ax * by - ay * bx, ax * bx + ay * by);
     }
-
+    //判断三角是否合法
     bool Sweep::Legalize(SweepContext& tcx, Triangle& t)
     {
         // To legalize a triangle we start by finding if any of the three edges
@@ -338,22 +340,25 @@ namespace p2t {
                 continue;
 
             Triangle* ot = t.GetNeighbor(i);
-
+            //有邻居的时候，则进行检查
             if (ot) {
                 Point* p = t.GetPoint(i);
+                //对面的点，检查是否操作起来是正确的边
                 Point* op = ot->OppositePoint(t, *p);
                 int oi = ot->Index(op);
 
+                //如果已经是限制边或者是德纳罗三角形，那么就不需要去检查了
                 // If this is a Constrained Edge or a Delaunay Edge(only during recursive legalization)
                 // then we should not try to legalize
                 if (ot->constrained_edge[oi] || ot->delaunay_edge[oi]) {
                     t.constrained_edge[i] = ot->constrained_edge[oi];
                     continue;
                 }
-
+                //计算op是否在当前p点内。
                 bool inside = Incircle(*p, *t.PointCCW(*p), *t.PointCW(*p), *op);
 
                 if (inside) {
+                    //在的时候就交换？为什么这个边就变成了delaunay边了？
                     // Lets mark this shared edge as Delaunay
                     t.delaunay_edge[i] = true;
                     ot->delaunay_edge[oi] = true;
@@ -361,9 +366,11 @@ namespace p2t {
                     // Lets rotate shared edge one vertex CW to legalize it
                     RotateTrianglePair(t, *p, *ot, *op);
 
+                    //交换了边后得到了一条有效的边？
                     // We now got one valid Delaunay Edge shared by two triangles
                     // This gives us 4 new edges to check for Delaunay
 
+                    //现在已经是三维角了，那么还是有点问题的样子。
                     // Make sure that triangle to node mapping is done only one time for a specific triangle
                     bool not_legalized = !Legalize(tcx, t);
                     if (not_legalized) {
@@ -380,7 +387,7 @@ namespace p2t {
                     //      return to previous recursive level?
                     t.delaunay_edge[i] = false;
                     ot->delaunay_edge[oi] = false;
-
+                    //如果三角形已经合法，那么就不需要检查其他的边了。
                     // If triangle have been legalized no need to check the other edges since
                     // the recursive legalization will handles those so we can end here.
                     return true;

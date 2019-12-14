@@ -15,59 +15,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b57f9fec-48e4-47ea-8e9d-f3bc6d721f8f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/includes/MakeSurface.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/MarchingCubes.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/PseudoDelaunay.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/common.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Body1.sec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Circle1.sec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Figure.sec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MarchingCubes/PseudoDelaunay.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MarchingCubes/Tables.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MarchingCubes/Tables.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/common.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/geogebra-export123.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/multi.sec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/multi1.sec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/multisec.sec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/includes/TriangularPrism.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/progress.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/Delaunay.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/Delaunay.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/STB_IMAGE.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/STB_IMAGE.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/common/shapes.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/common/shapes.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/advancing_front.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/advancing_front.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/cdt.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/cdt.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep_context.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep_context.cc.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/LearnOpenGL.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/LearnOpenGL.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libSTB_IMAGE.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libSTB_IMAGE.a" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/vertex.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/common/shapes.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/common/shapes.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/common/shapes.h" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/common/shapes.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/sweep.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/sweep.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/sweep.h" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/sweep.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MarchingCubes.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/MarchingCubes.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cricle.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/cricle.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/data1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Circle.sec" beforeDir="false" afterPath="$PROJECT_DIR$/src/Circle.sec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vertex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vertex.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -155,13 +131,13 @@
           <entry key="algorithm" value="1" />
           <entry key="c" value="13" />
           <entry key="camera_class (disassembly)" value="11" />
-          <entry key="cc" value="38" />
+          <entry key="cc" value="47" />
           <entry key="cmake" value="1" />
-          <entry key="cpp" value="102" />
+          <entry key="cpp" value="115" />
           <entry key="fs" value="25" />
           <entry key="gif" value="1" />
           <entry key="gitignore" value="1" />
-          <entry key="h" value="152" />
+          <entry key="h" value="174" />
           <entry key="hpp" value="3" />
           <entry key="iosfwd" value="1" />
           <entry key="iostream" value="1" />
@@ -172,12 +148,12 @@
           <entry key="mlp" value="1" />
           <entry key="ostream" value="2" />
           <entry key="png" value="1" />
-          <entry key="sec" value="20" />
+          <entry key="sec" value="25" />
           <entry key="txst" value="1" />
-          <entry key="txt" value="40" />
+          <entry key="txt" value="50" />
           <entry key="type_traits" value="1" />
-          <entry key="vector" value="15" />
-          <entry key="vs" value="24" />
+          <entry key="vector" value="16" />
+          <entry key="vs" value="25" />
           <entry key="xml" value="2" />
         </counts>
       </usages-collector>
@@ -188,8 +164,8 @@
           <entry key="Disassembly" value="11" />
           <entry key="Image" value="3" />
           <entry key="Markdown" value="3" />
-          <entry key="ObjectiveC" value="338" />
-          <entry key="PLAIN_TEXT" value="96" />
+          <entry key="ObjectiveC" value="383" />
+          <entry key="PLAIN_TEXT" value="112" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -197,29 +173,29 @@
         <counts>
           <entry key="GDB" value="17" />
           <entry key="c" value="37" />
-          <entry key="cc" value="136" />
-          <entry key="cpp" value="45395" />
+          <entry key="cc" value="828" />
+          <entry key="cpp" value="46932" />
           <entry key="fs" value="72" />
-          <entry key="h" value="5242" />
+          <entry key="h" value="5996" />
           <entry key="md" value="186" />
           <entry key="sec" value="66" />
-          <entry key="txt" value="3612" />
+          <entry key="txt" value="3768" />
           <entry key="vs" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="259" />
-          <entry key="Doxygen file" value="1" />
+          <entry key="Doxygen file" value="5" />
           <entry key="GDBCommands" value="17" />
           <entry key="Markdown" value="186" />
-          <entry key="ObjectiveC" value="50809" />
-          <entry key="PLAIN_TEXT" value="3496" />
+          <entry key="ObjectiveC" value="53788" />
+          <entry key="PLAIN_TEXT" value="3652" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="37" />
+          <entry key="project.closed" value="39" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="4" />
           <entry key="project.open.time.11" value="1" />
@@ -228,15 +204,15 @@
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.3" value="3" />
           <entry key="project.open.time.35" value="1" />
           <entry key="project.open.time.4" value="8" />
-          <entry key="project.open.time.5" value="9" />
+          <entry key="project.open.time.5" value="10" />
           <entry key="project.open.time.6" value="5" />
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="3" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="42" />
+          <entry key="project.opened" value="45" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.cidr.testingFrameworks.usages" />
@@ -248,11 +224,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="719">
-              <caret line="573" column="73" selection-start-line="573" selection-start-column="73" selection-end-line="573" selection-end-column="73" />
+            <state relative-caret-position="183">
+              <caret line="1158" column="30" selection-start-line="1158" selection-start-column="30" selection-end-line="1158" selection-end-column="30" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -261,76 +237,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Circle1.sec">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="84" column="25" lean-forward="true" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Circle.sec">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="38" lean-forward="true" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Figure.sec">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6180">
-              <caret line="412" column="40" selection-start-line="412" selection-start-column="40" selection-end-line="412" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Body1.sec">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5775">
-              <caret line="385" column="39" selection-start-line="385" selection-start-column="39" selection-end-line="385" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/common.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="4736" column="21" selection-start-line="4736" selection-start-column="21" selection-end-line="4736" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/MarchingCubes/PseudoDelaunay.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="27" column="58" selection-start-line="27" selection-start-column="58" selection-end-line="27" selection-end-column="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="54" column="56" lean-forward="true" selection-start-line="54" selection-start-column="56" selection-end-line="54" selection-end-column="56" />
-              <folding>
-                <element signature="e#40#66#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="393" column="31" lean-forward="true" selection-start-line="393" selection-start-column="31" selection-end-line="393" selection-end-column="31" />
+            <state relative-caret-position="6000">
+              <caret line="400" column="31" selection-start-line="400" selection-start-column="31" selection-end-line="400" selection-end-column="31" />
               <folding>
                 <element signature="e#1#25#0" expanded="true" />
               </folding>
@@ -339,10 +249,85 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/MarchingCubes.h">
+        <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="239" column="9" selection-start-line="239" selection-start-column="9" selection-end-line="239" selection-end-column="9" />
+            <state relative-caret-position="570">
+              <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+              <folding>
+                <element signature="e#40#66#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3735">
+              <caret line="249" column="16" selection-start-line="249" selection-start-column="16" selection-end-line="249" selection-end-column="16" />
+              <folding>
+                <element signature="e#1674#1691#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/snd.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5715">
+              <caret line="381" column="52" selection-start-line="381" selection-start-column="52" selection-end-line="381" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1095">
+              <caret line="73" column="12" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2565">
+              <caret line="171" column="19" selection-start-line="171" selection-start-column="19" selection-end-line="171" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/vertex.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+              <folding>
+                <element signature="e#99#117#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3750">
+              <caret line="250" column="22" selection-start-line="250" selection-start-column="5" selection-end-line="250" selection-end-column="22" />
+              <folding>
+                <element signature="e#39#58#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -351,16 +336,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>RemoveAll</find>
-      <find>PolyPoint3D</find>
-      <find>LeftPointIndices</find>
-      <find>Point2DArrayEx::GetRightHull</find>
-      <find>GetRightHull</find>
-      <find>GetPlanarConvexHull</find>
-      <find>m_sectionFrameArray</find>
-      <find>n1</find>
-      <find>4434</find>
-      <find>4435</find>
       <find>m_IsoLevel</find>
       <find>m_minY</find>
       <find>443</find>
@@ -380,7 +355,17 @@
       <find>lineBack</find>
       <find>faultUpVBO</find>
       <find>drawInit</find>
+      <find>m_fNewContours</find>
+      <find>CreateBox</find>
       <find>faceVAO</find>
+      <find>bsize</find>
+      <find>/mcScale</find>
+      <find>Steiner</find>
+      <find>add_steiner_point</find>
+      <find>add_hole</find>
+      <find>6</find>
+      <find>1.0</find>
+      <find>InputDataToVector</find>
     </findStrings>
     <replaceStrings>
       <replace>0.5</replace>
@@ -412,6 +397,7 @@
       <replace>200.0</replace>
       <replace>00.0</replace>
       <replace>mcScale</replace>
+      <replace>2.0</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -426,17 +412,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/includes/Delaunay.h" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep.h" />
-        <option value="$PROJECT_DIR$/poly2tri/poly2tri.h" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep.cc" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep_context.h" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/cdt.h" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" />
         <option value="$PROJECT_DIR$/poly2tri/common/utils.h" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" />
         <option value="$PROJECT_DIR$/src/Delaunay.cpp" />
-        <option value="$PROJECT_DIR$/poly2tri/common/shapes.cc" />
         <option value="$PROJECT_DIR$/src/glad.c" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/lamp.vs" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/lamp.fs" />
@@ -451,8 +428,6 @@
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/MarchingCube/MarchingCube.cpp" />
         <option value="$PROJECT_DIR$/src/MarchingCube.cpp" />
-        <option value="$PROJECT_DIR$/poly2tri/common/shapes.h" />
-        <option value="$PROJECT_DIR$/src/vertex.cpp" />
         <option value="$PROJECT_DIR$/src/cricle.txt" />
         <option value="$PROJECT_DIR$/src/data1.txt" />
         <option value="$PROJECT_DIR$/src/MarchingCubes/Tables.h" />
@@ -464,19 +439,30 @@
         <option value="$PROJECT_DIR$/includes/MakeSurface.h" />
         <option value="$PROJECT_DIR$/includes/MarchingCubes.h" />
         <option value="$PROJECT_DIR$/src/common.cpp" />
-        <option value="$PROJECT_DIR$/src/Circle.sec" />
         <option value="$PROJECT_DIR$/src/Circle1.sec" />
         <option value="$PROJECT_DIR$/src/geogebra-export123.txt" />
         <option value="$PROJECT_DIR$/includes/common.h" />
         <option value="$PROJECT_DIR$/src/multi.sec" />
         <option value="$PROJECT_DIR$/src/multisec.sec" />
         <option value="$PROJECT_DIR$/src/multi1.sec" />
-        <option value="$PROJECT_DIR$/includes/vertex.h" />
         <option value="$PROJECT_DIR$/src/Body1.sec" />
-        <option value="$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp" />
         <option value="$PROJECT_DIR$/src/Figure.sec" />
-        <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" />
+        <option value="$PROJECT_DIR$/src/Circle.sec" />
+        <option value="$PROJECT_DIR$/src/mctest.txt" />
+        <option value="$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp" />
         <option value="$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep.h" />
+        <option value="$PROJECT_DIR$/poly2tri/common/shapes.cc" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep.cc" />
+        <option value="$PROJECT_DIR$/includes/ TriangularPrism.h" />
+        <option value="$PROJECT_DIR$/includes/TriangularPrism.h" />
+        <option value="$PROJECT_DIR$/poly2tri/common/shapes.h" />
+        <option value="$PROJECT_DIR$/src/snd.txt" />
+        <option value="$PROJECT_DIR$/includes/vertex.h" />
+        <option value="$PROJECT_DIR$/src/vertex.cpp" />
+        <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" />
       </list>
     </option>
   </component>
@@ -692,7 +678,10 @@
       <workItem from="1575075686700" duration="65951000" />
       <workItem from="1575286484046" duration="933000" />
       <workItem from="1575287445278" duration="58555000" />
-      <workItem from="1575544861413" duration="6307000" />
+      <workItem from="1575544861413" duration="41073000" />
+      <workItem from="1575852737194" duration="2633000" />
+      <workItem from="1576234821714" duration="1096000" />
+      <workItem from="1576310674607" duration="382000" />
     </task>
     <task id="LOCAL-00018" summary="三角剖分测试失败，回家了还是没心思写代码">
       <created>1539609778614</created>
@@ -1041,7 +1030,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="663275000" />
+    <option name="totallyTimeSpent" value="702152000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1056,13 +1045,13 @@
     <frame x="0" y="23" width="1440" height="823" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5934664" visible="true" weight="0.27539343" />
-      <window_info id="Structure" order="1" sideWeight="0.40653357" side_tool="true" visible="true" weight="0.27539343" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.58983666" visible="true" weight="0.28612304" />
+      <window_info id="Structure" order="1" sideWeight="0.41016334" side_tool="true" visible="true" weight="0.28612304" />
       <window_info id="Favorites" order="2" sideWeight="0.40546218" side_tool="true" weight="0.27181688" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.47711015" weight="0.32627118" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.47711015" weight="0.17090395" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3583691" visible="true" weight="0.2217514" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49713877" weight="0.38896745" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49713877" weight="0.38841808" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32390383" />
@@ -1150,118 +1139,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="run" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Delaunay.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="181" column="19" selection-start-line="181" selection-start-column="19" selection-end-line="181" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/.mlp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/__tuple">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="222" column="63" selection-start-line="222" selection-start-column="63" selection-end-line="222" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="1774" column="18" selection-start-line="1774" selection-start-column="18" selection-end-line="1774" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/PseudoDelaunay.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1173">
-          <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/Delaunay.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/list">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="938" column="19" selection-start-line="938" selection-start-column="19" selection-end-line="938" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2475">
-          <caret line="165" column="6" selection-start-line="165" selection-start-column="6" selection-end-line="165" selection-end-column="6" />
-          <folding>
-            <element signature="e#1674#1691#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/advancing_front.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="653">
-          <caret line="56" column="38" selection-start-line="56" selection-start-column="38" selection-end-line="56" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.cc">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="85" column="17" selection-start-line="85" selection-start-column="17" selection-end-line="85" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/memory">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="1825" column="30" selection-start-line="1825" selection-start-column="30" selection-end-line="1825" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/poly2tri.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/lib/clang/11.0.0/include/__clang_cuda_device_functions.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="1734" column="18" selection-start-line="1734" selection-start-column="18" selection-end-line="1734" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/vector">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="495" column="4" selection-start-line="495" selection-start-column="4" selection-end-line="495" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.camera.fs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1271,24 +1148,10 @@
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lamp.fs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/learnopengl/camera.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="83" column="26" selection-start-line="83" selection-start-column="26" selection-end-line="83" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/includes/GLFW/glfw3.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
           <caret line="241" column="8" selection-start-line="241" selection-start-column="8" selection-end-line="241" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/geogebra-export123.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="135" column="43" lean-forward="true" selection-start-line="135" selection-start-column="43" selection-end-line="135" selection-end-column="43" />
         </state>
       </provider>
     </entry>
@@ -1299,26 +1162,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/common.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1290">
-          <caret line="86" column="5" lean-forward="true" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
-          <folding>
-            <element signature="e#134#151#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2512">
-          <caret line="94" column="1" lean-forward="true" selection-start-line="94" selection-start-column="1" selection-end-line="94" selection-end-column="1" />
-          <folding>
-            <element signature="e#39#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ortuke.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1326,51 +1169,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cricle.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="59" column="15" selection-start-line="59" selection-start-column="15" selection-end-line="59" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MarchingCubes.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/multisec.sec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/vertex.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-          <folding>
-            <element signature="e#99#117#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1395,20 +1193,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/multi1.sec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/multi.sec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10736">
-          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/common.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
@@ -1416,10 +1200,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/MarchingCubes.h">
+    <entry file="file://$PROJECT_DIR$/src/cricle.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="239" column="9" selection-start-line="239" selection-start-column="9" selection-end-line="239" selection-end-column="9" />
+        <state relative-caret-position="495">
+          <caret line="59" column="15" selection-start-line="59" selection-start-column="15" selection-end-line="59" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multi.sec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multi1.sec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multisec.sec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Body1.sec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="385" column="39" selection-start-line="385" selection-start-column="39" selection-end-line="385" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -1430,60 +1249,242 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/geogebra-export123.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="135" column="43" lean-forward="true" selection-start-line="135" selection-start-column="43" selection-end-line="135" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Figure.sec">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6180">
+        <state relative-caret-position="436">
           <caret line="412" column="40" selection-start-line="412" selection-start-column="40" selection-end-line="412" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="393" column="31" lean-forward="true" selection-start-line="393" selection-start-column="31" selection-end-line="393" selection-end-column="31" />
-          <folding>
-            <element signature="e#1#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Body1.sec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5775">
-          <caret line="385" column="39" selection-start-line="385" selection-start-column="39" selection-end-line="385" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Circle.sec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="38" lean-forward="true" selection-start-line="15" selection-start-column="38" selection-end-line="15" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Circle1.sec">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="2" lean-forward="true" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Circle.sec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2100">
+          <caret line="140" column="40" lean-forward="true" selection-start-line="140" selection-start-column="40" selection-end-line="140" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MarchingCubes.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/common.h">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="496">
-          <caret line="84" column="25" lean-forward="true" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
+          <caret line="2779" column="6" selection-start-line="2779" selection-start-column="6" selection-end-line="2779" selection-end-column="6" />
+          <folding>
+            <element signature="e#134#151#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mctest.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="60" column="13" lean-forward="true" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yuan.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/MarchingCubes.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="62" column="29" selection-start-line="62" selection-start-column="29" selection-end-line="62" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.vs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/common/utils.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="44" column="17" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/advancing_front.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="41" column="7" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/advancing_front.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-150">
+          <caret line="70" column="22" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="65" column="15" selection-start-line="65" selection-start-column="15" selection-end-line="65" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/vector">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="495" column="4" selection-start-line="495" selection-start-column="4" selection-end-line="495" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="136" column="29" selection-start-line="136" selection-start-column="29" selection-end-line="136" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/learnopengl/filesystem.h">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/learnopengl/camera.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1191">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/TriangularPrism.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/poly2tri.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="22" selection-start-line="34" selection-start-column="22" selection-end-line="34" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1110">
+          <caret line="74" column="26" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="14" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="719">
-          <caret line="573" column="73" selection-start-line="573" selection-start-column="73" selection-end-line="573" selection-end-column="73" />
+        <state relative-caret-position="183">
+          <caret line="1158" column="30" selection-start-line="1158" selection-start-column="30" selection-end-line="1158" selection-end-column="30" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6000">
+          <caret line="400" column="31" selection-start-line="400" selection-start-column="31" selection-end-line="400" selection-end-column="31" />
+          <folding>
+            <element signature="e#1#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="54" column="56" lean-forward="true" selection-start-line="54" selection-start-column="56" selection-end-line="54" selection-end-column="56" />
+        <state relative-caret-position="570">
+          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
           <folding>
             <element signature="e#40#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3735">
+          <caret line="249" column="16" selection-start-line="249" selection-start-column="16" selection-end-line="249" selection-end-column="16" />
+          <folding>
+            <element signature="e#1674#1691#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/snd.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5715">
+          <caret line="381" column="52" selection-start-line="381" selection-start-column="52" selection-end-line="381" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1095">
+          <caret line="73" column="12" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2565">
+          <caret line="171" column="19" selection-start-line="171" selection-start-column="19" selection-end-line="171" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/vertex.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+          <folding>
+            <element signature="e#99#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3750">
+          <caret line="250" column="22" selection-start-line="250" selection-start-column="5" selection-end-line="250" selection-end-column="22" />
+          <folding>
+            <element signature="e#39#58#0" expanded="true" />
           </folding>
         </state>
       </provider>

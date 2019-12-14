@@ -218,8 +218,8 @@ void Triangle::MarkConstrainedEdge(Point* p, Point* q)
     constrained_edge[0] = true;
   }
 }
-
-// The point counter-clockwise to given point
+//顺时针给下一个点
+// The point clockwise to given point
 Point* Triangle::PointCW(Point& point)
 {
   if (&point == points_[0]) {
@@ -231,7 +231,7 @@ Point* Triangle::PointCW(Point& point)
   }
   assert(0);
 }
-
+//逆时针给出下一个点
 // The point counter-clockwise to given point
 Point* Triangle::PointCCW(Point& point)
 {
@@ -256,6 +256,7 @@ Triangle* Triangle::NeighborCW(Point& point)
   return neighbors_[0];
 }
 
+//反方向计算相邻点
 // The neighbor counter-clockwise to given point
 Triangle* Triangle::NeighborCCW(Point& point)
 {
