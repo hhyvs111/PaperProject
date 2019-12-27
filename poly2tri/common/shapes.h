@@ -51,11 +51,18 @@ struct Point {
   bool isMove = false;
   bool isHide = false;
 
+  // 1 2 3 则是不同的hole
+  int isHole = 0;
+
   /// Default constructor does nothing (for performance).
   Point()
   {
     x = 0.0;
     y = 0.0;
+  }
+
+  void print(){
+    cout << "point: " <<  x << " " << y << " " << z << endl;
   }
 
   VERTEX PointToVertex()
@@ -229,6 +236,14 @@ Triangle& NeighborAcross(Point& opoint);
 
 void DebugPrint();
 
+//获得三角形的圆心，用于插值
+void GetCircleCenter(Point*);
+
+void GetCenter(Point*);
+
+//判断是否是需要处理的三角形
+int IsFalseTri();
+
 private:
 
 /// Triangle points
@@ -247,6 +262,8 @@ bool interior_;
 //定义一个三棱柱类，其是有三角形组成，三角形又是由这个三个点组成
 class TriPrism {
     Triangle *t;
+
+    bool pointStatus[6];
 
     TriPrism(Triangle* m_t){
         t = m_t;

@@ -25,11 +25,11 @@ MarchingCube::MarchingCube(int sizeI, int sizeJ, int sizeK, float isoLevel) {
 MarchingCube::MarchingCube()
 {
     m_sizeI      = 1;
-    m_sizeJ      = 60;
-    m_sizeK      = 60;
+    m_sizeJ      = 20;
+    m_sizeK      = 20;
     //分叉的80dd
     //越大的话，三角面片越少
-    m_IsoLevel   = 1;
+    m_IsoLevel   = 0;
     m_Cubes  = NULL;
     m_GridPoints = NULL;
 
@@ -1732,8 +1732,8 @@ void MarchingCube::CreateNewGrid(Point3D *point, PolyPoint3DArrayEx FrontPolyPoi
                 gridPoint->point.m_z = (double)((CurPoint1.m_z - CurPoint0.m_z)/m_sizeK) * k + CurPoint0.m_z;
 
                 TempPoint1 = &gridPoint->point;
-                cout << "temp point : ";
-                TempPoint1->Debug();
+//                cout << "temp point : ";
+//                TempPoint1->Debug();
                 //当立方体顶点在前剖面时;
                 if (i == 0)
                 {

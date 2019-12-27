@@ -14,7 +14,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
+//底部平台三角形
+const int IsBaseTri = 1;
+//两个点在洞上的三角形
+const int IsMidTri = 2;
+//三个点都在洞上的三角形
+const int IsTopTri = 3;
 using namespace std;
 typedef struct   tagVERTEX
 {
@@ -140,8 +145,7 @@ AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);
 VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3);
 
 //文本输入
-void InputDataToVector(vector<vector<VERTEX>>& closeLineV);
-
+void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines);
 //数据划分
 void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV);
 

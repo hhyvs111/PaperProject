@@ -98,7 +98,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 //灯光的位置
-glm::vec3 lightPos(0.0f, 0.0f, 5.0f);
+glm::vec3 lightPos(2.0f, -2.0f, 3.0f);
 
 //function
 //设置一下变量，用按键实现一下功能
@@ -151,7 +151,7 @@ bool isAddTra[MaxNum] = {false};
 
 //unsigned int EarVBOs[MaxNum], EarVAOs[MaxNum];
 
-vector<vector<VERTEX>> closeLineV;
+vector<vector<vector<VERTEX>>> closeLineV;
 
 //全局变量，用来平移之类的
 
@@ -160,6 +160,10 @@ moveSize faultMoveSize[MaxNum][2][3];
 
 //一个值就够了，用来记录每一层的平移量
 float scaleSize[MaxNum];
+
+
+//每一层的高度值
+float diff[MaxNum];
 
 
 ////函数声明
@@ -193,7 +197,10 @@ void moveFunction(VERTEX * fault1, int num1, VERTEX * fault2, int num2, int inde
 
 void poly2Tri(vector<VERTEX>& Merge, int index);
 
-void closePoly2Tri(vector<VERTEX>& closeOut, vector<VERTEX>& closeHole, int index);
+void closePoly2Tri(vector<VERTEX>& closeOut, vector<vector<VERTEX>>& closeHole, int index);
+
+//检查三角形的状态
+void checkTri(int index);
 
 void lineBack(VERTEX * _faultUp, int num1, int indexLine, int indexTra);
 
@@ -229,8 +236,8 @@ void scaleFunction(vector<VERTEX>& fault1, vector<VERTEX>& fault2, int index)
 
     }
 }
-//将顶点转换成三角剖分里的店
-vector<Point*> VertexsToPoints(vector<VERTEX>& vertex)
+//将顶点转换成三角剖分里的点，带洞的另外标注
+vector<Point*> VertexsToPoints(vector<VERTEX>& vertex, int holeNum)
 {
     vector<Point*> Points;
     for(int i = 0; i < vertex.size(); i++)
@@ -242,7 +249,7 @@ vector<Point*> VertexsToPoints(vector<VERTEX>& vertex)
         point->z = z;
         //加入序列号，看是否有用
         point->index = i;
-
+        point->isHole = holeNum;
         Points.push_back(point);
     }
     return Points;
@@ -258,31 +265,42 @@ void LineProcess(){
         cout << "error, closeLine num is less than 2" << endl;
         exit(0);
     }
-    int dif = closeLineV[0][0].z - closeLineV[1][0].z;
+//    float dif = closeLineV[0][0][0].z - closeLineV[1][0][0].z;
 
 
     //自动处理
     for(int i = 0;i < modelNum - 1; i++)
     {
-        //平移到同一平面
-        faultMoveFunction(closeLineV[i+1], dif, zD);
+        diff[i] = closeLineV[i+1][0][0].z - closeLineV[i][0][0].z;
+        //平移到同一平面,将上一个平移到下面来，其实平移都不用平移了，直接在空间上进行剖分就好了，反正也是连在一起的。
+//        for(int j = 0;j < closeLineV[i+1].size();j++)
+//            faultMoveFunction(closeLineV[i+1][j], diff[i], zD);
 //        cout << endl;
-        closeLineV[i+1][0].Print();
+//        closeLineV[i+1][0].Print();
         //放缩判断
 
-        scaleFunction(closeLineV[i], closeLineV[i+1], i);
+
+        //TODO: 如果加了圈进去这里有问题，现在是判断了一个，在输入的时候先不考虑放缩好了。就只管直接放进去的那种。
+//        scaleFunction(closeLineV[i][0], closeLineV[i+1][0], i);
 
         //--------
         //转化
 //        vector<Point*> out = VertexsToPoints(closeLine[i], closeDataNum[i]);
-        //三角化
-        closePoly2Tri(closeLineV[i], closeLineV[i+1], i);
+        //如果第二层比第一层轮廓线多
+        if(closeLineV[i].size() < closeLineV[i+1].size()){
+            closePoly2Tri(closeLineV[i][i], closeLineV[i+1], i);
+            checkTri(i);
+        }
 
-        //绑定本身的线
-        drawInit(faceVAO[i], faceVBO[i], closeLineV[i]);
-        drawInit(faceVAO[i+1], faceVBO[i+1], closeLineV[i+1]);
 
-        closeLineBack(closeLineV[i+1], i);
+
+
+//        drawInit(faceVAO[i], faceVBO[i], closeLineV[i][]);
+//        drawInit(faceVAO[i+1], faceVBO[i+1], closeLineV[i+1]);
+
+
+        //不用lineback？
+//        closeLineBack(closeLineV[i+1], i);
 
 //        cout << "closeLine " << closeLine[i+1][0].x << endl;
 
@@ -294,9 +312,7 @@ void LineProcess(){
 }
 
 void DrawLine(){
-
-
-    for(int j = 0; j < modelNum ; j++) {
+    for(int j = 0; j < modelNum - 1 ; j++) {
 //                cout << j << endl;
         for (int i = 0; i < triangles[j].size(); i++) {
 //                cout << triangles[j].size() << endl;
@@ -306,9 +322,9 @@ void DrawLine(){
                 glBindTexture(GL_TEXTURE_2D, textures[j][i]);
                 glBindVertexArray(PolyVAOs[j][i]);
 
-//                if(ShowTexture)
+                if(ShowTexture)
                     glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
-//                else
+                else
                     glDrawArrays(GL_LINE_LOOP, 0, 3);
 
 
@@ -330,9 +346,9 @@ void DrawLine(){
             }
         }
         //画线
-        glBindVertexArray(faceVAO[j]);
-//            cout << McLine[i].size() << endl;
-        glDrawArrays(GL_LINE_LOOP, 0, closeLineV[j].size());
+//        glBindVertexArray(faceVAO[j]);
+////            cout << McLine[i].size() << endl;
+//        glDrawArrays(GL_LINE_LOOP, 0, closeLineV[j].size());
     }
 }
 
@@ -341,7 +357,7 @@ void DrawLine(){
 void MarchingCubesProcess(){
      MakeSurface m;
 //     string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/Circle.sec";
-    string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/mctest.txt";
+    string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/1215.txt";
      m.ReadSectionData((char*)file.data());
      //创建好表面后，可以进行渲染了。
      m.CreateSurface2();
@@ -452,7 +468,7 @@ int main()
 
     LineProcess();
 
-//    MarchingCubesProcess();
+    MarchingCubesProcess();
 
     //显示代码
     while (!glfwWindowShouldClose(window))
@@ -919,6 +935,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
 //    float TraVertex[9];
     //这里用15，9是三个点的坐标，6是三个纹理坐标
     float TraVertex[24];
+    cout << "tri size " << _triangle.size() << endl;
     for (int i = 0; i < _triangle.size(); i++)
     {
 
@@ -989,7 +1006,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
         // texture 1
         // ---------
         //绑定一下纹理
-        texture[i] = loadTexture(FileSystem::getPath("resources/textures/container.jpg").c_str());
+        texture[i] = loadTexture(FileSystem::getPath("resources/textures/rock.png").c_str());
     }
 }
 
@@ -1387,30 +1404,23 @@ void closeLineBack(vector<VERTEX>& _fault, int indexTra)
 }
 
 //闭线带洞的三角剖分
-void closePoly2Tri(vector<VERTEX>& closeOut, vector<VERTEX>& closeHole, int index)
+void closePoly2Tri(vector<VERTEX>& closeOut, vector<vector<VERTEX>>& closeHoles, int index)
 {
     //转换
-    vector<Point*> out = VertexsToPoints(closeOut);
+    vector<Point*> out = VertexsToPoints(closeOut, 0);
     polylines[index].push_back(out);
 
 //    cout << "ok" << endl;
     cdt[index] = new CDT(out);
+
+    //每一层的洞不一样，但是尼玛这个还是轮廓线拼接啊，说好的这个三棱柱呢？
     //加洞
-    vector<Point*> hole = VertexsToPoints(closeHole);
-    cdt[index]->AddHole(hole);
+    for(int i = 0;i < closeHoles.size();i++){
+        vector<Point*> hole = VertexsToPoints(closeHoles[i], i+1);
+        cdt[index]->AddHole(hole);
+    }
 
-    //添加施耐德点，这个点怎么计算才好？
-    Point *point1 = new Point(-4.24, 1.06);
-    Point *point2 = new Point(-4.32, -0.42);
-    Point *point3 = new Point(-2.6, -0.26);
-    point1->z = 1.0;
-    point2->z = 1.0;
-    point3->z = 1.0;
-    cdt[index]->AddPoint(point1);
-    cdt[index]->AddPoint(point2);
-    cdt[index]->AddPoint(point3);
-
-    polylines[index].push_back(hole);
+//    polylines[index].push_back(hole);
     //开始剖分
     cdt[index]->Triangulate();
 
@@ -1673,6 +1683,40 @@ unsigned int loadTexture(char const * path)
 //}
 
 
+//基于三棱柱的检查方式，看是否有相关的不合法三角形
+void checkTri(int index){
+    if(index < 0)
+        return;
+    int triSize = triangles[index].size();
+
+    cout << "begin check " << triSize << endl;
+    //检查所有的三角，是否有在同一平面的？我感觉压根判断不了啊，十分的尴尬了老铁。
+    for(int i = 0;i < triSize;i++){
+        int triStatus = triangles[index][i]->IsFalseTri();
+        //如果是顶部三角，那么直接进行插点操作
+        if(triStatus == IsTopTri || triStatus == IsMidTri){
+            triangles[index][i]->DebugPrint();
+            triangles[index][i]->isHide = true;
+            Point* center = new Point;
+            triangles[index][i]->GetCenter(center);
+            //这个三角的z值怎么算？直接减去一半的dif？
+            center->z = 1.5;
+
+            center->print();
+            cdt[index]->AddPoint(center);
+        }
+    }
+    //重新剖分
+    cdt[index]->Triangulate();
 
 
+    //map是完整的剖分（包含空洞的剖分）？
+//    map[index] = cdt[index]->GetMap();
+    triangles[index] = cdt[index]->GetTriangles();
+    triSize = triangles[index].size();
+    cout << "after check " << triSize << endl;
+
+    //纹理绑定
+    Poly2TriBind(PolyVAOs[index], PolyVBOs[index], textures[index],triangles[index]);
+}
 

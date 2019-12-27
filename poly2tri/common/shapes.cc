@@ -49,7 +49,7 @@ void Triangle::HidePoints()
   points_[2]->isHide = true;
 }
 
-// Update neighbor pointers
+// Upoints_ate neighbor pointers
 void Triangle::MarkNeighbor(Point* p1, Point* p2, Triangle* t)
 {
   if ((p1 == points_[2] && p2 == points_[1]) || (p1 == points_[1] && p2 == points_[2]))
@@ -62,7 +62,7 @@ void Triangle::MarkNeighbor(Point* p1, Point* p2, Triangle* t)
     assert(0);
 }
 
-// Exhaustive search to update neighbor pointers
+// Exhaustive search to upoints_ate neighbor pointers
 void Triangle::MarkNeighbor(Triangle& t)
 {
   if (t.Contains(points_[1], points_[2])) {
@@ -366,10 +366,66 @@ Triangle& Triangle::NeighborAcross(Point& opoint)
 void Triangle::DebugPrint()
 {
   using namespace std;
-  cout << points_[0]->x << "," << points_[0]->y << " ";
-  cout << points_[1]->x << "," << points_[1]->y << " ";
-  cout << points_[2]->x << "," << points_[2]->y << endl;
+  cout << points_[0]->x << "," << points_[0]->y << "," << points_[0]->z << " ";
+  cout << points_[1]->x << "," << points_[1]->y << "," << points_[1]->z << " ";
+  cout << points_[2]->x << "," << points_[2]->y << "," << points_[2]->z << endl;
 }
 
+
+//获取三角形的外接圆
+void Triangle::GetCircleCenter(Point* center){
+    if(center == nullptr)
+        return;
+    double a1, b1, c1, d1;
+    double a2, b2, c2, d2;
+    double a3, b3, c3, d3;
+  
+    double x1 = points_[0]->x, y1 = points_[0]->y, z1 = points_[0]->z;
+    double x2 = points_[1]->x, y2 = points_[1]->y, z2 = points_[1]->z;
+    double x3 = points_[2]->x, y3 = points_[2]->y, z3 = points_[2]->z;
+  
+    a1 = (y1*z2 - y2*z1 - y1*z3 + y3*z1 + y2*z3 - y3*z2);
+    b1 = -(x1*z2 - x2*z1 - x1*z3 + x3*z1 + x2*z3 - x3*z2);
+    c1 = (x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
+    d1 = -(x1*y2*z3 - x1*y3*z2 - x2*y1*z3 + x2*y3*z1 + x3*y1*z2 - x3*y2*z1);
+  
+    a2 = 2 * (x2 - x1);
+    b2 = 2 * (y2 - y1);
+    c2 = 2 * (z2 - z1);
+    d2 = x1 * x1 + y1 * y1 + z1 * z1 - x2 * x2 - y2 * y2 - z2 * z2;
+  
+    a3 = 2 * (x3 - x1);
+    b3 = 2 * (y3 - y1);
+    c3 = 2 * (z3 - z1);
+    d3 = x1 * x1 + y1 * y1 + z1 * z1 - x3 * x3 - y3 * y3 - z3 * z3;
+
+    center->x = -(b1*c2*d3 - b1*c3*d2 - b2*c1*d3 + b2*c3*d1 + b3*c1*d2 - b3*c2*d1)
+                     /(a1*b2*c3 - a1*b3*c2 - a2*b1*c3 + a2*b3*c1 + a3*b1*c2 - a3*b2*c1);
+    center->y =  (a1*c2*d3 - a1*c3*d2 - a2*c1*d3 + a2*c3*d1 + a3*c1*d2 - a3*c2*d1)
+                      /(a1*b2*c3 - a1*b3*c2 - a2*b1*c3 + a2*b3*c1 + a3*b1*c2 - a3*b2*c1);
+    center->z = -(a1*b2*d3 - a1*b3*d2 - a2*b1*d3 + a2*b3*d1 + a3*b1*d2 - a3*b2*d1)
+                     /(a1*b2*c3 - a1*b3*c2 - a2*b1*c3 + a2*b3*c1 + a3*b1*c2 - a3*b2*c1);
+
+}
+
+void Triangle::GetCenter(p2t::Point *center) {
+    if(center == nullptr)
+      return;
+    center->x = (points_[0]->x + points_[1]->x + points_[2]->x) / 3.0;
+    center->y = (points_[0]->y + points_[1]->y + points_[2]->y) / 3.0;
+    center->z = (points_[0]->z + points_[1]->z + points_[2]->z) / 3.0;
+}
+
+int Triangle::IsFalseTri() {
+
+  if (0 == points_[0]->isHole && 0 == points_[1]->isHole && 0 == points_[2]->isHole)
+    return IsBaseTri;
+  else if((0 == points_[0]->isHole && points_[1]->isHole != points_[2]->isHole)
+       || (0 == points_[1]->isHole && points_[0]->isHole != points_[2]->isHole)
+       || (0 == points_[2]->isHole && points_[0]->isHole != points_[1]->isHole))
+    return IsMidTri;
+  else if(points_[0]->isHole > 0 && points_[1]->isHole > 0 && points_[2]->isHole > 0)
+    return IsTopTri;
+}
 }
 

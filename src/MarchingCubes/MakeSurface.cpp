@@ -65,26 +65,19 @@ bool MakeSurface::ReadSectionData(char* strFilePath){
     //中心坐标
 //    fscanf(fp,"%lf%lf%lf",&m_minX,&m_minY,&m_minZ);
 //    fscanf(fp,"%lf%lf%lf",&m_dX,&m_dY,&m_dZ);
-    //轮廓数目
-    fscanf(fp,"%d",&nSectionNum);
-//    cout << m_minX << endl;
-    m_clip=(m_dX>m_dY)?m_dX:m_dY;
-    m_clip=(m_clip>m_dZ)?m_clip:m_dZ;
-        fscanf(fp,"%d",&nLineType);
+        //轮廓数目
+        fscanf(fp,"%d",&nSectionNum);
         fscanf(fp,"%d",&nLineNum);
         cout << "lineNum " << nLineNum  << "lineType " << nLineType <<  endl;
         for(i=0;i<nLineNum;i++)
         {
 
-            fscanf(fp,"%d%d%d%d",&sectionNo,&nAttr1,&nAttr2,&nPointNum);
+            fscanf(fp,"%d%d",&sectionNo,&nPointNum);
             //afxDump<<"sectionNo="<<sectionNo<<"\n";
             //afxDump<<"nPointNum="<<nPointNum<<"\n";
             //以下四行是初始化每个剖面
             polyPoint.clear ();
             polyPoint.m_ID=sectionNo;                                        //剖面号
-            polyPoint.m_attr1 =nAttr1;
-            polyPoint.m_attr2 =nAttr2;
-
 
             //读坐标生成多边形
             vector<VERTEX> line;
@@ -108,43 +101,14 @@ bool MakeSurface::ReadSectionData(char* strFilePath){
                 polyPoint.Add(point);
 
             }
-//            uName=nLineType*100*MaxSize;
-            if(nLineType==200)//200剖面
-            {
-//                uName+=m_sectionFrameAttrArray.size()+1;
-//                objGLAttr.Set(m_rgb[0],uName);//设置gl缺省属性
-                //直接用这个成员函数的属性，不要选择了
-                m_sectionFrameArray.Add (polyPoint);//添加剖面到剖面边框组
-//                m_sectionFrameAttrArray.Add (objGLAttr);//添加gl属性到剖面
-                //设置剖面法向量
-                Vector3D vector;
-                if(nPointNum<3)//如果不足三个点，则返回
-                    break;
-                //这个操作是干啥的？
-                point=polyPoint.at (0);//????
-                point.Get (x1,y1,z1);
-                point=polyPoint.at (1);
-                point.Get (x2,y2,z2);
-                point=polyPoint.at (2);
-                point.Get (x3,y3,z3);
-                x2-=x1,y2-=y1,z2-=z1;
-                x3-=x1,y3-=y1,z3-=z1;
-                vector.CrossProduct (x2,y2,z2,x3,y3,z3);//计算叉积
-                vector.Normalize ();//单位化
-                vector.Get (m_n);
-            }
-            if(nLineType == 203){
-                //实体轮廓线
-//                cout << polyPoint.m_ID << endl;
-                //有两个剖面，array的值为剖面个数
-//                m_IntArray.push_back(polyPoint.m_ID);
+
                 //所有的点都会加进去，后续根据这个id来区分剖面
                 //将多变形放入，这里是否是可能有多个合并了？应该是在后面进行分割吧
                 m_profileCurveArray.Add (polyPoint);
                 McLine.push_back(line);
 //                cout << line.size() << endl;
 
-            }
+
         }
 
     cout << "read ok" << endl;

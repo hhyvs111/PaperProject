@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-../includes/Delaunay.h
-vertex.h
-../includes/vertex.h
-
 ../includes/GLFW/glfw3.h
 stddef.h
 -
@@ -78,22 +74,6 @@ math.h
 glad/glad.h
 -
 GLFW/glfw3.h
--
-
-/Users/tanwenbo/CLionProjects/PaperProject/src/Delaunay.cpp
-Delaunay.h
-/Users/tanwenbo/CLionProjects/PaperProject/src/Delaunay.h
-stdio.h
--
-stdlib.h
--
-iostream
--
-cmath
--
-
-/Users/tanwenbo/CLionProjects/PaperProject/src/MarchingCubes.cpp
-vertex.h
 -
 
 /Users/tanwenbo/CLionProjects/PaperProject/src/vertex.cpp

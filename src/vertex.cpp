@@ -121,7 +121,7 @@ void faultScaleFunction(vector<VERTEX>& vertex, float scaleSize, int whichDirect
     }
 }
 
-//判断两条线是否相交
+//判断两条线是否相交,返回true是
 bool lineIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 {
     float fC = (C.y - A.y) * (A.x - B.x) - (C.x - A.x) * (A.y - B.y);
@@ -247,22 +247,26 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 }
 
 
-//从文本读入数据
-void InputDataToVector(vector<vector<VERTEX>>& closeLines){
+//从文本读入数据，感觉要弄成三维的才行了
+void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/snd.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/1215.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
     }
 
+
     //读入剖面数，和轮廓线数
     int sectionNum, lineNum;
-    float x, y ,z;
-    infile >> sectionNum >> lineNum;
 
+
+    infile >> sectionNum >> lineNum;
+    closeLines.resize(sectionNum);
     int sectionNo, pointNum;
-    for(int i = 0;i < sectionNum;i++){
+
+    float x, y ,z;
+    for(int i = 0;i < lineNum;i++){
         //读入轮廓点
         infile >> sectionNo >> pointNum;
         vector<VERTEX> closeLine;
@@ -276,7 +280,8 @@ void InputDataToVector(vector<vector<VERTEX>>& closeLines){
             v.z = z;
             closeLine.push_back(v);
         }
-        closeLines.push_back(closeLine);
+        //剖面问题
+        closeLines[sectionNo].push_back(closeLine);
     }
     cout << "end" << endl;
     infile.close();
