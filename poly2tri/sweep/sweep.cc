@@ -42,6 +42,7 @@ namespace p2t {
         //找到当前的最大边界，并计算tail和head，这里暂时不知道是什么用意
         tcx.InitTriangulation();
 
+        //创建前沿边，
         tcx.CreateAdvancingFront(nodes_);
         // Sweep points; build mesh
         SweepPoints(tcx);
@@ -49,11 +50,15 @@ namespace p2t {
         FinalizationPolygon(tcx);
     }
 
+    //开始扫边
     void Sweep::SweepPoints(SweepContext& tcx)
     {
+
         for (int i = 1; i < tcx.point_count(); i++) {
             Point& point = *tcx.GetPoint(i);
+            //点事件
             Node* node = &PointEvent(tcx, point);
+            //边事件
             for (unsigned int i = 0; i < point.edge_list.size(); i++) {
                 EdgeEvent(tcx, point.edge_list[i], node);
             }
@@ -73,8 +78,11 @@ namespace p2t {
         tcx.MeshClean(*t);
     }
 
+
+    //点事件，这里好像只是弄了一个node
     Node& Sweep::PointEvent(SweepContext& tcx, Point& point)
     {
+        //locate定位这个点是否是边里的
         Node& node = tcx.LocateNode(point);
         Node& new_node = NewFrontTriangle(tcx, point, node);
 
@@ -93,8 +101,11 @@ namespace p2t {
     void Sweep::EdgeEvent(SweepContext& tcx, Edge* edge, Node* node)
     {
         tcx.edge_event.constrained_edge = edge;
+        //边中两个点的大小来区分左右？
         tcx.edge_event.right = (edge->p->x > edge->q->x);
 
+
+        //如果该边已经是三角形的边了。
         if (IsEdgeSideOfTriangle(*node->triangle, *edge->p, *edge->q)) {
             return;
         }
@@ -102,6 +113,7 @@ namespace p2t {
         // For now we will do all needed filling
         // TODO: integrate with flip process might give some better performance
         //       but for now this avoid the issue with cases that needs both flips and fills
+        //开始处理边与点的事件
         FillEdgeEvent(tcx, edge, node);
         EdgeEvent(tcx, *edge->p, *edge->q, node->triangle, *edge->q);
     }
@@ -114,15 +126,19 @@ namespace p2t {
 
         Point* p1 = triangle->PointCCW(point);
         Orientation o1 = Orient2d(eq, *p1, ep);
+        //二者共线？
         if (o1 == COLLINEAR) {
             if( triangle->Contains(&eq, p1)) {
-                triangle->MarkConstrainedEdge(&eq, p1 );
+                //
+                triangle->MarkConstrainedEdge(&eq, p1);
                 // We are modifying the constraint maybe it would be better to
                 // not change the given constraint and just keep a variable for the new constraint
                 tcx.edge_event.constrained_edge->q = p1;
+                //对相邻三角形继续进行判断
                 triangle = &triangle->NeighborAcross(point);
                 EdgeEvent( tcx, ep, *p1, triangle, *p1 );
             } else {
+                //还会报错啊
                 std::runtime_error("EdgeEvent - collinear points not supported");
                 assert(0);
             }
@@ -156,6 +172,7 @@ namespace p2t {
             }
             EdgeEvent(tcx, ep, eq, triangle, point);
         } else {
+            //三角形被限制边穿过
             // This triangle crosses constraint so lets flippin start!
             FlipEdgeEvent(tcx, ep, eq, triangle, point);
         }
@@ -176,6 +193,7 @@ namespace p2t {
         return false;
     }
 
+    //这个是front三角形，那么就是前沿边？
     Node& Sweep::NewFrontTriangle(SweepContext& tcx, Point& point, Node& node)
     {
         Triangle* triangle = new Triangle(point, *node.point, *node.next->point);
@@ -191,6 +209,8 @@ namespace p2t {
         node.next->prev = new_node;
         node.next = new_node;
 
+
+        //如果不合法，则将其放入到前沿边的三角集合里
         if (!Legalize(tcx, *triangle)) {
             tcx.MapTriangleToNodes(*triangle);
         }
@@ -198,6 +218,7 @@ namespace p2t {
         return *new_node;
     }
 
+    //用来填充？
     void Sweep::Fill(SweepContext& tcx, Node& node)
     {
         Triangle* triangle = new Triangle(*node.prev->point, *node.point, *node.next->point);
@@ -209,6 +230,7 @@ namespace p2t {
 
         tcx.AddToMap(triangle);
 
+        //前沿边一直是在更新的
         // Update the advancing front
         node.prev->next = node.next;
         node.next->prev = node.prev;
@@ -227,6 +249,7 @@ namespace p2t {
         Node* node = n.next;
 
         while (node->next) {
+            //内角大于90度跳出
             // if HoleAngle exceeds 90 degrees then break.
             if (LargeHole_DontFill(node)) break;
             Fill(tcx, *node);
@@ -237,6 +260,7 @@ namespace p2t {
         node = n.prev;
 
         while (node->prev) {
+            //有洞的角大于90
             // if HoleAngle exceeds 90 degrees then break.
             if (LargeHole_DontFill(node)) break;
             Fill(tcx, *node);
@@ -482,6 +506,7 @@ namespace p2t {
         t.MarkNeighbor(ot);
     }
 
+    //对盆地进行填充
     void Sweep::FillBasin(SweepContext& tcx, Node& node)
     {
         if (Orient2d(*node.point, *node.next->point, *node.next->next->point) == CCW) {
@@ -571,16 +596,20 @@ namespace p2t {
 
     void Sweep::FillEdgeEvent(SweepContext& tcx, Edge* edge, Node* node)
     {
+
         if (tcx.edge_event.right) {
+            //左边？和右边怎么区分的
             FillRightAboveEdgeEvent(tcx, edge, node);
         } else {
             FillLeftAboveEdgeEvent(tcx, edge, node);
         }
     }
 
+    //找到将边里的p与node的下一个节点进行比较，找到在边上面的点
     void Sweep::FillRightAboveEdgeEvent(SweepContext& tcx, Edge* edge, Node* node)
     {
         while (node->next->point->x < edge->p->x) {
+            //看这个边是否在边的下面
             // Check if next node is below the edge
             if (Orient2d(*edge->q, *node->next->point, *edge->p) == CCW) {
                 FillRightBelowEdgeEvent(tcx, edge, *node);
@@ -593,7 +622,9 @@ namespace p2t {
     void Sweep::FillRightBelowEdgeEvent(SweepContext& tcx, Edge* edge, Node& node)
     {
         if (node.point->x < edge->p->x) {
+            //逆时针，这里可以判断这一块的边是属于凸边还是凹边
             if (Orient2d(*node.point, *node.next->point, *node.next->next->point) == CCW) {
+
                 // Concave
                 FillRightConcaveEdgeEvent(tcx, edge, node);
             } else{
@@ -605,15 +636,18 @@ namespace p2t {
         }
     }
 
+    //填充右边的凹边
     void Sweep::FillRightConcaveEdgeEvent(SweepContext& tcx, Edge* edge, Node& node)
     {
         Fill(tcx, *node.next);
         if (node.next->point != edge->p) {
+            //判断这个点是在边的上面还是下面
             // Next above or below edge?
             if (Orient2d(*edge->q, *node.next->point, *edge->p) == CCW) {
                 // Below
                 if (Orient2d(*node.point, *node.next->point, *node.next->next->point) == CCW) {
                     // Next is concave
+                    //递归调用好像，下一个还是凹边
                     FillRightConcaveEdgeEvent(tcx, edge, node);
                 } else {
                     // Next is convex
@@ -623,15 +657,16 @@ namespace p2t {
 
     }
 
+    //找到右边的凸边
     void Sweep::FillRightConvexEdgeEvent(SweepContext& tcx, Edge* edge, Node& node)
     {
-        // Next concave or convex?
+        // Next concave or convex? 看下一个是凸还是凹
         if (Orient2d(*node.next->point, *node.next->next->point, *node.next->next->next->point) == CCW) {
             // Concave
             FillRightConcaveEdgeEvent(tcx, edge, *node.next);
         } else{
             // Convex
-            // Next above or below edge?
+            // Next above or below edge?如果是凸包，看这个点是否在下方
             if (Orient2d(*edge->q, *node.next->next->point, *edge->p) == CCW) {
                 // Below
                 FillRightConvexEdgeEvent(tcx, edge, *node.next);
@@ -641,6 +676,7 @@ namespace p2t {
         }
     }
 
+    //左右的一些处理应该是相反的。
     void Sweep::FillLeftAboveEdgeEvent(SweepContext& tcx, Edge* edge, Node* node)
     {
         while (node->prev->point->x > edge->p->x) {

@@ -44,6 +44,7 @@ namespace p2t {
     const double PI_div2 = 1.57079632679489661923;
     const double EPSILON = 1e-12;
 
+    //逆时针还是顺时针
     enum Orientation { CW, CCW, COLLINEAR };
 
 /**

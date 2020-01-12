@@ -1696,10 +1696,12 @@ void checkTri(int index){
         //如果是顶部三角，那么直接进行插点操作
         if(triStatus == IsTopTri || triStatus == IsMidTri){
             triangles[index][i]->DebugPrint();
-            triangles[index][i]->isHide = true;
+            //这里都不用hide了
+//            triangles[index][i]->isHide = true;
             Point* center = new Point;
             triangles[index][i]->GetCenter(center);
             //这个三角的z值怎么算？直接减去一半的dif？
+
             center->z = 1.5;
 
             center->print();
@@ -1707,6 +1709,7 @@ void checkTri(int index){
         }
     }
     //重新剖分
+    cdt[index]->TriangleClear();
     cdt[index]->Triangulate();
 
 

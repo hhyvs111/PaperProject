@@ -63,6 +63,10 @@ namespace p2t {
         return sweep_context_->GetMap();
     }
 
+    void CDT::TriangleClear(){
+        sweep_context_->TriClean();
+    }
+
     CDT::~CDT()
     {
         delete sweep_context_;

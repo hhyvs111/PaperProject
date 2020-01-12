@@ -50,6 +50,7 @@ SweepContext::SweepContext(std::vector<Point*> polyline) :
   InitEdges(points_);
 }
 
+//好像没怎么限定洞的概念，在剖分的时候会指定洞吗？
 void SweepContext::AddHole(std::vector<Point*> polyline)
 {
   //这里初始化了边，应该是带了约束边
@@ -63,6 +64,7 @@ void SweepContext::AddHole(std::vector<Point*> polyline)
 void SweepContext::AddPoint(Point* point) {
   points_.push_back(point);
 }
+
 
 std::vector<Triangle*> SweepContext::GetTriangles()
 {
@@ -95,7 +97,7 @@ void SweepContext::InitTriangulation()
 
   double dx = kAlpha * (xmax - xmin);
   double dy = kAlpha * (ymax - ymin);
-  //头和尾这里的点好像是比之前的边界还要宽了？
+  //头和尾这里的点好像是比之前的边界还要宽了？这个就是扫描线方法的p1和p2
   head_ = new Point(xmax + dx, ymin - dy);
   tail_ = new Point(xmin - dx, ymin - dy);
 
@@ -109,7 +111,7 @@ void SweepContext::InitEdges(std::vector<Point*> polyline)
 {
   int num_points = polyline.size();
   for (int i = 0; i < num_points; i++) {
-    //首位相连
+    //首尾相连
     int j = i < num_points - 1 ? i + 1 : 0;
     //加入边数组
     edge_list.push_back(new Edge(*polyline[i], *polyline[j]));
@@ -137,8 +139,10 @@ void SweepContext::CreateAdvancingFront(std::vector<Node*> nodes)
 
   (void) nodes;
   // Initial triangle
+  //point0就是y值最小的那个，这个是一个三角形
   Triangle* triangle = new Triangle(*points_[0], *tail_, *head_);
 
+  //将其加入到三角形里
   map_.push_back(triangle);
 
   af_head_ = new Node(*triangle->GetPoint(1), *triangle);
@@ -160,6 +164,7 @@ void SweepContext::RemoveNode(Node* node)
   delete node;
 }
 
+//将前沿边里的三角转换成节点？
 void SweepContext::MapTriangleToNodes(Triangle& t)
 {
   for (int i = 0; i < 3; i++) {
@@ -176,24 +181,32 @@ void SweepContext::RemoveFromMap(Triangle* triangle)
   map_.remove(triangle);
 }
 
+//删除三角形
 void SweepContext::MeshClean(Triangle& triangle)
 {
   std::vector<Triangle *> triangles;
   triangles.push_back(&triangle);
 
   while(!triangles.empty()){
+    //从后开始？
 	Triangle *t = triangles.back();
 	triangles.pop_back();
 
     if (t != NULL && !t->IsInterior()) {
       t->IsInterior(true);
+      //放入到triangles才是最终的三角吧
       triangles_.push_back(t);
       for (int i = 0; i < 3; i++) {
+        //如果三角形的边不是限制边，将其共边的三角放入vector继续遍历
         if (!t->constrained_edge[i])
           triangles.push_back(t->GetNeighbor(i));
       }
     }
   }
+}
+
+void SweepContext::TriClean() {
+  triangles_.clear();
 }
 
 SweepContext::~SweepContext()

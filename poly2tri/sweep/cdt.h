@@ -89,6 +89,10 @@ namespace p2t {
          */
         std::list<Triangle*> GetMap();
 
+
+        void TriangleClear();
+
+
     private:
 
         /**

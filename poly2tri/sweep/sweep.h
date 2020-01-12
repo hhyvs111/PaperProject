@@ -136,7 +136,7 @@ private:
    * </pre>
    * <b>Fact</b>: d has to be in area B to have a chance to be inside the circle formed by
    *  a,b and c<br>
-   *  d is outside B if orient2d(a,b,d) or orient2d(c,a,d) is CW<br>  cw是什么东西？
+   *  d is outside B if orient2d(a,b,d) or orient2d(c,a,d) is CW<br>  顺时针
    *  This preknowledge gives us a way to optimize the incircle test
    * @param a - triangle point, opposite d
    * @param b - triangle point
@@ -236,7 +236,7 @@ private:
 
   /**
    * After a flip we have two triangles and know that only one will still be
-   * intersecting the edge. So decide which to contiune with and legalize the other
+   * intersecting the edge. So decide which to continue with and legalize the other
    * 
    * @param tcx
    * @param o - should be the result of an orient2d( eq, op, ep )

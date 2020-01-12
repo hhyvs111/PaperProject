@@ -416,16 +416,30 @@ void Triangle::GetCenter(p2t::Point *center) {
     center->z = (points_[0]->z + points_[1]->z + points_[2]->z) / 3.0;
 }
 
+
+//设计一种状态机？好像也不太行，这个就是感觉算是自己的核心公式了？也是难顶，就这几行代码也好意思说是三棱柱法，太难了老铁。
 int Triangle::IsFalseTri() {
 
   if (0 == points_[0]->isHole && 0 == points_[1]->isHole && 0 == points_[2]->isHole)
     return IsBaseTri;
-  else if((0 == points_[0]->isHole && points_[1]->isHole != points_[2]->isHole)
-       || (0 == points_[1]->isHole && points_[0]->isHole != points_[2]->isHole)
-       || (0 == points_[2]->isHole && points_[0]->isHole != points_[1]->isHole))
-    return IsMidTri;
+  //这里会出现那种情况，就是有两个0？
+  else if((0 == points_[0]->isHole && (points_[1]->isHole != points_[2]->isHole))
+       || (0 == points_[1]->isHole && (points_[0]->isHole != points_[2]->isHole))
+       || (0 == points_[2]->isHole && (points_[0]->isHole != points_[1]->isHole))){
+      int cnt = 0;
+      if(0 == points_[0]->isHole)
+          cnt++;
+      if(0 == points_[1]->isHole)
+          cnt++;
+      if(0 == points_[2]->isHole)
+          cnt++;
+      if(cnt == 1)
+          return IsMidTri;
+  }
+
   else if(points_[0]->isHole > 0 && points_[1]->isHole > 0 && points_[2]->isHole > 0)
     return IsTopTri;
 }
+
 }
 

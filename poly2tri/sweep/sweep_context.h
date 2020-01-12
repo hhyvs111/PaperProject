@@ -91,6 +91,8 @@ namespace p2t {
 
         void MeshClean(Triangle& triangle);
 
+        void TriClean();
+
         std::vector<Triangle*> GetTriangles();
         std::list<Triangle*> GetMap();
 
@@ -133,10 +135,13 @@ namespace p2t {
 
         friend class Sweep;
 
+        //最终三角
         std::vector<Triangle*> triangles_;
+        //全部的三角
         std::list<Triangle*> map_;
+        //点的集合
         std::vector<Point*> points_;
-
+//前沿边，头尾前沿边。
 // Advancing front
         AdvancingFront* front_;
 // head point used with advancing front

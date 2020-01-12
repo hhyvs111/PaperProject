@@ -143,16 +143,17 @@ struct Point {
 //三角的边
 // Represents a simple polygon's edge
 struct Edge {
-
+    //由下面的构造函数可以得知，p是在左，q在右
   Point* p, *q;
 
-  /// Constructor
+  /// Constructor，p一定要比q要低，但是x和y就不好确定了。
   Edge(Point& p1, Point& p2) : p(&p1), q(&p2)
   {
     if (p1.y > p2.y) {
       q = &p1;
       p = &p2;
     } else if (p1.y == p2.y) {
+
       if (p1.x > p2.x) {
         q = &p1;
         p = &p2;
@@ -163,6 +164,7 @@ struct Edge {
       }
     }
 
+    //每个点都有一堆的边？
     q->edge_list.push_back(this);
   }
 };
