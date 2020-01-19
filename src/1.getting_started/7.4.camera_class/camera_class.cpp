@@ -98,7 +98,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 //灯光的位置
-glm::vec3 lightPos(2.0f, -2.0f, 3.0f);
+glm::vec3 lightPos(1500.0f, -2.0f, 3.0f);
 
 //function
 //设置一下变量，用按键实现一下功能
@@ -228,8 +228,15 @@ void GetSecCenter(vector<vector<VERTEX>>& sec, int index);
 //质心对齐
 void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int index);
 
+//质心对齐0
+void SecAlignedToCenter(vector<vector<VERTEX>>& in, int index);
+
 //基于质心放缩
 void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index);
+
+
+//基于质心原点缩放
+void SecScaleToCenter(vector<vector<VERTEX>>& in, int index);
 
 //放缩函数
 void SecScaleFunction(vector<vector<VERTEX>>& in, double scaleSize, int index);
@@ -301,6 +308,24 @@ void LineProcess(){
     }
 //    float dif = closeLineV[0][0][0].z - closeLineV[1][0][0].z;
 
+    //数据预处理，并绑定轮廓
+    int faceNum = 0;
+    for(int i = 0;i < modelNum;i++){
+        //获取当前质心
+        GetSecCenter(closeLineV[i], i);
+        //质心对齐坐标原点
+        SecAlignedToCenter(closeLineV[i], i);
+        GetSecCenter(closeLineV[i], i);
+        closeLineV[i][0][0].Print();
+        cout << "center after: " << endl;
+        center[i].Print();
+        //质心单纯放缩变小
+        SecScaleFunction(closeLineV[i], 0.01, i);
+        for(int j = 0;j < closeLineV[i].size();j++) {
+            drawInit(faceVAO[faceNum], faceVBO[faceNum], closeLineV[i][j]);
+            faceNum++;
+        }
+    }
 
     //自动处理
     for(int i = 0;i < modelNum - 1; i++)
@@ -312,10 +337,6 @@ void LineProcess(){
 //        cout << endl;
 //        closeLineV[i+1][0].Print();
         //获取质心，这里质心的获取还是有点问题。
-
-
-        GetSecCenter(closeLineV[i], i);
-        GetSecCenter(closeLineV[i+1], i+1);
         cout << "center: ";
         center[i].Print();
         center[i+1].Print();
@@ -329,21 +350,21 @@ void LineProcess(){
             //放缩也得放进来
 //            cout << "scale before: " << closeLineV[i+1][0][0].x << endl;
             //质心对齐
-//            SecAligned(closeLineV[i], closeLineV[i+1], i);
+            SecAligned(closeLineV[i], closeLineV[i+1], i);
 
             //轮廓线进行放缩
-//            SecScale(closeLineV[i][0], closeLineV[i+1], i);
+            SecScale(closeLineV[i][0], closeLineV[i+1], i);
 //            cout << "scale after: " << closeLineV[i+1][0][0].x << endl;
             //这里的传入有点问题！不能传入这个0
             closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
             //对三角形进行检查
 //            checkTri(i);
 
-            checkTriShort(i);
+//            checkTriShort(i);
             //三角形还原
-//            TriBack(i);
+            TriBack(i);
             //轮廓线还原，这里是对up轮廓线进行还原
-//            SecBack(i);
+            SecBack(i);
         }else{
             //逆置一下
             //质心对齐
@@ -363,8 +384,10 @@ void LineProcess(){
         }
 
         //画一下线
-        drawInit(faceVAO[i], faceVBO[i], closeLineV[i][0]);
+
     }
+
+
     //三角化本身
 //    for(int i = 0;i < modelNum;i++){
 //        poly2Tri(closeLineV[i], i+modelNum);
@@ -372,10 +395,10 @@ void LineProcess(){
 }
 
 void DrawLine(){
+
+    //画等值面
     for(int j = 0; j < modelNum - 1 ; j++) {
-//                cout << j << endl;
         for(int i = 0; i < triangles[j].size(); i++) {
-//                cout << triangles[j].size() << endl;
             if (!triangles[j][i]->isHide) {
                 //激活一下这个纹理
                 glActiveTexture(GL_TEXTURE0);
@@ -386,30 +409,18 @@ void DrawLine(){
                     glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
                 else
                     glDrawArrays(GL_LINE_LOOP, 0, 3);
-
-
             }
         }
-//        //有额外三角形
-//        if(isAddTra[j] && AddTrangle){
-////                cout << "is add tra :" << j << endl;
-//            for(int i = 0; i < extraTriangles[j].size(); i++)
-//            {
-//                glBindVertexArray(AddVAOs[j][i]);
-//
-//
-//                //是否开启纹理或者是线框
-//                if(ShowTexture)
-//                    glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
-//                else
-//                    glDrawArrays(GL_LINE_STRIP, 0, 3);
-//            }
-//        }
-        //画线
-        glBindVertexArray(faceVAO[j]);
-//            cout << McLine[i].size() << endl;
-        glDrawArrays(GL_LINE_LOOP, 0, closeLineV[j][0].size());
     }
+//    //画线
+//    int faceNum = 0;
+//    for(int i = 0;i < modelNum;i++){
+//        for(int j = 0;j < closeLineV[i].size();j++){
+//            glBindVertexArray(faceVAO[faceNum]);
+//            glDrawArrays(GL_LINE_LOOP, 0, closeLineV[i][j].size());
+//            faceNum++;
+//        }
+//    }
 }
 
 
@@ -495,6 +506,7 @@ int main()
         glfwTerminate();
         return -1;
     }
+
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
@@ -1469,21 +1481,7 @@ void closePoly2Tri(vector<VERTEX>& closeOut, vector<vector<VERTEX>>& closeHoles,
     //转换
     vector<Point*> out = VertexsToPoints(closeOut, 0);
     polylines[index].push_back(out);
-
-    Point* p1 = new Point(0.51, 1.142, 1.0);
-    Point* p2 = new Point(0.487, 0.773, 1.0);
-    Point* p3 = new Point(0.448, 0.412, 1.0);
-    Point* p4 = new Point(0.387, 0.12, 1.0);
-    Point* p5 = new Point(0.31, -0.164, 1.0);
-    Point* p6 = new Point(0.279, -0.494, 1.0);
-    Point* p7 = new Point(0.241, -0.747, 1.0);
-
-
-
-
-//    cout << "ok" << endl;
     cdt[index] = new CDT(out);
-
     //每一层的洞不一样，但是尼玛这个还是轮廓线拼接啊，说好的这个三棱柱呢？
     //加洞
     for(int i = 0;i < closeHoles.size();i++){
@@ -1491,13 +1489,28 @@ void closePoly2Tri(vector<VERTEX>& closeOut, vector<vector<VERTEX>>& closeHoles,
         cdt[index]->AddHole(hole);
     }
 
-//    cdt[index]->AddPoint(p1);
+//    //手动添加分支效果
+//    Point* p1 = new Point(0.51, 1.142, 1.0);
+//    Point* p2 = new Point(0.487, 0.773, 1.0);
+//    Point* p3 = new Point(0.448, 0.412, 1.0);
+//    Point* p4 = new Point(0.387, 0.12, 1.0);
+//    Point* p5 = new Point(0.31, -0.164, 1.0);
+//    Point* p6 = new Point(0.279, -0.494, 1.0);
+//    Point* p7 = new Point(0.241, -0.747, 1.0);
+//
+//    p2->isHole = 2;
+//    p3->isHole = 2;
+//    p4->isHole = 2;
+//    p5->isHole = 2;
+//    p6->isHole = 2;
+//    p7->isHole = 2;
+////    cdt[index]->AddPoint(p1);
 //    cdt[index]->AddPoint(p2);
 //    cdt[index]->AddPoint(p3);
 //    cdt[index]->AddPoint(p4);
 //    cdt[index]->AddPoint(p5);
 //    cdt[index]->AddPoint(p6);
-//    cdt[index]->AddPoint(p7);
+////    cdt[index]->AddPoint(p7);
 
 
     //手动添加分支
@@ -1799,7 +1812,7 @@ void checkTri(int index){
             //这个三角的z值怎么算？直接减去一半的dif？
 //            center->z = 1.5;
             //这里指定插值的hole，到时候跟着进行移动。
-            center->isHole = -2;
+            center->isHole = 2;
 //            center->print();
             cdt[index]->AddPoint(center);
         }
@@ -1810,9 +1823,18 @@ void checkTri(int index){
 
     //map是完整的剖分（包含空洞的剖分）？
 //    map[index] = cdt[index]->GetMap();
-    triangles[index] = cdt[index]->GetTriangles();
-    triSize = triangles[index].size();
-    cout << "after check " << triSize << endl;
+
+//    //侧视图效果代码
+//    triangles[index] = cdt[index]->GetTriangles();
+//    triSize = triangles[index].size();
+//
+//    for(int i = 0;i < triSize;i++){
+//        int triStatus = triangles[index][i]->IsFalseTri();
+//        if(triStatus == 0){
+//            triangles[index][i]->isHide = true;
+//        }
+//    }
+//    cout << "after check " << triSize << endl;
 
     //纹理绑定
     Poly2TriBind(PolyVAOs[index], PolyVBOs[index], textures[index],triangles[index]);
@@ -1843,11 +1865,31 @@ void checkTriShort(int index){
     for(int i = 0;i < triSize;i++){
         int triStatus = triangles[index][i]->IsFalseTri();
         //如果是底部三角
-        if(triStatus == IsBaseTri){
-            Triangle &t = *triangles[index][i];
+        Triangle &t = *triangles[index][i];
+        if(triStatus == IsBaseTri || triStatus == IsTopTri){
             t.isHide = true;
-            cout << "t before: " ;
-            t.DebugPrint();
+//            cout << "t before: " ;
+//            t.DebugPrint();
+        }else{
+            for(int j = 0;j < 3;j++){
+                if(t.GetPoint(j)->x - (-0.913) < 0.001){
+                    for(int k = 0;k < 3;k++){
+                        if(t.GetPoint(k)->x - (-1.075) < 0.001){
+                            t.isHide = true;
+                        }
+                    }
+                }
+            }
+            for(int j = 0;j < 3;j++) {
+                if ( abs(t.GetPoint(j)->x  - (1.681))  <  0.001) {
+                    t.DebugPrint();
+                    for (int k = 0; k < 3; k++) {
+                        if (abs(t.GetPoint(k)->x - 1.895) < 0.001) {
+                            t.isHide = true;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -1866,6 +1908,26 @@ void checkTriShort(int index){
     triangles[index].push_back(new Triangle(*g,*h,*center));
     triangles[index].push_back(new Triangle(*h,*i,*center));
     triangles[index].push_back(new Triangle(*i,*j,*center));
+
+
+    Point *u = new Point(2.418, 0.969,1.234);
+    Point *e2 = new Point(1.681,1.22,2.234);
+    Point *d2 = new Point(1.438,1.124,2.234);
+    Point *c2 = new Point(1.224,1.08,2.234);
+    Point *b2 = new Point(1,1,2.234);
+    Point *a2 = new Point(1.084,0.8,2.234);
+    Point *z1 = new Point(1.305,0.748,2.234);
+    Point *w1 = new Point(1.622,0.756,2.234);
+    Point *v1 = new Point(1.895,0.763,2.234);
+
+    triangles[index].push_back(new Triangle(*e2,*d2,*u));
+    triangles[index].push_back(new Triangle(*d2,*c2,*u));
+    triangles[index].push_back(new Triangle(*c2,*b2,*u));
+    triangles[index].push_back(new Triangle(*b2,*a2,*u));
+    triangles[index].push_back(new Triangle(*a2,*z1,*u));
+    triangles[index].push_back(new Triangle(*z1,*w1,*u));
+    triangles[index].push_back(new Triangle(*w1,*v1,*u));
+
 
     //纹理绑定
     Poly2TriBind(PolyVAOs[index], PolyVBOs[index], textures[index],triangles[index]);
@@ -1899,7 +1961,7 @@ void GetSecCenter(vector<vector<VERTEX>>& sec, int index){
     double sumX = 0.0, sumY = 0.0;
     for(int i = 0;i < sec.size();i++){
         for(int j = 0;j < sec[i].size();j++){
-            cout << cnt << endl;
+//            cout << cnt << endl;
             cnt++;
             sumX += sec[i][j].x;
             sumY += sec[i][j].y;
@@ -1928,6 +1990,22 @@ void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int ind
     }
 }
 
+void SecAlignedToCenter(vector<vector<VERTEX>>& in, int index){
+    Point *zero = new Point(0.0, 0.0, 0.0);
+    double difX, difY;
+    difX = center[index].x - zero->x;
+    difY = center[index].y - zero->y;
+    cout << "dif: " << difX << " " <<  difY<< endl;
+//简单的质心对齐？
+    for(int i = 0;i < in.size();i++){
+        for(int j = 0;j < in[i].size();j++){
+            in[i][j].x -= difX;
+            in[i][j].y -= difY;
+        }
+    }
+
+}
+
 void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index){
 
     //这里已经是质心对齐了的，所以直接取上和下都是一样。
@@ -1943,13 +2021,12 @@ void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index){
         SecScaleFunction(in, 1.0 / scaleSize[index], index);
         mergeSec.clear();
         //每次减少0.1
-        scaleSize[index] -= 0.1;
+        scaleSize[index] -= 0.05;
         SecScaleFunction(in, scaleSize[index], index);
         cout << "scale: " << scaleSize[index] << endl;
         for(int i = 0;i < in.size();i++){
             mergeSec.insert(mergeSec.end(), in[i].begin(), in[i].end());
         }
-
     }
 }
 
@@ -1994,7 +2071,7 @@ void TriBack(int index){
                 continue;
 
             //先进行放缩，这里可以基于之前的质心进行放缩。后面可以直接加上当前的分量就好了，没毛病。
-            point.x = (1 - 1.0/scaleSize[index]) * center[index].x + 1.0/scaleSize[index] * point.x + difX;
+            point.x = (1 - 1.0/scaleSize[index]) * center[index].x + 1.0/scaleSize[index] * point.x + 1.0;
             point.y =  (1 - 1.0/scaleSize[index]) * center[index].y + 1.0/scaleSize[index] * point.y + difY;
             point.isMove = true;
 

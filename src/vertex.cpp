@@ -250,7 +250,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据，感觉要弄成三维的才行了
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/pingtai.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/mpToMe.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
@@ -272,7 +272,7 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
         vector<VERTEX> closeLine;
 
         for(int j = 0;j < pointNum;j++){
-            infile >> x >> y >> z;
+            infile >> z >> x >> y;
 //            cout << x  << " " << y << " " << z  << endl;
 
 //            if(i > 0){
@@ -289,9 +289,10 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
 //                closeLine.push_back(v);
 //            }
             VERTEX v;
-            v.x = x;
-            v.y = y;
+            v.x = x - 502243.090000 ;
+            v.y = y + 761.478138;
             v.z = z;
+            v.index = j;
             closeLine.push_back(v);
         }
         //剖面问题
