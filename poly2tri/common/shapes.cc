@@ -372,7 +372,7 @@ void Triangle::DebugPrint()
 }
 
 
-//获取三角形的外接圆
+//获取三角形的外接圆，这里可能是求得这个圆中心了，不太对的样子了。
 void Triangle::GetCircleCenter(Point* center){
     if(center == nullptr)
         return;
@@ -408,6 +408,8 @@ void Triangle::GetCircleCenter(Point* center){
 
 }
 
+
+//这个是求三角形的重心
 void Triangle::GetCenter(p2t::Point *center) {
     if(center == nullptr)
       return;
@@ -436,9 +438,10 @@ int Triangle::IsFalseTri() {
       if(cnt == 1)
           return IsMidTri;
   }
-
   else if(points_[0]->isHole > 0 && points_[1]->isHole > 0 && points_[2]->isHole > 0)
     return IsTopTri;
+
+  return 0;
 }
 
 }

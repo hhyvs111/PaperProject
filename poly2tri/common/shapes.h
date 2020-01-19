@@ -80,6 +80,7 @@ struct Point {
 
   /// Construct using coordinates.
   Point(double x, double y) : x(x), y(y) {}
+  Point(double x, double y, double z) : x(x), y(y), z(z) {}
 
   /// Set this point to all zeros.
   void set_zero()
@@ -242,6 +243,8 @@ void DebugPrint();
 void GetCircleCenter(Point*);
 
 void GetCenter(Point*);
+
+
 
 //判断是否是需要处理的三角形
 int IsFalseTri();

@@ -41,15 +41,20 @@ typedef struct   tagVERTEX
     int index;
 }VERTEX,GLvector;
 
-class PolyLine{
+//剖面
+
+class Section{
 public:
-    vector<VERTEX> v;
-    int sectionNum;
+    //二维数组，多少个剖面，多少个线段
+    vector<vector<VERTEX>> v;
+    //剖面编号
+    int sectionNo;
+    //剖面个数
+    int sectionNum = 0;
+    //质心
+    double center;
 
 
-    void add(VERTEX& t){
-        v.push_back(t);
-    }
 
 };
 
@@ -146,7 +151,12 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3);
 
 //文本输入
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines);
+
+//文本输入
+void InputDataToVector(vector<Section>& closeLines);
 //数据划分
-void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV);
+void PolyLine(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV);
+
+
 
 #endif //LEARNOPENGL_VERTEX_H
