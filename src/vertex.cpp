@@ -172,8 +172,63 @@ float DistanceOfPointLinesIn2D(VERTEX point, VERTEX a, VERTEX b)
 {
 
     return (fabs((b.y - a.y) * point.x +(a.x - b.x) * point.y + ((b.x * a.y) -(a.x * b.y)))) / (sqrt(pow(b.y - a.y, 2) + pow(a.x - b.x, 2)));
+//    return (fabs((b.y - a.y) * point.x + (a.x - b.x) * point.y + (b.x -a.x)*a.y + (a.y-b.y)*a.x)) / (sqrt(pow(b.y - a.y, 2) + pow(a.x - b.x, 2)));
 }
 
+
+// 点到点的距离
+
+float DistanceOfPointAndPoint(VERTEX p1, VERTEX p2){
+    float x1 = p1.x, y1 = p1.y;
+    float x2 = p2.x, y2 = p2.y;
+    float dis = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+
+    return dis;
+}
+
+
+
+float DistanceOfPointAndLine(VERTEX p, VERTEX p1, VERTEX p2){
+    float ans = 0;
+    float a, b, c;
+    a = DistanceOfPointAndPoint(p1, p2);
+    b = DistanceOfPointAndPoint(p1, p);
+    c = DistanceOfPointAndPoint(p2, p);
+    if (c+b==a) {//点在线段上
+        ans = 0;
+        return ans;
+    }
+    if (a<=0.00001) {//不是线段，是一个点
+        ans = b;
+        return ans;
+    }
+    if (c*c >= a*a + b*b) { //组成直角三角形或钝角三角形，p1为直角或钝角
+        ans = b;
+        return ans;
+    }
+    if (b * b >= a * a + c * c) {// 组成直角三角形或钝角三角形，p2为直角或钝角
+        ans = c;
+        return ans;
+    }
+    // 组成锐角三角形，则求三角形的高
+    double p0 = (a + b + c) / 2;// 半周长
+    double s = sqrt(p0 * (p0 - a) * (p0 - b) * (p0 - c));// 海伦公式求面积
+    ans = 2*s / a;// 返回点到线的距离（利用三角形面积公式求高）
+    return ans;
+}
+
+
+//float DistanceOfPointAndLine(VERTEX p0, VERTEX p1, VERTEX p2){
+//    float dis12 = DistanceOfPointAndPoint(p1, p2);//线段长度
+//    float dis01 = DistanceOfPointAndPoint(p0, p1);//p1与p0的距离
+//    float dis02 = DistanceOfPointAndPoint(p0, p2);//p2与p0的距离
+//    float HalfC = (dis12 + dis01 + dis02) / 2;// 半周长
+//    float s = sqrt(HalfC * (HalfC - dis12) * (HalfC - dis01) * (HalfC - dis02));//海伦公式求面积
+//    float xj2DisPL = 2 * s / dis12;// 返回点到线的距离（利用三角形面积公式求高）
+//
+//    return xj2DisPL;
+//
+//}
 //计算三维空间两点的距离。
 float DistanceOfPointToPointIn3D(VERTEX point1, VERTEX point2)
 {
@@ -250,7 +305,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据，感觉要弄成三维的才行了
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/mpToMe.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/1.18.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
@@ -272,25 +327,11 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
         vector<VERTEX> closeLine;
 
         for(int j = 0;j < pointNum;j++){
-            infile >> z >> x >> y;
+            infile >> x >> y >> z;
 //            cout << x  << " " << y << " " << z  << endl;
-
-//            if(i > 0){
-//                VERTEX v;
-//                v.x = x + 0.5;
-//                v.y = y;
-//                v.z = z;
-//                closeLine.push_back(v);
-//            }else {
-//                VERTEX v;
-//                v.x = x;
-//                v.y = y;
-//                v.z = z;
-//                closeLine.push_back(v);
-//            }
             VERTEX v;
-            v.x = x - 502243.090000 ;
-            v.y = y + 761.478138;
+            v.x = x;
+            v.y = y;
             v.z = z;
             v.index = j;
             closeLine.push_back(v);

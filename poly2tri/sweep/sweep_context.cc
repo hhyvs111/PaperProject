@@ -50,7 +50,7 @@ SweepContext::SweepContext(std::vector<Point*> polyline) :
   InitEdges(points_);
 }
 
-//好像没怎么限定洞的概念，在剖分的时候会指定洞吗？
+//好像没怎么限定洞的概念，在剖分的时候会指定洞吗？其实就是加了约束边
 void SweepContext::AddHole(std::vector<Point*> polyline)
 {
   //这里初始化了边，应该是带了约束边

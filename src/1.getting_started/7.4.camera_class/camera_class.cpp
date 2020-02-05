@@ -98,7 +98,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 //灯光的位置
-glm::vec3 lightPos(1500.0f, -2.0f, 3.0f);
+glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
 
 //function
 //设置一下变量，用按键实现一下功能
@@ -220,7 +220,7 @@ void closeLineBack(vector<VERTEX>& _fault, int indexTra);
 //如果只是放缩那么我就不管这个平移了，直接判断放缩了！每次放缩1点
 
 //获取插值点的高度
-void SetPointZ(vector<VERTEX>& out, vector<vector<VERTEX>>& in, Point* p);
+void SetPointZ(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, Point* p);
 
 //求每一层的质心
 void GetSecCenter(vector<vector<VERTEX>>& sec, int index);
@@ -246,6 +246,9 @@ void SecBack(int index);
 
 //还原三角面片
 void TriBack(int index);
+
+//对三角形进行插值，times为插值次数，次数越多，模型越精确
+void TriInsert(int times);
 
 
 
@@ -309,62 +312,51 @@ void LineProcess(){
 //    float dif = closeLineV[0][0][0].z - closeLineV[1][0][0].z;
 
     //数据预处理，并绑定轮廓
-    int faceNum = 0;
-    for(int i = 0;i < modelNum;i++){
-        //获取当前质心
-        GetSecCenter(closeLineV[i], i);
-        //质心对齐坐标原点
-        SecAlignedToCenter(closeLineV[i], i);
-        GetSecCenter(closeLineV[i], i);
-        closeLineV[i][0][0].Print();
-        cout << "center after: " << endl;
-        center[i].Print();
-        //质心单纯放缩变小
-        SecScaleFunction(closeLineV[i], 0.01, i);
-        for(int j = 0;j < closeLineV[i].size();j++) {
-            drawInit(faceVAO[faceNum], faceVBO[faceNum], closeLineV[i][j]);
-            faceNum++;
-        }
-    }
+//    int faceNum = 0;
+//    for(int i = 0;i < modelNum;i++){
+//        //获取当前质心
+//        GetSecCenter(closeLineV[i], i);
+//
+////        //质心对齐坐标原点
+////        SecAlignedToCenter(closeLineV[i], i);
+////        GetSecCenter(closeLineV[i], i);
+//        //质心单纯放缩变小
+////        SecScaleFunction(closeLineV[i], 0.01, i);
+//        for(int j = 0;j < closeLineV[i].size();j++) {
+//            drawInit(faceVAO[faceNum], faceVBO[faceNum], closeLineV[i][j]);
+//            faceNum++;
+//        }
+//    }
 
     //自动处理
     for(int i = 0;i < modelNum - 1; i++)
     {
-//        diff[i] = closeLineV[i+1][0][0].z - closeLineV[i][0][0].z;
-        //平移到同一平面,将上一个平移到下面来，其实平移都不用平移了，直接在空间上进行剖分就好了，反正也是连在一起的。
-//        for(int j = 0;j < closeLineV[i+1].size();j++)
-//            faultMoveFunction(closeLineV[i+1][j], diff[i], zD);
-//        cout << endl;
-//        closeLineV[i+1][0].Print();
         //获取质心，这里质心的获取还是有点问题。
         cout << "center: ";
         center[i].Print();
         center[i+1].Print();
-
-        //TODO: 如果加了圈进去这里有问题，现在是判断了一个，在输入的时候先不考虑放缩好了。就只管直接放进去的那种。
-//        scaleFunction(closeLineV[i][0], closeLineV[i+1][0], i);
-
-
         //如果第二层比第一层轮廓线多，否则反过来？其实还是没用，需要做多层才行。
         if(closeLineV[i].size() <= closeLineV[i+1].size()){
             //放缩也得放进来
 //            cout << "scale before: " << closeLineV[i+1][0][0].x << endl;
-            //质心对齐
-            SecAligned(closeLineV[i], closeLineV[i+1], i);
-
-            //轮廓线进行放缩
-            SecScale(closeLineV[i][0], closeLineV[i+1], i);
+//            //质心对齐
+//            GetSecCenter(closeLineV[i], i);
+//            GetSecCenter(closeLineV[i+1], i+1);
+//            SecAligned(closeLineV[i], closeLineV[i+1], i);
+//
+////            轮廓线进行放缩
+//            SecScale(closeLineV[i][0], closeLineV[i+1], i);
 //            cout << "scale after: " << closeLineV[i+1][0][0].x << endl;
-            //这里的传入有点问题！不能传入这个0
+//            //这里的传入有点问题！不能传入这个0
             closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
             //对三角形进行检查
-//            checkTri(i);
-
+            checkTri(i);
+//
 //            checkTriShort(i);
-            //三角形还原
-            TriBack(i);
-            //轮廓线还原，这里是对up轮廓线进行还原
-            SecBack(i);
+////            三角形还原
+//            TriBack(i);
+////            轮廓线还原，这里是对up轮廓线进行还原
+//            SecBack(i);
         }else{
             //逆置一下
             //质心对齐
@@ -387,7 +379,24 @@ void LineProcess(){
 
     }
 
+    //做两次插值
+    TriInsert(1);
 
+    int faceNum = 0;
+    for(int i = 0;i < modelNum;i++){
+        //获取当前质心
+        GetSecCenter(closeLineV[i], i);
+
+//        //质心对齐坐标原点
+//        SecAlignedToCenter(closeLineV[i], i);
+//        GetSecCenter(closeLineV[i], i);
+        //质心单纯放缩变小
+//        SecScaleFunction(closeLineV[i], 0.01, i);
+        for(int j = 0;j < closeLineV[i].size();j++) {
+            drawInit(faceVAO[faceNum], faceVBO[faceNum], closeLineV[i][j]);
+            faceNum++;
+        }
+    }
     //三角化本身
 //    for(int i = 0;i < modelNum;i++){
 //        poly2Tri(closeLineV[i], i+modelNum);
@@ -412,15 +421,15 @@ void DrawLine(){
             }
         }
     }
-//    //画线
-//    int faceNum = 0;
-//    for(int i = 0;i < modelNum;i++){
-//        for(int j = 0;j < closeLineV[i].size();j++){
-//            glBindVertexArray(faceVAO[faceNum]);
-//            glDrawArrays(GL_LINE_LOOP, 0, closeLineV[i][j].size());
-//            faceNum++;
-//        }
-//    }
+    //画线
+    int faceNum = 0;
+    for(int i = 0;i < modelNum;i++){
+        for(int j = 0;j < closeLineV[i].size();j++){
+            glBindVertexArray(faceVAO[faceNum]);
+            glDrawArrays(GL_LINE_LOOP, 0, closeLineV[i][j].size());
+            faceNum++;
+        }
+    }
 }
 
 
@@ -1007,7 +1016,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, unsigned int
 //    float TraVertex[9];
     //这里用15，9是三个点的坐标，6是三个纹理坐标
     float TraVertex[24];
-    cout << "tri size " << _triangle.size() << endl;
+//    cout << "tri size " << _triangle.size() << endl;
     for (int i = 0; i < _triangle.size(); i++)
     {
 
@@ -1489,6 +1498,12 @@ void closePoly2Tri(vector<VERTEX>& closeOut, vector<vector<VERTEX>>& closeHoles,
         cdt[index]->AddHole(hole);
     }
 
+    //最大三角形
+//    Point* p1 = new Point(-1.5, 1, 1.0);
+//    Point* p2 = new Point(2.1, -1, 1.0);
+//    cdt[index]->AddPoint(p1);
+//    cdt[index]->AddPoint(p2);
+
 //    //手动添加分支效果
 //    Point* p1 = new Point(0.51, 1.142, 1.0);
 //    Point* p2 = new Point(0.487, 0.773, 1.0);
@@ -1801,14 +1816,14 @@ void checkTri(int index){
     for(int i = 0;i < triSize;i++){
         int triStatus = triangles[index][i]->IsFalseTri();
         //如果是顶部三角，那么直接进行插点操作
-        if(triStatus == IsTopTri || triStatus == IsMidTri || triStatus == IsBaseTri){
-            triangles[index][i]->DebugPrint();
+        if(triStatus == IsTopTri || triStatus == IsMidTri){
+//            triangles[index][i]->DebugPrint();
             //这里都不用hide了
 //            triangles[index][i]->isHide = true;
             Point* center = new Point;
             triangles[index][i]->GetCircleCenter(center);
             //设置这个z的大小，有一定的弧度
-            SetPointZ(closeLineV[index][index], closeLineV[index+1], center);
+            SetPointZ(closeLineV[index], closeLineV[index+1], center);
             //这个三角的z值怎么算？直接减去一半的dif？
 //            center->z = 1.5;
             //这里指定插值的hole，到时候跟着进行移动。
@@ -1820,7 +1835,7 @@ void checkTri(int index){
     //重新剖分
     cdt[index]->TriangleClear();
     cdt[index]->Triangulate();
-
+    triangles[index] = cdt[index]->GetTriangles();
     //map是完整的剖分（包含空洞的剖分）？
 //    map[index] = cdt[index]->GetMap();
 
@@ -1935,25 +1950,61 @@ void checkTriShort(int index){
 
 //获取插值点的高度，基于老师给的公式。
 //这里不好传入带洞的分支，因为都是已经做了一次区分了
-void SetPointZ(vector<VERTEX>& out, vector<vector<VERTEX>>& in, Point* p){
+void SetPointZ(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, Point* p){
     double disOut = 1e9, disIn = 1e9;
+    VERTEX point;
+    point.x = p->x;
+    point.y = p->y;
 
+    point.Print();
     for(int i = 0;i < out.size();i++){
-        disOut = min(disOut, sqrt(pow((out[i].x - p->x),2) + pow((out[i].y - p->y), 2)));
-//        cout << "disOut: " << disOut << endl;
+        //环线计算
+        for(int j = 0;j < out[i].size() - 1;j++) {
+            disOut = min(disOut, (double)DistanceOfPointAndLine(point, out[i][j], out[i][j+1]));
+//            disOut = min(disOut, sqrt(pow((out[i][j].x - p->x), 2) + pow((out[i][j].y - p->y), 2)));
+
+        }
+        //这里再算一下初始的距离
+        disOut = min(disOut, (double)DistanceOfPointAndLine(point, out[i][out[i].size() - 1], out[i][0]));
+
+    }
+    for(int i = 0;i < in.size();i++){
+        for(int j = 0;j < in[i].size() - 1;j++){
+            //这里求的是点到点的距离啊，有点不太对，应该要算点到直线的距离，也就是两个相邻的点所形成的直线。
+
+            disIn = min(disIn, (double)DistanceOfPointAndLine(point, in[i][j], in[i][j+1]));
+//            disIn = min(disIn, sqrt(pow((in[i][j].x - p->x),2) + pow((in[i][j].y - p->y), 2)));
+            in[i][j].Print();
+            in[i][j+1].Print();
+            cout << "disIn: " << disIn << endl;
+        }
+        disIn = min(disIn, (double)DistanceOfPointAndLine(point, in[i][in[i].size() - 1], in[i][0]));
+        cout << "disIn1: " << disIn << endl;
     }
 
-    for(int i = 0;i < in.size();i++){
-        for(int j = 0;j < in[i].size();j++){
-            disIn = min(disIn, sqrt(pow((in[i][j].x - p->x),2) + pow((in[i][j].y - p->y), 2)));
-//            cout << "disIn: " << disIn << endl;
-        }
-    }
+//    for(int i = 0;i < out.size();i++){
+//        //环线计算
+//        for(int j = 0;j < out[i].size();j++) {
+//            disOut = min(disOut, sqrt(pow((out[i][j].x - p->x), 2) + pow((out[i][j].y - p->y), 2)));
+//        }
+//    }
+//
+//    for(int i = 0;i < in.size();i++){
+//        for(int j = 0;j < in[i].size();j++){
+//            disIn = min(disIn, sqrt(pow((in[i][j].x - p->x),2) + pow((in[i][j].y - p->y), 2)));
+//
+//        }
+//    }
+    cout << "disOut: " << disOut << endl;
+    cout << "disIn: " << disIn << endl;
     double a = disIn / (disIn + disOut);
-    double zOut = out[0].z, zIn = in[0][0].z;
+    double zOut = out[0][0].z, zIn = in[0][0].z;
     p->z = a * zOut + (1 - a) * zIn;
-//    cout << a << " | " << p->z << endl;
+    cout << a << " | " << p->z << endl;
 }
+
+
+
 
 //求每一层的质心
 void GetSecCenter(vector<vector<VERTEX>>& sec, int index){
@@ -1984,8 +2035,8 @@ void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int ind
 //简单的质心对齐？
     for(int i = 0;i < in.size();i++){
         for(int j = 0;j < in[i].size();j++){
-            in[i][j].x -= difX;
-            in[i][j].y -= difY;
+            in[i][j].x -= difX ;
+            in[i][j].y -= difY ;
         }
     }
 }
@@ -2021,7 +2072,7 @@ void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index){
         SecScaleFunction(in, 1.0 / scaleSize[index], index);
         mergeSec.clear();
         //每次减少0.1
-        scaleSize[index] -= 0.05;
+        scaleSize[index] -= 0.1;
         SecScaleFunction(in, scaleSize[index], index);
         cout << "scale: " << scaleSize[index] << endl;
         for(int i = 0;i < in.size();i++){
@@ -2056,6 +2107,9 @@ void SecBack(int index){
 
 //将三角面片进行还原
 void TriBack(int index){
+
+    if(index < 0)
+        return;
     int traSize = triangles[index].size();
 //    cout << traSize << endl;
 
@@ -2071,12 +2125,43 @@ void TriBack(int index){
                 continue;
 
             //先进行放缩，这里可以基于之前的质心进行放缩。后面可以直接加上当前的分量就好了，没毛病。
-            point.x = (1 - 1.0/scaleSize[index]) * center[index].x + 1.0/scaleSize[index] * point.x + 1.0;
+            point.x = (1 - 1.0/scaleSize[index]) * center[index].x + 1.0/scaleSize[index] * point.x + difX;
             point.y =  (1 - 1.0/scaleSize[index]) * center[index].y + 1.0/scaleSize[index] * point.y + difY;
             point.isMove = true;
-
         }
     }
     //重新绑定
     Poly2TriBind(PolyVAOs[index], PolyVBOs[index], textures[index],triangles[index]);
+}
+
+
+//对所有的三角形进行插值，times为插值次数
+void TriInsert(int times){
+    if(times < 1)
+        return;
+
+    cout << "begin tri insert" << endl;
+    //对每一层进行插值
+    while(times--){
+        //这样插值是不是效率有点慢啊
+
+        //这里层次要减少1，因为插值的时候
+        for(int i = 0;i < modelNum - 1;i++){
+            int triSize = triangles[i].size();
+            for(int j = 0;j < triSize;j++){
+                //对所有的三角形进行插值
+                Point* center = new Point;
+                //用外接圆心可能容易出事，如果有狭长的三角形那点都可能跑到外面去了。
+                triangles[i][j]->GetCenter(center);
+                SetPointZ(closeLineV[i], closeLineV[i+1], center);
+
+                cdt[i]->AddPoint(center);
+            }
+            cdt[i]->TriangleClear();
+            //这个函数操作是应该会改变triangles这个函数指针的
+            cdt[i]->Triangulate();
+            triangles[i] = cdt[i]->GetTriangles();
+            Poly2TriBind(PolyVAOs[i], PolyVBOs[i], textures[i], triangles[i]);
+        }
+    }
 }

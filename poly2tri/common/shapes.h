@@ -62,7 +62,7 @@ struct Point {
   }
 
   void print(){
-    cout << "point: " <<  x << " " << y << " " << z << endl;
+    cout << "index: " << index << " " <<  x << " " << y << " " << z << endl;
   }
 
   VERTEX PointToVertex()
@@ -161,6 +161,9 @@ struct Edge {
         //出现重复的点会出问题
       } else if (p1.x == p2.x) {
         // Repeat points
+        cout << "repeat :";
+        p1.print();
+        p2.print();
         assert(false);
       }
     }

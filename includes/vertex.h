@@ -34,7 +34,7 @@ typedef struct   tagVERTEX
     }
 
     void Print(){
-        cout << x << "," << y << "," << z << endl;
+        cout << "index:" << index <<" "<< x << "," << y << "," << z << endl;
     }
 
     //层数
@@ -143,6 +143,9 @@ float DistanceOfPointToPointIn3D(VERTEX point1, VERTEX point2);
 float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s);
 
 float DistanceOfOpposite(VERTEX point, const vector<VERTEX>& Opposite, int &index);
+
+float DistanceOfPointAndPoint(VERTEX, VERTEX);
+float DistanceOfPointAndLine(VERTEX, VERTEX, VERTEX);
 
 AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);
 
