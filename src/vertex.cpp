@@ -229,6 +229,8 @@ float DistanceOfPointAndLine(VERTEX p, VERTEX p1, VERTEX p2){
 //    return xj2DisPL;
 //
 //}
+
+
 //计算三维空间两点的距离。
 float DistanceOfPointToPointIn3D(VERTEX point1, VERTEX point2)
 {
@@ -305,7 +307,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据，感觉要弄成三维的才行了
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/1.18.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/3.4.2maxT.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
@@ -328,7 +330,7 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
 
         for(int j = 0;j < pointNum;j++){
             infile >> x >> y >> z;
-//            cout << x  << " " << y << " " << z  << endl;
+            cout << x  << " " << y << " " << z  << endl;
             VERTEX v;
             v.x = x;
             v.y = y;
@@ -342,6 +344,7 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     cout << "end" << endl;
     infile.close();
 }
+
 
 
 //void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV){

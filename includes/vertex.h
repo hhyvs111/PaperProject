@@ -20,6 +20,12 @@ const int IsBaseTri = 1;
 const int IsMidTri = 2;
 //三个点都在洞上的三角形
 const int IsTopTri = 3;
+
+
+//反距离的幂值，当其为2时是最近环境？
+const int r = 2;
+
+
 using namespace std;
 typedef struct   tagVERTEX
 {
@@ -34,11 +40,14 @@ typedef struct   tagVERTEX
     }
 
     void Print(){
-        cout << "index:" << index <<" "<< x << "," << y << "," << z << endl;
+        cout << "index:" << index <<" "<< x << " " << y << " " << z << endl;
     }
-
     //层数
     int index;
+
+    float weight; //权重
+    float distance; //距离插值点的距离
+
 }VERTEX,GLvector;
 
 //剖面
@@ -53,9 +62,6 @@ public:
     int sectionNum = 0;
     //质心
     double center;
-
-
-
 };
 
 
@@ -144,7 +150,9 @@ float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s);
 
 float DistanceOfOpposite(VERTEX point, const vector<VERTEX>& Opposite, int &index);
 
+//求两点间的距离
 float DistanceOfPointAndPoint(VERTEX, VERTEX);
+
 float DistanceOfPointAndLine(VERTEX, VERTEX, VERTEX);
 
 AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);

@@ -153,6 +153,9 @@ bool isAddTra[MaxNum] = {false};
 
 vector<vector<vector<VERTEX>>> closeLineV;
 
+
+vector<VERTEX> closeLineMerge;
+
 //全局变量，用来平移之类的
 
 //记录每一层的原质心
@@ -219,11 +222,18 @@ void closeLineBack(vector<VERTEX>& _fault, int indexTra);
 //放缩如果有交线则缩小
 //如果只是放缩那么我就不管这个平移了，直接判断放缩了！每次放缩1点
 
-//获取插值点的高度
+//获取插值点的高度，距离反比
 void SetPointZ(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, Point* p);
+
+//反距离加权方法
+void SetPointZofIDW(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, Point* p);
 
 //求每一层的质心
 void GetSecCenter(vector<vector<VERTEX>>& sec, int index);
+
+
+//合并轮廓线
+void VertexMerge(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in);
 
 //质心对齐
 void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int index);
@@ -338,25 +348,25 @@ void LineProcess(){
         //如果第二层比第一层轮廓线多，否则反过来？其实还是没用，需要做多层才行。
         if(closeLineV[i].size() <= closeLineV[i+1].size()){
             //放缩也得放进来
-//            cout << "scale before: " << closeLineV[i+1][0][0].x << endl;
-//            //质心对齐
-//            GetSecCenter(closeLineV[i], i);
-//            GetSecCenter(closeLineV[i+1], i+1);
-//            SecAligned(closeLineV[i], closeLineV[i+1], i);
-//
-////            轮廓线进行放缩
-//            SecScale(closeLineV[i][0], closeLineV[i+1], i);
-//            cout << "scale after: " << closeLineV[i+1][0][0].x << endl;
+            cout << "scale before: " << closeLineV[i+1][0][0].x << endl;
+            //质心对齐
+            GetSecCenter(closeLineV[i], i);
+            GetSecCenter(closeLineV[i+1], i+1);
+            SecAligned(closeLineV[i], closeLineV[i+1], i);
+
+//            轮廓线进行放缩
+            SecScale(closeLineV[i][0], closeLineV[i+1], i);
+            cout << "scale after: " << closeLineV[i+1][0][0].x << endl;
 //            //这里的传入有点问题！不能传入这个0
             closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
             //对三角形进行检查
             checkTri(i);
 //
 //            checkTriShort(i);
-////            三角形还原
-//            TriBack(i);
-////            轮廓线还原，这里是对up轮廓线进行还原
-//            SecBack(i);
+//            三角形还原
+            TriBack(i);
+//            轮廓线还原，这里是对up轮廓线进行还原
+            SecBack(i);
         }else{
             //逆置一下
             //质心对齐
@@ -1962,11 +1972,9 @@ void SetPointZ(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, Point* p
         for(int j = 0;j < out[i].size() - 1;j++) {
             disOut = min(disOut, (double)DistanceOfPointAndLine(point, out[i][j], out[i][j+1]));
 //            disOut = min(disOut, sqrt(pow((out[i][j].x - p->x), 2) + pow((out[i][j].y - p->y), 2)));
-
         }
         //这里再算一下初始的距离
         disOut = min(disOut, (double)DistanceOfPointAndLine(point, out[i][out[i].size() - 1], out[i][0]));
-
     }
     for(int i = 0;i < in.size();i++){
         for(int j = 0;j < in[i].size() - 1;j++){
@@ -1974,33 +1982,111 @@ void SetPointZ(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, Point* p
 
             disIn = min(disIn, (double)DistanceOfPointAndLine(point, in[i][j], in[i][j+1]));
 //            disIn = min(disIn, sqrt(pow((in[i][j].x - p->x),2) + pow((in[i][j].y - p->y), 2)));
-            in[i][j].Print();
-            in[i][j+1].Print();
-            cout << "disIn: " << disIn << endl;
+//            in[i][j].Print();
+//            in[i][j+1].Print();
+//            cout << "disIn: " << disIn << endl;
         }
         disIn = min(disIn, (double)DistanceOfPointAndLine(point, in[i][in[i].size() - 1], in[i][0]));
-        cout << "disIn1: " << disIn << endl;
+//        cout << "disIn1: " << disIn << endl;
     }
-
-//    for(int i = 0;i < out.size();i++){
-//        //环线计算
-//        for(int j = 0;j < out[i].size();j++) {
-//            disOut = min(disOut, sqrt(pow((out[i][j].x - p->x), 2) + pow((out[i][j].y - p->y), 2)));
-//        }
-//    }
-//
-//    for(int i = 0;i < in.size();i++){
-//        for(int j = 0;j < in[i].size();j++){
-//            disIn = min(disIn, sqrt(pow((in[i][j].x - p->x),2) + pow((in[i][j].y - p->y), 2)));
-//
-//        }
-//    }
-    cout << "disOut: " << disOut << endl;
-    cout << "disIn: " << disIn << endl;
+//    cout << "disOut: " << disOut << endl;
+//    cout << "disIn: " << disIn << endl;
     double a = disIn / (disIn + disOut);
     double zOut = out[0][0].z, zIn = in[0][0].z;
     p->z = a * zOut + (1 - a) * zIn;
-    cout << a << " | " << p->z << endl;
+//    cout << a << " | " << p->z << endl;
+}
+
+
+
+
+
+void VertexMerge(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in){
+    closeLineMerge.clear();
+
+    for(int i = 0;i < out.size();i++){
+        for(int j = 0; j < out[i].size();j++){
+            closeLineMerge.push_back(out[i][j]);
+        }
+    }
+
+    //内轮廓的距离与总权重计算
+    for(int i = 0;i < in.size();i++){
+        for(int j = 0; j < in[i].size();j++){
+            closeLineMerge.push_back(in[i][j]);
+        }
+    }
+
+    cout << "merge success"<< endl;
+}
+
+
+//这个插值方法好像没有用到z值？
+void SetPointZofIDW(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, Point* p){
+    VERTEX point;
+    point.x = p->x;
+    point.y = p->y;
+
+    //从0开始到底对不对呢？还是感觉不是很对的样子了
+    point.z = 0;
+
+    point.Print();
+
+    float f = 0;
+    
+    //外轮廓的距离与总权重计算
+    for(int i = 0;i < out.size();i++){
+        for(int j = 0; j < out[i].size();j++){
+            out[i][j].distance = DistanceOfPointAndPoint(out[i][j], point);
+            cout << out[i][j].distance << endl;
+            f += pow(1.0 / out[i][j].distance, r);
+//            cout << f << endl;
+        }
+    }
+    
+    //内轮廓的距离与总权重计算
+    for(int i = 0;i < in.size();i++){
+        for(int j = 0; j < in[i].size();j++){
+            in[i][j].distance = DistanceOfPointAndPoint(in[i][j], point);
+            f += pow(1.0 / in[i][j].distance, r);
+        }
+    }
+    
+    //外轮廓的单个点权重计算
+    for(int i = 0;i < out.size();i++){
+        for(int j = 0; j < out[i].size();j++){
+            //距离越远，权重值越小，因为这里是倒数放进去的。
+            out[i][j].weight = pow(1.0/out[i][j].distance, r) / f;
+        }
+    }
+
+    //内轮廓的单个点权重计算
+    for(int i = 0;i < in.size();i++){
+        for(int j = 0; j < in[i].size();j++){
+            in[i][j].weight = pow(1.0/in[i][j].distance, r) / f;
+        }
+    }
+    
+    
+    //得到插值点的权重
+    point.weight = 0;
+    
+    //计算外轮廓
+    for(int i = 0;i < out.size();i++){
+        for(int j = 0; j < out[i].size();j++){
+            //这里是用了z值，那么如果我用这个初始值为0应该是没什么毛病的，如果原轮廓的值是负值，那么加起来也是负的。怎么去修改这个函数呢？
+            point.z += out[i][j].weight * out[i][j].z;
+        }
+    }
+    
+    //计算内轮廓
+    for(int i = 0;i < in.size();i++){
+        for(int j = 0; j < in[i].size();j++){
+            point.z += in[i][j].weight * in[i][j].z;
+        }
+    }
+    point.Print();
+    p->z = point.z;
 }
 
 
@@ -2141,18 +2227,22 @@ void TriInsert(int times){
         return;
 
     cout << "begin tri insert" << endl;
+    unsigned long triSize;
     //对每一层进行插值
     while(times--){
         //这样插值是不是效率有点慢啊
-
         //这里层次要减少1，因为插值的时候
         for(int i = 0;i < modelNum - 1;i++){
-            int triSize = triangles[i].size();
+            triSize = triangles[i].size();
             for(int j = 0;j < triSize;j++){
                 //对所有的三角形进行插值
                 Point* center = new Point;
                 //用外接圆心可能容易出事，如果有狭长的三角形那点都可能跑到外面去了。
+                //此处是求三角形的重心，考虑了z轴的值？
                 triangles[i][j]->GetCenter(center);
+
+                //这里应该是可以取消插值，再最后一次再进行插值计算？应该是可以的，这样可以大大减少时间。
+                //不行啊，完全就是取消不了这个的，也是难顶。
                 SetPointZ(closeLineV[i], closeLineV[i+1], center);
 
                 cdt[i]->AddPoint(center);
@@ -2164,4 +2254,5 @@ void TriInsert(int times){
             Poly2TriBind(PolyVAOs[i], PolyVBOs[i], textures[i], triangles[i]);
         }
     }
+
 }
