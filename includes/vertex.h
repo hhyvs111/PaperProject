@@ -22,19 +22,25 @@ const int IsMidTri = 2;
 const int IsTopTri = 3;
 
 
+const double eps = 1e-6;
+const double PI = acos(-1);
+
+
 //反距离的幂值，当其为2时是最近环境？
 const int r = 2;
 
 
 using namespace std;
-typedef struct   tagVERTEX
+typedef struct   VERTEX
 {
     float   x;  // x坐标
     float   y;  // y坐标
     float   z;  // z坐标
 
+    VERTEX(double x=0,double y=0):x(x),y(y){};
+
     //重载
-    bool operator==(const tagVERTEX b) const
+    bool operator==(const VERTEX b) const
     {
         return ((this->x == b.x) && (this->y == b.y) && (this->z == b.z));
     }
@@ -42,6 +48,31 @@ typedef struct   tagVERTEX
     void Print(){
         cout << "index:" << index <<" "<< x << " " << y << " " << z << endl;
     }
+
+    VERTEX operator +(const VERTEX &b)const
+    {
+        return VERTEX(x+b.x,y+b.y);
+    }
+    //向量-
+    VERTEX operator -(const VERTEX &b)const
+    {
+        return VERTEX(x-b.x,y-b.y);
+    }
+    //点积
+    double operator *(const VERTEX &b)const
+    {
+        return x*b.x + y*b.y;
+    }
+    //叉积
+    //P^Q>0,P在Q的顺时针方向；<0，P在Q的逆时针方向；=0，P，Q共线，可能同向或反向
+    double operator ^(const VERTEX &b)const
+    {
+        return x*b.y - b.x*y;
+    }
+
+
+
+
     //层数
     int index;
 
@@ -169,5 +200,10 @@ void InputDataToVector(vector<Section>& closeLines);
 void PolyLine(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV);
 
 
+int dcmp(double x);
+
+bool Onsegment(VERTEX &, VERTEX&, VERTEX&);
+
+bool InPolygon(vector<vector<VERTEX>>& vec, VERTEX &P);
 
 #endif //LEARNOPENGL_VERTEX_H

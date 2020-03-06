@@ -51,7 +51,9 @@ struct Point {
   bool isMove = false;
   bool isHide = false;
 
-  // 1 2 3 则是不同的hole
+  double inDistance, outDistance;
+
+  // 1 2 3 则是不同的hole，-1是插值点
   int isHole = 0;
 
   /// Default constructor does nothing (for performance).
@@ -89,7 +91,13 @@ struct Point {
     y = 0.0;
   }
 
-  /// Set this point to some specified coordinates.
+
+  float magnitude()
+  {
+    return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+  }
+
+    /// Set this point to some specified coordinates.
   void set(double x_, double y_)
   {
     x = x_;
@@ -140,7 +148,57 @@ struct Point {
     return len;
   }
 
+
+    Point operator+(Point v)
+    {
+      double x1, y1, z1;
+      x1 = x + v.x;
+      y1 = y + v.y;
+      z1 = z + v.z;
+      return Point(x1, y1, z1);
+    }
+
+// Subtract 2 Points 
+    Point operator-(Point v)
+    {
+      double x1, y1, z1;
+      x1 = x - v.x;
+      y1 = y - v.y;
+      z1 = z - v.z;
+      return Point(x1, y1, z1);
+    }
+
+// Dot product of 2 Points 
+    double operator^(Point v)
+    {
+      double x1, y1, z1;
+      x1 = x * v.x;
+      y1 = y * v.y;
+      z1 = z * v.z;
+      return (x1 + y1 + z1);
+    }
+
+// Cross product of 2 Points 
+    Point operator*(Point v)
+    {
+      double x1, y1, z1;
+      x1 = y * v.z - z * v.y;
+      y1 = z * v.x - x * v.z;
+      z1 = x * v.y - y * v.x;
+      return Point(x1, y1, z1);
+    }
+
+
+    double Distance(Point *point){
+      return sqrt(pow(x - point->x, 2) + pow(y - point->y, 2) + pow(y - point->y, 2));
+  }
+
+
+
 };
+
+float shortDistance(Point line_point1, Point line_point2,
+                        Point point);
 //三角的边
 // Represents a simple polygon's edge
 struct Edge {
@@ -248,11 +306,13 @@ void GetCircleCenter(Point*);
 void GetCenter(Point*);
 
 
+void GetInnerCenter(Point*);
+
+
 
 //判断是否是需要处理的三角形
 int IsFalseTri();
 
-private:
 
 /// Triangle points
 Point* points_[3];

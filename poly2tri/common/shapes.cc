@@ -372,7 +372,9 @@ void Triangle::DebugPrint()
 }
 
 
-//获取三角形的外接圆，这里可能是求得这个圆中心了，不太对的样子了。
+//获取三角形的外接圆，这里可能是求得这个圆中心了，不太对的样子
+
+//这里没写
 void Triangle::GetCircleCenter(Point* center){
     if(center == nullptr)
         return;
@@ -418,6 +420,37 @@ void Triangle::GetCenter(p2t::Point *center) {
     center->z = (points_[0]->z + points_[1]->z + points_[2]->z) / 3.0;
 }
 
+void Triangle::GetInnerCenter(Point* center){
+    double a = points_[0]->Distance(points_[1]);
+    double b = points_[1]->Distance(points_[2]);
+    double c = points_[2]->Distance(points_[0]);
+
+//    cout << a << " " << b << " " << c << endl;
+    double s = a + b + c;
+    //难道这个z也是这样算？我日了，好像尼玛真的是可以这样算啊，我怎么感觉是可以这样算的，应该是没毛病？要不自己试一下看看。
+    center->x = (a * points_[0]->x + b * points_[1]->x + c * points_[2]->x) / s;
+    center->y = (a * points_[0]->y + b * points_[1]->y + c * points_[2]->y) / s;
+    center->z = (a * points_[0]->z + b * points_[1]->z + c * points_[2]->z) / s;
+
+
+
+//    var AB = Vector3.Normalize(B - A);
+//    var AC = Vector3.Normalize(C - A);
+//    var bisectADir = AB + AC;
+//    var BA = Vector3.Normalize(A - B);
+//    var BC = Vector3.Normalize(C - B);
+//    var bisectBDir =BA + BC;
+//    // find intersection => center point of incirclevar
+//    center = LineLineIntersection(A, bisectADir, B, bisectBDir);
+//    //这里看起来是有点难顶啊，尼玛还这样实现了
+//    // find distance to any side => radiusvar
+//    radius = PointLineDistance(center, A, B - A);
+
+
+
+
+}
+
 
 //设计一种状态机？好像也不太行，这个就是感觉算是自己的核心公式了？也是难顶，就这几行代码也好意思说是三棱柱法，太难了老铁。
 int Triangle::IsFalseTri() {
@@ -443,6 +476,18 @@ int Triangle::IsFalseTri() {
 
   return 0;
 }
+
+
+//三维空间点到线段的距离。
+float shortDistance(Point line_point1, Point line_point2,
+                        Point point)
+    {
+        Point AB = line_point2 - line_point1;
+        Point AC = point - line_point1;
+        double area = Point(AB * AC).magnitude();
+        double CD = area / AB.magnitude();
+        return CD;
+    }
 
 }
 

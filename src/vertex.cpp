@@ -9,6 +9,64 @@
 #include <fstream>
 
 
+
+//射线法
+
+//三态函数，判断两个double在eps精度下的大小关系
+int dcmp(double x)
+{
+    if(fabs(x)<eps) return 0;
+    else
+        return x<0?-1:1;
+}
+//判断点Q是否在P1和P2的线段上
+bool OnSegment(VERTEX& P1,VERTEX& P2,VERTEX& Q)
+{
+    //前一个判断点Q在P1P2直线上 后一个判断在P1P2范围上
+    return dcmp((P1-Q)^(P2-Q))==0&&dcmp((P1-Q)*(P2-Q))<=0;
+}
+//判断点P在多边形内-射线法
+
+//true是在多边形内？
+//fasle是在多边形外？
+bool InPolygon(vector<vector<VERTEX>>& vec, VERTEX &P)
+{
+    bool flag = false; //相当于计数
+    VERTEX P1,P2; //多边形一条边的两个顶点
+
+    for(int i = 0;i < vec.size();i++){
+        //多边形里多个多边形
+        for(int j = 0; j < vec[i].size() - 1;j++){
+            P1 = vec[i][j+1];
+            P2 = vec[i][j];
+            cout << "test of inPolygon" << endl;
+            P1.Print();
+            P2.Print();
+            //点在线上
+            if(OnSegment(P1,P2,P)) return true;
+
+            //前一个判断min(P1.y,P2.y)<P.y<=max(P1.y,P2.y)
+            //这个判断代码我觉得写的很精妙 我网上看的 应该是大神模版
+            //后一个判断被测点 在 射线与边交点 的左边
+            if( (dcmp(P1.y-P.y)>0 != dcmp(P2.y-P.y)>0) && dcmp(P.x - (P.y-P1.y)*(P1.x-P2.x)/(P1.y-P2.y)-P1.x)<0)
+                flag = !flag;
+            cout << flag << endl;
+        }
+        //首位计算
+        P1 = vec[i][0];
+        P2 = vec[i][vec.size()-1];
+
+        if(OnSegment(P1,P2,P)) return true;
+
+        //前一个判断min(P1.y,P2.y)<P.y<=max(P1.y,P2.y)
+        //这个判断代码我觉得写的很精妙 我网上看的 应该是大神模版
+        //后一个判断被测点 在 射线与边交点 的左边
+        if( (dcmp(P1.y-P.y)>0 != dcmp(P2.y-P.y)>0) && dcmp(P.x - (P.y-P1.y)*(P1.x-P2.x)/(P1.y-P2.y)-P1.x)<0)
+            flag = !flag;
+    }
+    return flag;
+}
+
 float * VertexToFloat(VERTEX vertex[], int num)
 {
     if(vertex == NULL)
@@ -146,7 +204,7 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 }
 
 //判断这两个断层是否相交
-//
+//如果返回false说明相交，true说明不相交
 bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2)
 {
 
@@ -307,7 +365,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据，感觉要弄成三维的才行了
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/3.4.2maxT.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data/1.18.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
@@ -330,7 +388,7 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
 
         for(int j = 0;j < pointNum;j++){
             infile >> x >> y >> z;
-            cout << x  << " " << y << " " << z  << endl;
+//            cout << x  << " " << y << " " << z  << endl;
             VERTEX v;
             v.x = x;
             v.y = y;
@@ -341,10 +399,9 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
         //剖面问题
         closeLines[sectionNo].push_back(closeLine);
     }
-    cout << "end" << endl;
+//    cout << "end" << endl;
     infile.close();
 }
-
 
 
 //void VertexDivide(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV){
