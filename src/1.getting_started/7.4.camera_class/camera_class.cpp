@@ -246,7 +246,7 @@ void GetSecCenter(vector<vector<VERTEX>>& sec, int index);
 void VertexMerge(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in);
 
 //质心对齐
-void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int index);
+void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int index, bool isR);
 
 //质心对齐0
 void SecAlignedToCenter(vector<vector<VERTEX>>& in, int index);
@@ -384,7 +384,7 @@ void LineProcess(){
                 GetSecCenter(closeLineV[i], i);
                 GetSecCenter(closeLineV[i+1], i+1);
 
-                SecAligned(closeLineV[i], closeLineV[i+1], i);
+                SecAligned(closeLineV[i], closeLineV[i+1], i, false);
 
 //            轮廓线进行放缩
                 SecScale(closeLineV[i][0], closeLineV[i+1], i);
@@ -398,6 +398,17 @@ void LineProcess(){
                 CenterToCenter[i] = false;
             }
 
+//            for(int p = 0;p < closeLineV[i].size();p++){
+//                for(int q = 0; q < closeLineV[i][p].size();q++){
+//                    closeLineV[i][p][q].Print();
+//                }
+//            }
+//            cout << "-----" << endl;
+//            for(int p = 0;p < closeLineV[i+1].size();p++){
+//                for(int q = 0; q < closeLineV[i+1][p].size();q++){
+//                    closeLineV[i+1][p][q].Print();
+//                }
+//            }
             clock_t poly2triTime = clock();
 //            //这里的传入有点问题！不能传入这个0
             closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
@@ -410,7 +421,7 @@ void LineProcess(){
             PrintTime("check time: ", checkTime, insertTime);
 //
 //            checkTriShort(i);
-            TriInsert(1, i);
+//            TriInsert(1, i);
             clock_t backTime = clock();
             //进行了质心对齐等操作，那么需要进行还原，否则不需要进行还原
             PrintTime("insert time: ", insertTime, backTime);
@@ -425,18 +436,33 @@ void LineProcess(){
             //分别求两个质心，这里质心的区别不大
 
             if(!PolygonInPolygon(i, false)) {
+                //求上下的质心
                 GetSecCenter(closeLineV[i], i);
                 GetSecCenter(closeLineV[i + 1], i + 1);
 
-                SecAligned(closeLineV[i + 1], closeLineV[i], i);
+
+                //传入的时候将上层当做是外边，下层当做是内边
+                SecAligned(closeLineV[i + 1], closeLineV[i], i, true);
                 //轮廓线进行放缩
                 SecScale(closeLineV[i + 1][0], closeLineV[i], i);
-//            cout << "scale after: " << closeLineV[i+1][0][0].x << endl;
+                cout << "scale after: " << closeLineV[i+1][0][0].x << endl;
                 //传入数据逆置
                 CenterToCenter[i] = true;
             }else{
                 CenterToCenter[i] = false;
             }
+
+//            for(int p = 0;p < closeLineV[i].size();p++){
+//                for(int q = 0; q < closeLineV[i][p].size();q++){
+//                    closeLineV[i][p][q].Print();
+//                }
+//            }
+//            cout << "-----" << endl;
+//            for(int p = 0;p < closeLineV[i+1].size();p++){
+//                for(int q = 0; q < closeLineV[i+1][p].size();q++){
+//                    closeLineV[i+1][p][q].Print();
+//                }
+//            }
             closePoly2Tri(closeLineV[i+1][0], closeLineV[i], i);
             //剖分的时候还是真的吧
             checkTri(i);
@@ -460,7 +486,7 @@ void LineProcess(){
 
     for(int i = 0;i < modelNum;i++){
         //获取当前质心
-        GetSecCenter(closeLineV[i], i);
+//        GetSecCenter(closeLineV[i], i);
 //        //质心对齐坐标原点
 //        SecAlignedToCenter(closeLineV[i], i);
 //        GetSecCenter(closeLineV[i], i);
@@ -488,22 +514,25 @@ void DrawLine(){
                 glBindTexture(GL_TEXTURE_2D, textures[j][i]);
                 glBindVertexArray(PolyVAOs[j][i]);
 
-                if(ShowTexture)
-                    glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
-                else
-                    glDrawArrays(GL_LINE_LOOP, 0, 3);
+                if(ShowModel){
+                    if(ShowTexture)
+                        glDrawArrays(GL_TRIANGLE_STRIP, 0 , 3);
+                    else
+                        glDrawArrays(GL_LINE_LOOP, 0, 3);
+                }
+
             }
         }
     }
     //画线
-//    int faceNum = 0;
-//    for(int i = 0;i < modelNum;i++){
-//        for(int j = 0;j < closeLineV[i].size();j++){
-//            glBindVertexArray(faceVAO[faceNum]);
-//            glDrawArrays(GL_LINE_LOOP, 0, closeLineV[i][j].size());
-//            faceNum++;
-//        }
-//    }
+    int faceNum = 0;
+    for(int i = 0;i < modelNum;i++){
+        for(int j = 0;j < closeLineV[i].size();j++){
+            glBindVertexArray(faceVAO[faceNum]);
+            glDrawArrays(GL_LINE_LOOP, 0, closeLineV[i][j].size());
+            faceNum++;
+        }
+    }
 }
 
 
@@ -632,7 +661,7 @@ int main()
 
 //    MarchingCubesProcess();
 
-    glm::vec3 lightPos(maxX + (maxX - minX), (maxY + minY) / 2, (maxZ - minZ) / 2);
+    glm::vec3 lightPos(minX - (maxX - minX)/2, minY + (maxY - minY)/2, (maxZ - minZ) / 2);
     //显示代码
     while (!glfwWindowShouldClose(window))
     {
@@ -753,12 +782,20 @@ void processInput(GLFWwindow *window)
             ShowTexture = true;
     }
 
-    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS){
-        if(AddTrangle){
-            AddTrangle = false;
+    //是否显示模型
+    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS){
+        if(ShowModel){
+            ShowModel = false;
         } else
-            AddTrangle = true;
+            ShowModel = true;
     }
+
+//    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS){
+//        if(AddTrangle){
+//            AddTrangle = false;
+//        } else
+//            AddTrangle = true;
+//    }
 
 
 //    if (glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
@@ -2259,11 +2296,17 @@ void GetSecCenter(vector<vector<VERTEX>>& sec, int index){
 
 }
 
-void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int index){
+void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int index, bool isR){
 
     double difX, difY;
-    difX = center[index+1].x - center[index].x;
-    difY = center[index+1].y - center[index].y;
+    if(isR){
+        difX = center[index].x - center[index+1].x;
+        difY = center[index].y - center[index+1].y;
+    }else{
+        //非翻转的情况是上减下
+        difX = center[index+1].x - center[index].x;
+        difY = center[index+1].y - center[index].y;
+    }
 
     cout << "dif: " << difX << " " <<  difY<< endl;
 //简单的质心对齐？
@@ -2309,6 +2352,7 @@ void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index){
         scaleSize[index] -= 0.1;
         SecScaleFunction(in, scaleSize[index], index);
         cout << "scale: " << scaleSize[index] << endl;
+        //这了为什么又合并一次？
         for(int i = 0;i < in.size();i++){
             mergeSec.insert(mergeSec.end(), in[i].begin(), in[i].end());
         }
@@ -2333,8 +2377,14 @@ void SecBack(int index, bool isR){
     //这里如果index是0的话，那么就变成-1了？
 
     double difX, difY;
-    difX = center[index+1].x - center[index].x;
-    difY = center[index+1].y - center[index].y;
+    if(isR){
+        difX = center[index].x - center[index+1].x;
+        difY = center[index].y - center[index+1].y;
+    }else{
+        //非翻转的情况是上减下
+        difX = center[index+1].x - center[index].x;
+        difY = center[index+1].y - center[index].y;
+    }
     int lineNum;
 
     //翻转了就是对上层进行还原？之前自己写的不是很对吗？
@@ -2442,7 +2492,7 @@ void TriBack(int index, bool isR){
                     proportionZ = 1 - (point.z - center[index].z) / (center[index+1].z - center[index].z);
 
                     proportion = point.inDistance / ( point.outDistance + point.inDistance);
-                    cout << "proportion: " << proportion << " " << proportionZ << endl;
+//                    cout << "proportion: " << proportion << " " << proportionZ << endl;
 
 //                    point.print();
 //                    cout << proportion << " " << proportionZ << endl;

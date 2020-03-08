@@ -5,5 +5,6 @@
 #ifndef LEARNOPENGL_SUM_H
 #define LEARNOPENGL_SUM_H
 bool ShowTexture;
+bool ShowModel;
 bool AddTrangle;
 #endif //LEARNOPENGL_SUM_H

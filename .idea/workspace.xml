@@ -15,13 +15,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b57f9fec-48e4-47ea-8e9d-f3bc6d721f8f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/data/trueData1-2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/trueData4-5.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/trueData1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/Sum.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/Sum.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/trueData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/trueData.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vertex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vertex.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -116,7 +117,7 @@
           <entry key="fs" value="26" />
           <entry key="gif" value="1" />
           <entry key="gitignore" value="1" />
-          <entry key="h" value="224" />
+          <entry key="h" value="225" />
           <entry key="hpp" value="3" />
           <entry key="inl" value="1" />
           <entry key="iosfwd" value="1" />
@@ -130,7 +131,7 @@
           <entry key="png" value="1" />
           <entry key="sec" value="32" />
           <entry key="txst" value="1" />
-          <entry key="txt" value="103" />
+          <entry key="txt" value="105" />
           <entry key="type_traits" value="1" />
           <entry key="vector" value="22" />
           <entry key="vs" value="28" />
@@ -144,8 +145,8 @@
           <entry key="Disassembly" value="11" />
           <entry key="Image" value="3" />
           <entry key="Markdown" value="3" />
-          <entry key="ObjectiveC" value="502" />
-          <entry key="PLAIN_TEXT" value="176" />
+          <entry key="ObjectiveC" value="503" />
+          <entry key="PLAIN_TEXT" value="178" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -154,12 +155,12 @@
           <entry key="GDB" value="17" />
           <entry key="c" value="37" />
           <entry key="cc" value="3270" />
-          <entry key="cpp" value="67640" />
+          <entry key="cpp" value="68186" />
           <entry key="fs" value="72" />
-          <entry key="h" value="7822" />
+          <entry key="h" value="7846" />
           <entry key="md" value="186" />
           <entry key="sec" value="66" />
-          <entry key="txt" value="4068" />
+          <entry key="txt" value="4102" />
           <entry key="vs" value="5" />
         </counts>
       </usages-collector>
@@ -169,8 +170,8 @@
           <entry key="Doxygen file" value="5" />
           <entry key="GDBCommands" value="17" />
           <entry key="Markdown" value="186" />
-          <entry key="ObjectiveC" value="78764" />
-          <entry key="PLAIN_TEXT" value="3952" />
+          <entry key="ObjectiveC" value="79334" />
+          <entry key="PLAIN_TEXT" value="3986" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -213,11 +214,38 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="646" lean-forward="true" selection-start-line="646" selection-end-line="646" />
+            <state relative-caret-position="275">
+              <caret line="392" lean-forward="true" selection-start-line="392" selection-end-line="392" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/2-1okData.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="422">
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/trueData1.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="28" column="45" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/Sum.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -233,37 +261,18 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/trueData1-2.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="2" selection-start-column="2" selection-end-column="2" />
+            <state relative-caret-position="285">
+              <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/trueData4-5.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="45" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-25">
-              <caret line="371" column="5" lean-forward="true" selection-start-line="371" selection-start-column="5" selection-end-line="371" selection-end-column="5" />
+            <state relative-caret-position="358">
+              <caret line="397" column="9" lean-forward="true" selection-start-line="397" selection-start-column="9" selection-end-line="397" selection-end-column="9" />
               <folding>
                 <element signature="e#39#58#0" expanded="true" />
               </folding>
@@ -305,12 +314,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>4.0</find>
-      <find>6</find>
-      <find>1.234</find>
-      <find>faceVAO</find>
-      <find>1.768</find>
-      <find>4434601.000000</find>
       <find>4435201.000000</find>
       <find>100.0</find>
       <find>200.0</find>
@@ -323,7 +326,6 @@
       <find>out</find>
       <find>SetPointZ</find>
       <find>Set</find>
-      <find>,</find>
       <find>2.58</find>
       <find>isHole</find>
       <find>center</find>
@@ -335,13 +337,15 @@
       <find>v</find>
       <find>Vector</find>
       <find>begin scale</find>
+      <find>15.00001</find>
+      <find>11.00001</find>
+      <find>23.00001</find>
+      <find>27.00001</find>
+      <find>0.587979</find>
+      <find>,</find>
+      <find>1.26713</find>
     </findStrings>
     <replaceStrings>
-      <replace>-300.123</replace>
-      <replace>/50</replace>
-      <replace>/50.000</replace>
-      <replace>00.0</replace>
-      <replace>mcScale</replace>
       <replace>points_</replace>
       <replace>-&gt;</replace>
       <replace>4.0</replace>
@@ -367,6 +371,11 @@
       <replace>b</replace>
       <replace>VERTEX</replace>
       <replace>Point</replace>
+      <replace>23.00001</replace>
+      <replace>19.00001</replace>
+      <replace>27.00001</replace>
+      <replace>31.00001</replace>
+      <replace />
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -386,10 +395,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/MarchingCubes/Tables.cpp" />
-        <option value="$PROJECT_DIR$/includes/PseudoDelaunay.h" />
-        <option value="$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.h" />
-        <option value="$PROJECT_DIR$/src/MarchingCubes/PseudoDelaunay.cpp" />
         <option value="$PROJECT_DIR$/src/MarchingCubes.cpp" />
         <option value="$PROJECT_DIR$/includes/MakeSurface.h" />
         <option value="$PROJECT_DIR$/includes/MarchingCubes.h" />
@@ -435,7 +440,11 @@
         <option value="$PROJECT_DIR$/poly2tri/common/shapes.cc" />
         <option value="$PROJECT_DIR$/src/data/trueData4-5.txt" />
         <option value="$PROJECT_DIR$/src/data/trueData1-2.txt" />
+        <option value="$PROJECT_DIR$/src/data/trueData.txt" />
+        <option value="$PROJECT_DIR$/includes/Sum.h" />
+        <option value="$PROJECT_DIR$/src/data/2-1okData.txt" />
         <option value="$PROJECT_DIR$/src/vertex.cpp" />
+        <option value="$PROJECT_DIR$/src/data/trueData1.txt" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" />
       </list>
     </option>
@@ -534,15 +543,16 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/data" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/includes" />
+      <recent name="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/includes" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/MarchingCube" />
-      <recent name="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/includes" />
       <recent name="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class" />
     </key>
   </component>
@@ -687,7 +697,7 @@
       <workItem from="1583043686045" duration="51089000" />
       <workItem from="1583462668142" duration="39000" />
       <workItem from="1583462724260" duration="20624000" />
-      <workItem from="1583553450413" duration="5147000" />
+      <workItem from="1583553450413" duration="21455000" />
     </task>
     <task id="LOCAL-00018" summary="三角剖分测试失败，回家了还是没心思写代码">
       <created>1539609778614</created>
@@ -1036,7 +1046,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1040924000" />
+    <option name="totallyTimeSpent" value="1057232000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1051,12 +1061,12 @@
     <frame x="0" y="23" width="1440" height="823" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5362319" visible="true" weight="0.23819743" />
-      <window_info id="Structure" order="1" sideWeight="0.46376812" side_tool="true" visible="true" weight="0.23819743" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.53543305" visible="true" weight="0.23819743" />
+      <window_info id="Structure" order="1" sideWeight="0.46456692" side_tool="true" visible="true" weight="0.23819743" />
       <window_info id="Favorites" order="2" sideWeight="0.40546218" side_tool="true" weight="0.27181688" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.47711015" weight="0.16949153" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3583691" visible="true" weight="0.22033899" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3583691" visible="true" weight="0.28248587" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49713877" weight="0.38841808" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1122,13 +1132,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="run" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/multi.sec" />
-    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/Tables.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/Tables.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.camera.fs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1258,9 +1261,6 @@
     <entry file="file://$PROJECT_DIR$/src/data/tuge.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/trueData1-2.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1302,16 +1302,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-25">
-          <caret line="371" column="5" lean-forward="true" selection-start-line="371" selection-start-column="5" selection-end-line="371" selection-end-column="5" />
-          <folding>
-            <element signature="e#39#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/includes/glm/detail/type_vec3.inl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -1319,10 +1309,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/includes/Sum.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/2-1okData.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/trueData1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="45" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="397" column="9" lean-forward="true" selection-start-line="397" selection-start-column="9" selection-end-line="397" selection-end-column="9" />
+          <folding>
+            <element signature="e#39#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="646" lean-forward="true" selection-start-line="646" selection-end-line="646" />
+        <state relative-caret-position="275">
+          <caret line="392" lean-forward="true" selection-start-line="392" selection-end-line="392" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
