@@ -99,8 +99,11 @@ bool firstMouse = true;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-//灯光的位置
-glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
+//灯光的位置,论文效果图里的
+//glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
+
+//calculate the box
+double maxZ = -1e9, minZ = 1e9, maxX = -1e9, minX = 1e9, maxY = -1e9, minY = 1e9;
 
 ////function
 ////设置一下变量，用按键实现一下功能
@@ -113,8 +116,6 @@ glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
 //bool EarCutOpen = false;
 ////平移操作
 //bool faultMove = false;
-//
-//bool moveBack = false;
 //bool moveBack1 = false;
 //int cntMove = 0;
 //int cntBack = 0;
@@ -332,6 +333,10 @@ void LineProcess(){
     modelNum = closeLineV.size();
     center.resize(modelNum);
 
+    //自己定义的就是从下到上，这样是没问题吧，反正是自己的数据，那么第一层就是最低，第n层就是最高。没毛病啊老铁！
+    maxZ = closeLineV[modelNum-1][0][0].z;
+    minZ = closeLineV[0][0][0].z;
+
 
     if(closeLineV.size() < 2){
         cout << "error, closeLine num is less than 2" << endl;
@@ -357,7 +362,7 @@ void LineProcess(){
 //    }
 
     //自动处理
-    modelNum = 2;
+//    modelNum = 5;
 
     for(int i = 0;i < modelNum - 1; i++)
     {
@@ -405,23 +410,17 @@ void LineProcess(){
             PrintTime("check time: ", checkTime, insertTime);
 //
 //            checkTriShort(i);
-
-
             TriInsert(1, i);
             clock_t backTime = clock();
             //进行了质心对齐等操作，那么需要进行还原，否则不需要进行还原
             PrintTime("insert time: ", insertTime, backTime);
 
-
             if(CenterToCenter[i]){
                 SecBack(i, false);
-//            三角形还原
                 TriBack(i, false);
                 clock_t endTime = clock();
                 PrintTime("back time: ", backTime, endTime);
             }
-
-
         }else{
             //分别求两个质心，这里质心的区别不大
 
@@ -441,7 +440,7 @@ void LineProcess(){
             closePoly2Tri(closeLineV[i+1][0], closeLineV[i], i);
             //剖分的时候还是真的吧
             checkTri(i);
-            TriInsert(1, i);
+//            TriInsert(1, i);
             if(CenterToCenter[i]){
                 //三角形还原
                 //轮廓线还原，这里是对down轮廓线进行还原
@@ -449,7 +448,6 @@ void LineProcess(){
                 TriBack(i, true);
             }
         }
-//        TriInsert(1, i);
         MeihuaCheck(i);
     }
 
@@ -460,11 +458,9 @@ void LineProcess(){
 
     int faceNum = 0;
 
-    //这一段代码是干啥的，感觉不太对了。用来获取质心？
     for(int i = 0;i < modelNum;i++){
         //获取当前质心
         GetSecCenter(closeLineV[i], i);
-
 //        //质心对齐坐标原点
 //        SecAlignedToCenter(closeLineV[i], i);
 //        GetSecCenter(closeLineV[i], i);
@@ -534,7 +530,6 @@ void McProcess(){
 
     SetSample(0.0);
     vMarchingCubes();
-//
 //    vector<VERTEX> v;
 //
 //    InputDataToVector(v);
@@ -637,6 +632,7 @@ int main()
 
 //    MarchingCubesProcess();
 
+    glm::vec3 lightPos(maxX + (maxX - minX), (maxY + minY) / 2, (maxZ - minZ) / 2);
     //显示代码
     while (!glfwWindowShouldClose(window))
     {
@@ -1902,6 +1898,8 @@ void checkTri(int index){
     for(int i = 0;i < triSize;i++){
         int triStatus = triangles[index][i]->IsFalseTri();
 
+
+
         //如果是顶部三角，那么直接进行插点操作
         if(triStatus == IsTopTri || triStatus == IsMidTri || triStatus == IsBaseTri){
 //            triangles[index][i]->DebugPrint();
@@ -2405,7 +2403,7 @@ void TriBack(int index, bool isR){
                     proportionZ = 1 - (center[index+1].z - point.z) / (center[index+1].z - center[index].z);
 //                    point.print();
                     proportion = point.outDistance / ( point.outDistance + point.inDistance);
-                    cout << "proportion: " << proportion << " " << proportionZ << endl;
+//                    cout << "proportion: " << proportion << " " << proportionZ << endl;
 //                    point.x = ((1 - 1.0/(scaleSize[index] + (scaleSize[index] /(1/proportion)))) * center[index].x + (1.0/(scaleSize[index] + (scaleSize[index] /(1/proportion)))) * point.x  +  proportion * difX);
 //                    point.y = ((1 - 1.0/(scaleSize[index] + (scaleSize[index] /(1/proportion)))) * center[index].y + (1.0/(scaleSize[index] + (scaleSize[index] /(1/proportion)))) * point.y  +  proportion * difY);
 
@@ -2413,10 +2411,15 @@ void TriBack(int index, bool isR){
                         point.x = point.x + proportionZ * difX;
                         point.y = point.y + proportionZ * difY;
                     }else{
-                        point.x = (1 - 1.0/(scaleSize[index] + scaleSize[index] * proportionZ)) * center[index].x
-                                  + 1.0/(scaleSize[index] + scaleSize[index] * proportionZ) * point.x  +  proportionZ * difX;
-                        point.y = (1 - 1.0/(scaleSize[index] + scaleSize[index] * proportionZ)) * center[index].y
-                                  + 1.0/(scaleSize[index] + scaleSize[index] * proportionZ) * point.y  +  proportionZ * difY;
+//                        point.x = (1 - 1.0/(scaleSize[index] + scaleSize[index] / proportionZ)) * center[index].x
+//                                  + 1.0/(scaleSize[index] + scaleSize[index] / proportionZ) * point.x  +  proportionZ * difX;
+//                        point.y = (1 - 1.0/(scaleSize[index] + scaleSize[index] / proportionZ)) * center[index].y
+//                                  + 1.0/(scaleSize[index] + scaleSize[index] / proportionZ) * point.y  +  proportionZ * difY;
+
+                        point.x = (1 - 1.0/(scaleSize[index] + (1-scaleSize[index]) * proportionZ)) * center[index].x
+                                  + 1.0/(scaleSize[index] +  (1-scaleSize[index])  * proportionZ) * point.x  +  proportionZ * difX;
+                        point.y = (1 - 1.0/(scaleSize[index] +  (1-scaleSize[index])  * proportionZ)) * center[index].y
+                                  + 1.0/(scaleSize[index] +  (1-scaleSize[index]) * proportionZ) * point.y  +  proportionZ * difY;
                     }
 //                    point.x = (1 - 1.0/proportion) * center[index].x + 1.0/(proportion) * point.x  +  proportion * difX;
 //                    point.y = (1 - 1.0/proportion) * center[index].y + 1.0/(proportion) * point.y  +  proportion * difY;
@@ -2457,10 +2460,16 @@ void TriBack(int index, bool isR){
                         point.x = point.x + proportionZ * difX;
                         point.y = point.y + proportionZ * difY;
                     }else{
-                        point.x = (1 - 1.0/(scaleSize[index] + scaleSize[index] * proportionZ)) * center[index].x
-                                + 1.0/(scaleSize[index] + scaleSize[index] * proportionZ) * point.x  +  proportionZ * difX;
-                        point.y = (1 - 1.0/(scaleSize[index] + scaleSize[index] * proportionZ)) * center[index].y
-                                + 1.0/(scaleSize[index] + scaleSize[index] * proportionZ) * point.y  +  proportionZ * difY;
+//                        point.x = (1 - 1.0/(scaleSize[index] + scaleSize[index] * proportionZ)) * center[index].x
+//                                + 1.0/(scaleSize[index] + scaleSize[index] * proportionZ) * point.x  +  proportionZ * difX;
+//                        point.y = (1 - 1.0/(scaleSize[index] + scaleSize[index] * proportionZ)) * center[index].y
+//                                + 1.0/(scaleSize[index] + scaleSize[index] * proportionZ) * point.y  +  proportionZ * difY;
+
+
+                        point.x = (1 - 1.0/(scaleSize[index] + (1-scaleSize[index]) * proportionZ)) * center[index].x
+                                  + 1.0/(scaleSize[index] +  (1-scaleSize[index])  * proportionZ) * point.x  +  proportionZ * difX;
+                        point.y = (1 - 1.0/(scaleSize[index] +  (1-scaleSize[index])  * proportionZ)) * center[index].y
+                                  + 1.0/(scaleSize[index] +  (1-scaleSize[index]) * proportionZ) * point.y  +  proportionZ * difY;
                     }
 //                    point.x = point.x + difX * (1-proportion);
 //                    point.y = point.y + difY * (1-proportion);
@@ -2534,12 +2543,23 @@ void MeihuaCheck(int index){
     //内切圆半径和外接圆半径
     double innerR, outerR;
     for(int i = 0;i < triSize;i++) {
+
+
+        //计算最大包围盒
+        for(int j = 0;j < 3;j++){
+            maxX = max(triangles[index][i]->points_[j]->x, maxX);
+            minX = min(triangles[index][i]->points_[j]->x, minX);
+            maxY = max(triangles[index][i]->points_[j]->y, maxY);
+            minY = min(triangles[index][i]->points_[j]->y, minY);
+        }
+
         //对每个三角计算美化度试试
         Point *outerCenter = new Point;
         Point *innerCenter = new Point;
 
         triangles[index][i]->GetCircleCenter(outerCenter);
         triangles[index][i]->GetInnerCenter(innerCenter);
+
 
 
 //        cout << "outCenter1: ";

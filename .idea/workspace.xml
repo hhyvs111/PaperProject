@@ -2,10 +2,10 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="LearnOpenGL" targetName="POLY2TRI" />
+      <config projectName="LearnOpenGL" targetName="1.getting_started__7.4.camera_class" />
       <config projectName="LearnOpenGL" targetName="GLAD" />
       <config projectName="LearnOpenGL" targetName="STB_IMAGE" />
-      <config projectName="LearnOpenGL" targetName="1.getting_started__7.4.camera_class" />
+      <config projectName="LearnOpenGL" targetName="POLY2TRI" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -15,53 +15,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b57f9fec-48e4-47ea-8e9d-f3bc6d721f8f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/data/trueData1-2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/trueData4-5.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MakeSurface.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/MarchingCubes/MarchingCubes.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/Delaunay.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/Delaunay.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/MarchingCubes.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/common/shapes.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/common/shapes.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/advancing_front.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/advancing_front.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/cdt.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/cdt.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep.cc.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep_context.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/poly2tri/sweep/sweep_context.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/vertex.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/poly2tri/common/shapes.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/common/shapes.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/poly2tri/common/shapes.h" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/common/shapes.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/1.18.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/1215.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/1to1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/1to2to1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/1to3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3.2pingyi.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/3.4.2maxT.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Body1.sec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Circle.sec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Circle1.sec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Figure.sec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cricle.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/geogebra-export123.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/line.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mctest.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mpToMe.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/multi.sec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/multi1.sec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/multisec.sec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ortuke.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pingtai.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snd.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tuge.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vertex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vertex.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yuan.txt" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -157,6 +118,7 @@
           <entry key="gitignore" value="1" />
           <entry key="h" value="224" />
           <entry key="hpp" value="3" />
+          <entry key="inl" value="1" />
           <entry key="iosfwd" value="1" />
           <entry key="iostream" value="1" />
           <entry key="jpg" value="1" />
@@ -168,7 +130,7 @@
           <entry key="png" value="1" />
           <entry key="sec" value="32" />
           <entry key="txst" value="1" />
-          <entry key="txt" value="99" />
+          <entry key="txt" value="103" />
           <entry key="type_traits" value="1" />
           <entry key="vector" value="22" />
           <entry key="vs" value="28" />
@@ -182,8 +144,8 @@
           <entry key="Disassembly" value="11" />
           <entry key="Image" value="3" />
           <entry key="Markdown" value="3" />
-          <entry key="ObjectiveC" value="501" />
-          <entry key="PLAIN_TEXT" value="172" />
+          <entry key="ObjectiveC" value="502" />
+          <entry key="PLAIN_TEXT" value="176" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -192,12 +154,12 @@
           <entry key="GDB" value="17" />
           <entry key="c" value="37" />
           <entry key="cc" value="3270" />
-          <entry key="cpp" value="66534" />
+          <entry key="cpp" value="67640" />
           <entry key="fs" value="72" />
           <entry key="h" value="7822" />
           <entry key="md" value="186" />
           <entry key="sec" value="66" />
-          <entry key="txt" value="4038" />
+          <entry key="txt" value="4068" />
           <entry key="vs" value="5" />
         </counts>
       </usages-collector>
@@ -207,8 +169,8 @@
           <entry key="Doxygen file" value="5" />
           <entry key="GDBCommands" value="17" />
           <entry key="Markdown" value="186" />
-          <entry key="ObjectiveC" value="77658" />
-          <entry key="PLAIN_TEXT" value="3922" />
+          <entry key="ObjectiveC" value="78764" />
+          <entry key="PLAIN_TEXT" value="3952" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -219,7 +181,7 @@
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="3" />
           <entry key="project.open.time.13" value="2" />
-          <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.14" value="2" />
           <entry key="project.open.time.15" value="3" />
           <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.2" value="2" />
@@ -232,7 +194,7 @@
           <entry key="project.open.time.7" value="6" />
           <entry key="project.open.time.8" value="5" />
           <entry key="project.open.time.9" value="4" />
-          <entry key="project.opened" value="76" />
+          <entry key="project.opened" value="77" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.cidr.testingFrameworks.usages" />
@@ -251,43 +213,43 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="2567" selection-start-line="2567" selection-end-line="2567" />
+            <state relative-caret-position="226">
+              <caret line="646" lean-forward="true" selection-start-line="646" selection-end-line="646" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
-                <element signature="e#18530#27804#0" />
-                <element signature="e#27806#28277#0" />
-                <element signature="e#28280#28783#0" />
-                <element signature="e#28785#29049#0" />
-                <element signature="e#29930#32620#0" />
-                <element signature="e#32622#34950#0" />
-                <element signature="e#34952#36817#0" />
-                <element signature="e#36820#41330#0" />
-                <element signature="e#42354#43412#0" />
-                <element signature="e#43414#45273#0" />
-                <element signature="e#53089#53099#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.h">
+        <entry file="file://$PROJECT_DIR$/includes/glm/detail/type_vec3.inl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="53" column="21" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
-              <folding>
-                <element signature="e#1674#1691#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="187">
+              <caret line="70" column="36" selection-start-line="70" selection-start-column="36" selection-end-line="70" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.cc">
+        <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/trueData1-2.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6210">
-              <caret line="414" column="15" selection-start-line="414" selection-start-column="15" selection-end-line="414" selection-end-column="15" />
+            <state>
+              <caret column="2" selection-start-column="2" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/trueData4-5.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="45" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -300,8 +262,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="207" column="5" selection-start-line="207" selection-start-column="5" selection-end-line="207" selection-end-column="5" />
+            <state relative-caret-position="-25">
+              <caret line="371" column="5" lean-forward="true" selection-start-line="371" selection-start-column="5" selection-end-line="371" selection-end-column="5" />
               <folding>
                 <element signature="e#39#58#0" expanded="true" />
               </folding>
@@ -321,7 +283,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/includes/vertex.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
+            <state relative-caret-position="2550">
               <caret line="170" column="5" selection-start-line="170" selection-start-column="5" selection-end-line="170" selection-end-column="5" />
               <folding>
                 <element signature="e#99#117#0" expanded="true" />
@@ -343,7 +305,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>2.0</find>
       <find>4.0</find>
       <find>6</find>
       <find>1.234</find>
@@ -373,6 +334,7 @@
       <find>x</find>
       <find>v</find>
       <find>Vector</find>
+      <find>begin scale</find>
     </findStrings>
     <replaceStrings>
       <replace>-300.123</replace>
@@ -424,8 +386,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/data1.txt" />
-        <option value="$PROJECT_DIR$/src/MarchingCubes/Tables.h" />
         <option value="$PROJECT_DIR$/src/MarchingCubes/Tables.cpp" />
         <option value="$PROJECT_DIR$/includes/PseudoDelaunay.h" />
         <option value="$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.h" />
@@ -473,6 +433,8 @@
         <option value="$PROJECT_DIR$/includes/vertex.h" />
         <option value="$PROJECT_DIR$/poly2tri/common/shapes.h" />
         <option value="$PROJECT_DIR$/poly2tri/common/shapes.cc" />
+        <option value="$PROJECT_DIR$/src/data/trueData4-5.txt" />
+        <option value="$PROJECT_DIR$/src/data/trueData1-2.txt" />
         <option value="$PROJECT_DIR$/src/vertex.cpp" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" />
       </list>
@@ -498,7 +460,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -561,6 +522,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -724,7 +686,8 @@
       <workItem from="1582942221232" duration="9448000" />
       <workItem from="1583043686045" duration="51089000" />
       <workItem from="1583462668142" duration="39000" />
-      <workItem from="1583462724260" duration="14059000" />
+      <workItem from="1583462724260" duration="20624000" />
+      <workItem from="1583553450413" duration="5147000" />
     </task>
     <task id="LOCAL-00018" summary="三角剖分测试失败，回家了还是没心思写代码">
       <created>1539609778614</created>
@@ -1073,7 +1036,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1029212000" />
+    <option name="totallyTimeSpent" value="1040924000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1088,8 +1051,8 @@
     <frame x="0" y="23" width="1440" height="823" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5380435" visible="true" weight="0.2353362" />
-      <window_info id="Structure" order="1" sideWeight="0.46195653" side_tool="true" visible="true" weight="0.2353362" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5362319" visible="true" weight="0.23819743" />
+      <window_info id="Structure" order="1" sideWeight="0.46376812" side_tool="true" visible="true" weight="0.23819743" />
       <window_info id="Favorites" order="2" sideWeight="0.40546218" side_tool="true" weight="0.27181688" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.47711015" weight="0.16949153" />
@@ -1159,29 +1122,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="run" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="89" column="36" lean-forward="true" selection-start-line="89" selection-start-column="36" selection-end-line="89" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/OneDrive/MP算法表面重建 黄伟代码/MP算法表面重建 黄伟代码/DataSet/2Circle.sec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1905">
-          <caret line="127" column="22" lean-forward="true" selection-end-line="230" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1290">
-          <caret line="86" column="18" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/multi1.sec" />
-    <entry file="file://$PROJECT_DIR$/src/Figure.sec" />
     <entry file="file://$PROJECT_DIR$/src/multi.sec" />
     <entry file="file://$PROJECT_DIR$/src/MarchingCubes/Tables.h">
       <provider selected="true" editor-type-id="text-editor" />
@@ -1315,15 +1255,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
+    <entry file="file://$PROJECT_DIR$/src/data/tuge.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MarchingCubes.cpp">
+    <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/trueData1-2.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        <state>
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/trueData4-5.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="45" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/1.18.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -1334,7 +1287,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/includes/vertex.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
+        <state relative-caret-position="2550">
           <caret line="170" column="5" selection-start-line="170" selection-start-column="5" selection-end-line="170" selection-end-column="5" />
           <folding>
             <element signature="e#99#117#0" expanded="true" />
@@ -1342,33 +1295,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/MarchingCubes.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="207" column="5" selection-start-line="207" selection-start-column="5" selection-end-line="207" selection-end-column="5" />
+        <state relative-caret-position="-25">
+          <caret line="371" column="5" lean-forward="true" selection-start-line="371" selection-start-column="5" selection-end-line="371" selection-end-column="5" />
           <folding>
             <element signature="e#39#58#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/includes/glm/detail/type_vec3.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="70" column="36" selection-start-line="70" selection-start-column="36" selection-end-line="70" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="2567" selection-start-line="2567" selection-end-line="2567" />
+        <state relative-caret-position="226">
+          <caret line="646" lean-forward="true" selection-start-line="646" selection-end-line="646" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
-            <element signature="e#18530#27804#0" />
-            <element signature="e#27806#28277#0" />
-            <element signature="e#28280#28783#0" />
-            <element signature="e#28785#29049#0" />
-            <element signature="e#29930#32620#0" />
-            <element signature="e#32622#34950#0" />
-            <element signature="e#34952#36817#0" />
-            <element signature="e#36820#41330#0" />
-            <element signature="e#42354#43412#0" />
-            <element signature="e#43414#45273#0" />
-            <element signature="e#53089#53099#0" />
           </folding>
         </state>
       </provider>
