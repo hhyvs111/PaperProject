@@ -491,3 +491,12 @@ float shortDistance(Point line_point1, Point line_point2,
 
 }
 
+
+void p2t::Normal::operator +=(const Point& v)
+{
+    x += v.x;
+    y += v.y;
+    z += v.z;
+}
+
+

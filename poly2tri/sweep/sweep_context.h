@@ -80,7 +80,7 @@ namespace p2t {
 
         Point* GetPoint(const int& index);
 
-        Point* GetPoints();
+//        Point* GetPoints();
 
         void RemoveFromMap(Triangle* triangle);
 
@@ -96,6 +96,7 @@ namespace p2t {
 
         std::vector<Triangle*> GetTriangles();
         std::list<Triangle*> GetMap();
+        std::vector<Point*> GetPoints();
 
         std::vector<Edge*> edge_list;
 

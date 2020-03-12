@@ -63,6 +63,11 @@ namespace p2t {
         return sweep_context_->GetMap();
     }
 
+    std::vector<p2t::Point*> CDT::GetPoints()
+    {
+        return sweep_context_->GetPoints();
+    }
+
     void CDT::TriangleClear(){
         sweep_context_->TriClean();
     }

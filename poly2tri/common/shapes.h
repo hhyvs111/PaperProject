@@ -39,18 +39,46 @@
 #include <vertex.h>
 #include <cmath>
 
+
+
+
 namespace p2t {
+struct Point;
+    struct Normal{
+        double x, y, z;
+        Normal(){
+          x = 0;
+          y = 0;
+          z = 0;
+        }
+        Normal(double num){
+          x = num;
+          y = num;
+          z = num;
+        }
+        Normal(double x_, double y_, double z_){
+          x = x_;
+          y = y_;
+          z = z_;
+        }
+
+        void operator +=(const p2t::Point& v);
+        /// Convert this point into a unit point. Returns the Length. 坐标归一化？变成0到1的范围？
+        Normal Normalize(Normal no);
+
+    };
 
 struct Edge;
 
 struct Point {
 
   double x, y, z;
+
   int index;
   int lenIndex;
   bool isMove = false;
   bool isHide = false;
-
+  Normal normal;
   double inDistance, outDistance;
 
   // 1 2 3 则是不同的hole，-1是插值点
@@ -117,6 +145,7 @@ struct Point {
   {
     x += v.x;
     y += v.y;
+    z += v.z;
   }
 
   /// Subtract a point from this point.
@@ -136,7 +165,7 @@ struct Point {
   /// Get the length of this point (the norm).
   double Length() const
   {
-    return sqrt(x * x + y * y);
+    return sqrt(x * x + y * y + z * z);
   }
 
   /// Convert this point into a unit point. Returns the Length. 坐标归一化？变成0到1的范围？
@@ -168,7 +197,8 @@ struct Point {
       return Point(x1, y1, z1);
     }
 
-// Dot product of 2 Points 
+// Dot product of 2 Points
+  //点积
     double operator^(Point v)
     {
       double x1, y1, z1;
@@ -178,6 +208,7 @@ struct Point {
       return (x1 + y1 + z1);
     }
 
+    //叉集
 // Cross product of 2 Points 
     Point operator*(Point v)
     {
@@ -196,6 +227,8 @@ struct Point {
 
 
 };
+
+
 
 float shortDistance(Point line_point1, Point line_point2,
                         Point point);

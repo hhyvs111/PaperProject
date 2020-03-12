@@ -75,6 +75,11 @@ std::list<Triangle*> SweepContext::GetMap()
 {
   return map_;
 }
+//加入一个getPoint
+std::vector<Point*> SweepContext::GetPoints()
+{
+  return points_;
+}
 
 void SweepContext::InitTriangulation()
 {

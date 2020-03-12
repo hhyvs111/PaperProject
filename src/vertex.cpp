@@ -12,7 +12,7 @@
 
 //射线法
 
-//三态函数，判断两个double在eps精度下的大小关系
+//三态函数，判断两个double在eps精度下的大小关系?
 int dcmp(double x)
 {
     if(fabs(x)<eps) return 0;
@@ -366,7 +366,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 
     normal.z = ((p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x));
 
-    return  normal;
+    return normal;
 }
 
 
@@ -389,6 +389,7 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     int sectionNo, pointNum;
 
     float x, y ,z;
+    int index = 0;
     for(int i = 0;i < lineNum;i++){
         //读入轮廓点
         infile >> sectionNo >> pointNum;
@@ -401,7 +402,7 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
             v.x = x;
             v.y = y;
             v.z = z;
-            v.index = j;
+            v.index = index++;
             closeLine.push_back(v);
         }
         //剖面问题

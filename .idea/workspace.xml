@@ -15,15 +15,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b57f9fec-48e4-47ea-8e9d-f3bc6d721f8f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/data/secondOkdata.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/trueDataInsert1-4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/secondOkdata1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/secondOkdata2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/1.getting_started__7.4.camera_class.dir/src/1.getting_started/7.4.camera_class/camera_class.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/POLY2TRI.dir/CXX.includecache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libPOLY2TRI.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/vertex.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/common/shapes.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/common/shapes.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/common/shapes.h" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/common/shapes.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/cdt.h" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/cdt.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poly2tri/sweep/sweep_context.h" beforeDir="false" afterPath="$PROJECT_DIR$/poly2tri/sweep/sweep_context.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.fs" beforeDir="false" afterPath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.fs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vertex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vertex.cpp" afterDir="false" />
     </list>
@@ -112,14 +116,14 @@
           <entry key="algorithm" value="1" />
           <entry key="c" value="15" />
           <entry key="camera_class (disassembly)" value="11" />
-          <entry key="cc" value="80" />
+          <entry key="cc" value="86" />
           <entry key="cmake" value="1" />
           <entry key="cmath" value="1" />
-          <entry key="cpp" value="142" />
-          <entry key="fs" value="26" />
+          <entry key="cpp" value="152" />
+          <entry key="fs" value="31" />
           <entry key="gif" value="1" />
           <entry key="gitignore" value="1" />
-          <entry key="h" value="225" />
+          <entry key="h" value="239" />
           <entry key="hpp" value="3" />
           <entry key="inl" value="1" />
           <entry key="iosfwd" value="1" />
@@ -133,10 +137,10 @@
           <entry key="png" value="1" />
           <entry key="sec" value="32" />
           <entry key="txst" value="1" />
-          <entry key="txt" value="108" />
+          <entry key="txt" value="120" />
           <entry key="type_traits" value="1" />
-          <entry key="vector" value="22" />
-          <entry key="vs" value="28" />
+          <entry key="vector" value="26" />
+          <entry key="vs" value="33" />
           <entry key="xml" value="2" />
         </counts>
       </usages-collector>
@@ -147,8 +151,8 @@
           <entry key="Disassembly" value="11" />
           <entry key="Image" value="3" />
           <entry key="Markdown" value="3" />
-          <entry key="ObjectiveC" value="505" />
-          <entry key="PLAIN_TEXT" value="181" />
+          <entry key="ObjectiveC" value="539" />
+          <entry key="PLAIN_TEXT" value="203" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -156,13 +160,13 @@
         <counts>
           <entry key="GDB" value="17" />
           <entry key="c" value="37" />
-          <entry key="cc" value="3270" />
-          <entry key="cpp" value="68806" />
-          <entry key="fs" value="72" />
-          <entry key="h" value="7848" />
+          <entry key="cc" value="3459" />
+          <entry key="cpp" value="70174" />
+          <entry key="fs" value="77" />
+          <entry key="h" value="8502" />
           <entry key="md" value="186" />
           <entry key="sec" value="66" />
-          <entry key="txt" value="4143" />
+          <entry key="txt" value="4156" />
           <entry key="vs" value="5" />
         </counts>
       </usages-collector>
@@ -172,8 +176,8 @@
           <entry key="Doxygen file" value="5" />
           <entry key="GDBCommands" value="17" />
           <entry key="Markdown" value="186" />
-          <entry key="ObjectiveC" value="79956" />
-          <entry key="PLAIN_TEXT" value="4027" />
+          <entry key="ObjectiveC" value="82167" />
+          <entry key="PLAIN_TEXT" value="4045" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -213,46 +217,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="386" column="55" selection-start-line="386" selection-start-column="55" selection-end-line="386" selection-end-column="55" />
+            <state relative-caret-position="184">
+              <caret line="79" column="7" selection-start-line="79" selection-start-column="7" selection-end-line="79" selection-end-column="7" />
               <folding>
-                <element signature="e#0#22#0" expanded="true" />
+                <element signature="e#1674#1691#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/okTestInsertYuan.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/trueData1.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="223" column="45" selection-start-line="223" selection-start-column="45" selection-end-line="223" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-202">
-              <caret line="263" column="45" selection-end-line="316" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/trueDataInsert1-4.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -260,8 +232,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-485">
-              <caret line="207" column="13" lean-forward="true" selection-start-line="207" selection-start-column="13" selection-end-line="207" selection-end-column="13" />
+            <state relative-caret-position="329">
+              <caret line="221" selection-start-line="221" selection-end-line="221" />
               <folding>
                 <element signature="e#39#58#0" expanded="true" />
               </folding>
@@ -270,31 +242,64 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="127">
+              <caret line="482" column="29" selection-start-line="482" selection-start-column="29" selection-end-line="482" selection-end-column="29" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+                <element signature="e#14260#14269#0" />
+                <element signature="e#22427#31669#1" />
+                <element signature="e#31865#32142#1" />
+                <element signature="e#32263#32648#1" />
+                <element signature="e#32798#32914#1" />
+                <element signature="e#32951#33792#1" />
+                <element signature="e#32413#35103#0" />
+                <element signature="e#35169#35203#0" />
+                <element signature="e#55572#55582#0" />
+                <element signature="e#65410#65486#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="253">
+              <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/secondOkdata1.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/vector">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="757" column="8" selection-start-line="757" selection-start-column="8" selection-end-line="757" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/secondOkdata.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="118" column="44" selection-start-line="118" selection-start-column="44" selection-end-line="118" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/data/1.18.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" column="15" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/vertex.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
-              <caret line="170" column="5" selection-start-line="170" selection-start-column="5" selection-end-line="170" selection-end-column="5" />
-              <folding>
-                <element signature="e#99#117#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="367">
+              <caret line="109" column="45" selection-start-line="109" selection-start-column="45" selection-end-line="109" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -302,8 +307,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MarchingCubes.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
+            <state relative-caret-position="-2544">
               <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/secondOkdata2.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="496">
+              <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -366,7 +380,6 @@
       <replace>27.00001</replace>
       <replace>31.00001</replace>
       <replace />
-      <replace />
       <replace>8.00001</replace>
       <replace>15.00001</replace>
       <replace>29.00001</replace>
@@ -386,17 +399,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="mpCompare" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/includes/MarchingCubes.h" />
-        <option value="$PROJECT_DIR$/src/common.cpp" />
-        <option value="$PROJECT_DIR$/src/Circle1.sec" />
-        <option value="$PROJECT_DIR$/src/geogebra-export123.txt" />
         <option value="$PROJECT_DIR$/includes/common.h" />
         <option value="$PROJECT_DIR$/src/multi.sec" />
         <option value="$PROJECT_DIR$/src/multisec.sec" />
@@ -412,8 +421,6 @@
         <option value="$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp" />
         <option value="$PROJECT_DIR$/poly2tri/common/utils.h" />
         <option value="$PROJECT_DIR$/poly2tri/sweep/sweep.h" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/cdt.h" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" />
         <option value="$PROJECT_DIR$/src/1215.txt" />
         <option value="$PROJECT_DIR$/src/1to1.txt" />
         <option value="$PROJECT_DIR$/src/1to2to1.txt" />
@@ -421,8 +428,6 @@
         <option value="$PROJECT_DIR$/src/1.18.txt" />
         <option value="$PROJECT_DIR$/src/mpToMe.txt" />
         <option value="$PROJECT_DIR$/src/3.2pingyi.txt" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" />
-        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep_context.h" />
         <option value="$PROJECT_DIR$/src/maxT.txt" />
         <option value="$PROJECT_DIR$/poly2tri/sweep/sweep.cc" />
         <option value="$PROJECT_DIR$/src/kriging.cpp" />
@@ -431,8 +436,6 @@
         <option value="$PROJECT_DIR$/src/okTestInsert.txt" />
         <option value="$PROJECT_DIR$/src/okSimpleInsert.txt" />
         <option value="$PROJECT_DIR$/src/okTestInsertYuan.txt" />
-        <option value="$PROJECT_DIR$/poly2tri/common/shapes.h" />
-        <option value="$PROJECT_DIR$/poly2tri/common/shapes.cc" />
         <option value="$PROJECT_DIR$/src/data/trueData4-5.txt" />
         <option value="$PROJECT_DIR$/src/data/trueData1-2.txt" />
         <option value="$PROJECT_DIR$/src/data/trueData.txt" />
@@ -441,8 +444,18 @@
         <option value="$PROJECT_DIR$/src/data/trueData1.txt" />
         <option value="$PROJECT_DIR$/src/data/trueDataInsert1-4.txt" />
         <option value="$PROJECT_DIR$/includes/vertex.h" />
-        <option value="$PROJECT_DIR$/src/vertex.cpp" />
         <option value="$PROJECT_DIR$/src/data/secondOkdata.txt" />
+        <option value="$PROJECT_DIR$/src/data/secondOkdata2.txt" />
+        <option value="$PROJECT_DIR$/src/data/secondOkdata1.txt" />
+        <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.vs" />
+        <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.fs" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/cdt.h" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep_context.h" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/cdt.cc" />
+        <option value="$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc" />
+        <option value="$PROJECT_DIR$/poly2tri/common/shapes.cc" />
+        <option value="$PROJECT_DIR$/poly2tri/common/shapes.h" />
+        <option value="$PROJECT_DIR$/src/vertex.cpp" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" />
       </list>
     </option>
@@ -454,10 +467,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="OCFindUsagesOptions" text="false" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="823" />
+    <option name="height" value="827" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -524,6 +537,12 @@
               <item name="PaperProject" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LearnOpenGL" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PaperProject" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="MarchingCubes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1045,7 +1064,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1070482000" />
+    <option name="totallyTimeSpent" value="1090960000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1057,21 +1076,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="823" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="827" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.53543305" visible="true" weight="0.24177396" />
-      <window_info id="Structure" order="1" sideWeight="0.46456692" side_tool="true" visible="true" weight="0.24177396" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5353902" visible="true" weight="0.24177396" />
+      <window_info id="Structure" order="1" sideWeight="0.4646098" side_tool="true" visible="true" weight="0.24177396" />
       <window_info id="Favorites" order="2" sideWeight="0.40546218" side_tool="true" weight="0.27181688" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.47711015" weight="0.16949153" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3583691" visible="true" weight="0.28248587" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.47711015" weight="0.15748031" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3583691" visible="true" weight="0.2261236" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49713877" weight="0.38841808" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32344633" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.35693848" weight="0.29661018" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.35693848" weight="0.2949438" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49928468" weight="0.32627118" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.6430615" side_tool="true" weight="0.30995792" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32768363" />
@@ -1082,6 +1101,29 @@
       <window_info anchor="right" id="LuaJ" order="3" weight="0.32904148" />
       <window_info anchor="right" id="Database" order="4" weight="0.32904148" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49926144" visible="true" weight="0.13736264" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" sideWeight="0.50073856" side_tool="true" weight="0.3141593" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.45909646" visible="true" weight="0.2806183" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4993895" weight="0.3985765" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.45970696" weight="0.3234245" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54090357" side_tool="true" visible="true" weight="0.2806183" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.32905984" />
+      <window_info anchor="bottom" id="CMake" order="12" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="LuaJ" order="3" weight="0.32967034" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32967034" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -1131,84 +1173,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="run" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/poly2tri/common/utils.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="106" column="9" selection-start-line="106" selection-start-column="9" selection-end-line="106" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="631">
-          <caret line="123" column="18" selection-start-line="123" selection-start-column="18" selection-end-line="123" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/kriging.cpp" />
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1935">
-          <caret line="129" column="30" selection-start-line="129" selection-start-column="30" selection-end-line="129" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/1to3.txt" />
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/__config">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="870" column="36" selection-start-line="870" selection-start-column="36" selection-end-line="870" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.vs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/vector">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7425">
-          <caret line="495" column="4" selection-start-line="495" selection-start-column="4" selection-end-line="495" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/cmath">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4665">
-          <caret line="311" selection-start-line="311" selection-end-line="311" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Circle1.sec" />
-    <entry file="file://$PROJECT_DIR$/src/Circle.sec" />
-    <entry file="file://$PROJECT_DIR$/src/mpToMe.txt" />
-    <entry file="file://$PROJECT_DIR$/src/mctest.txt" />
-    <entry file="file://$PROJECT_DIR$/src/1215.txt" />
-    <entry file="file://$PROJECT_DIR$/src/3.2pingyi.txt" />
-    <entry file="file://$PROJECT_DIR$/src/1to1.txt" />
-    <entry file="file://$PROJECT_DIR$/src/common.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" column="25" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" column="19" selection-start-line="63" selection-start-column="19" selection-end-line="63" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/1to2to1.txt" />
     <entry file="file://$PROJECT_DIR$/includes/stb_image_aug.c">
       <provider selected="true" editor-type-id="text-editor">
@@ -1227,23 +1191,6 @@
     <entry file="file://$PROJECT_DIR$/src/trueData.txt" />
     <entry file="file://$PROJECT_DIR$/src/1.18.txt" />
     <entry file="file://$PROJECT_DIR$/src/okTestInsert.txt" />
-    <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="53" column="21" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
-          <folding>
-            <element signature="e#1674#1691#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.cc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6210">
-          <caret line="414" column="15" selection-start-line="414" selection-start-column="15" selection-end-line="414" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/tuge.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1261,20 +1208,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/2-1okData.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="48" selection-start-line="48" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/Sum.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1292,20 +1229,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MarchingCubes.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-202">
-          <caret line="263" column="45" selection-end-line="316" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/trueData1.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -1313,18 +1236,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/okTestInsertYuan.txt">
+    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/Tables.cpp">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/vertex.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="170" column="5" selection-start-line="170" selection-start-column="5" selection-end-line="170" selection-end-column="5" />
-          <folding>
-            <element signature="e#99#117#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/data/trueDataInsert1-4.txt">
       <provider selected="true" editor-type-id="text-editor">
@@ -1333,17 +1246,180 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/snd.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.camera.fs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="81" selection-start-line="11" selection-start-column="81" selection-end-line="11" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.camera.vs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="45" selection-start-line="13" selection-start-column="45" selection-end-line="13" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lamp.fs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lamp.vs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/learnopengl/shader_m.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/PseudoDelaunay.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/cdt.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="67" column="16" selection-start-line="67" selection-start-column="16" selection-end-line="67" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/vertex.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
+          <folding>
+            <element signature="e#99#117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/strings.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/Sum.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="494" column="27" selection-start-line="494" selection-start-column="27" selection-end-line="494" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.vs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.fs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="44" column="1" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/okTestInsert.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/okTestInsertYuan.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/trueData.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="263" column="45" selection-end-line="316" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="144" column="28" selection-start-line="144" selection-start-column="28" selection-end-line="144" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/sweep/sweep_context.cc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="53" column="19" selection-start-line="53" selection-start-column="19" selection-end-line="53" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/secondOkdata2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MarchingCubes.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2544">
+          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/secondOkdata1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/data/secondOkdata.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="118" column="44" selection-start-line="118" selection-start-column="44" selection-end-line="118" selection-end-column="44" />
+        <state relative-caret-position="367">
+          <caret line="109" column="45" selection-start-line="109" selection-start-column="45" selection-end-line="109" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/poly2tri/common/shapes.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="79" column="7" selection-start-line="79" selection-start-column="7" selection-end-line="79" selection-end-column="7" />
+          <folding>
+            <element signature="e#1674#1691#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/vector">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="757" column="8" selection-start-line="757" selection-start-column="8" selection-end-line="757" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-485">
-          <caret line="207" column="13" lean-forward="true" selection-start-line="207" selection-start-column="13" selection-end-line="207" selection-end-column="13" />
+        <state relative-caret-position="329">
+          <caret line="221" selection-start-line="221" selection-end-line="221" />
           <folding>
             <element signature="e#39#58#0" expanded="true" />
           </folding>
@@ -1352,10 +1428,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="386" column="55" selection-start-line="386" selection-start-column="55" selection-end-line="386" selection-end-column="55" />
+        <state relative-caret-position="127">
+          <caret line="482" column="29" selection-start-line="482" selection-start-column="29" selection-end-line="482" selection-end-column="29" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#14260#14269#0" />
+            <element signature="e#22427#31669#1" />
+            <element signature="e#31865#32142#1" />
+            <element signature="e#32263#32648#1" />
+            <element signature="e#32798#32914#1" />
+            <element signature="e#32951#33792#1" />
+            <element signature="e#32413#35103#0" />
+            <element signature="e#35169#35203#0" />
+            <element signature="e#55572#55582#0" />
+            <element signature="e#65410#65486#0" />
           </folding>
         </state>
       </provider>

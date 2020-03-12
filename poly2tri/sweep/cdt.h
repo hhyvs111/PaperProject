@@ -90,6 +90,11 @@ namespace p2t {
         std::list<Triangle*> GetMap();
 
 
+        /**
+         * Get points
+         */
+        std::vector<Point*> GetPoints();
+
         void TriangleClear();
 
 
