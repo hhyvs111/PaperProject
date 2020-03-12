@@ -20,25 +20,65 @@ const int IsBaseTri = 1;
 const int IsMidTri = 2;
 //三个点都在洞上的三角形
 const int IsTopTri = 3;
+
+
+const double eps = 1e-6;
+const double PI = acos(-1);
+
+
+//反距离的幂值，当其为2时是最近环境？
+const int r = 2;
+
+
 using namespace std;
-typedef struct   tagVERTEX
+typedef struct   VERTEX
 {
     float   x;  // x坐标
     float   y;  // y坐标
     float   z;  // z坐标
 
+    VERTEX(double x=0,double y=0):x(x),y(y){};
+
     //重载
-    bool operator==(const tagVERTEX b) const
+    bool operator==(const VERTEX b) const
     {
         return ((this->x == b.x) && (this->y == b.y) && (this->z == b.z));
     }
 
     void Print(){
-        cout << x << "," << y << "," << z << endl;
+        cout << "index:" << index <<" "<< x << " " << y << " " << z << endl;
     }
+
+    VERTEX operator +(const VERTEX &b)const
+    {
+        return VERTEX(x+b.x,y+b.y);
+    }
+    //向量-
+    VERTEX operator -(const VERTEX &b)const
+    {
+        return VERTEX(x-b.x,y-b.y);
+    }
+    //点积
+    double operator *(const VERTEX &b)const
+    {
+        return x*b.x + y*b.y;
+    }
+    //叉积
+    //P^Q>0,P在Q的顺时针方向；<0，P在Q的逆时针方向；=0，P，Q共线，可能同向或反向
+    double operator ^(const VERTEX &b)const
+    {
+        return x*b.y - b.x*y;
+    }
+
+
+
 
     //层数
     int index;
+
+    float weight; //权重
+    float distance; //距离插值点的距离
+
 }VERTEX,GLvector;
 
 //剖面
@@ -53,9 +93,6 @@ public:
     int sectionNum = 0;
     //质心
     double center;
-
-
-
 };
 
 
@@ -131,7 +168,7 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
 
 //判断这两个断层是否相交
 //
-bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2);
+bool faultIntersect(vector<VERTEX>& fault1, vector<VERTEX>& fault2);
 
 //判断点是否在集合里,存在返回其下标，不存在返回-1
 int VertexInVertexs(VERTEX target, const vector<VERTEX>& source);
@@ -143,6 +180,11 @@ float DistanceOfPointToPointIn3D(VERTEX point1, VERTEX point2);
 float DistanceOfPointLinesIn3D(VERTEX a, VERTEX b, VERTEX s);
 
 float DistanceOfOpposite(VERTEX point, const vector<VERTEX>& Opposite, int &index);
+
+//求两点间的距离
+float DistanceOfPointAndPoint(VERTEX, VERTEX);
+
+float DistanceOfPointAndLine(VERTEX, VERTEX, VERTEX);
 
 AddTriangle VertexToTriangle(VERTEX a, VERTEX b, VERTEX c);
 
@@ -158,5 +200,10 @@ void InputDataToVector(vector<Section>& closeLines);
 void PolyLine(vector<VERTEX>& v, vector<vector<VERTEX>>& closeLineV);
 
 
+int dcmp(double x);
+
+bool Onsegment(VERTEX &, VERTEX&, VERTEX&);
+
+bool InPolygon(vector<vector<VERTEX>>& vec, VERTEX &P);
 
 #endif //LEARNOPENGL_VERTEX_H

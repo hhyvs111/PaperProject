@@ -40,6 +40,7 @@ namespace p2t {
 
 // Inital triangle factor, seed triangle will extend 30% of
 // PointSet width to both left and right.
+//种子三角形将会以30%的长度扩展。
     const double kAlpha = 0.3;
 
     struct Point;

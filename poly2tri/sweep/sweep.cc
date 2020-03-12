@@ -742,6 +742,7 @@ namespace p2t {
 
     void Sweep::FlipEdgeEvent(SweepContext& tcx, Point& ep, Point& eq, Triangle* t, Point& p)
     {
+        //这里处理的是穿过的，也是有点神奇了。
         Triangle& ot = t->NeighborAcross(p);
         Point& op = *ot.OppositePoint(*t, p);
 
@@ -752,6 +753,7 @@ namespace p2t {
             assert(0);
         }
 
+        //更换对角线
         if (InScanArea(p, *t->PointCCW(p), *t->PointCW(p), op)) {
             // Lets rotate shared edge one vertex CW
             RotateTrianglePair(*t, p, ot, op);
@@ -768,6 +770,7 @@ namespace p2t {
                     // XXX: I think one of the triangles should be legalized here?
                 }
             } else {
+                //又是一直递归
                 Orientation o = Orient2d(eq, op, ep);
                 t = &NextFlipTriangle(tcx, (int)o, *t, ot, p, op);
                 FlipEdgeEvent(tcx, ep, eq, t, p);

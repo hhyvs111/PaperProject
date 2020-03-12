@@ -9,6 +9,64 @@
 #include <fstream>
 
 
+
+//射线法
+
+//三态函数，判断两个double在eps精度下的大小关系
+int dcmp(double x)
+{
+    if(fabs(x)<eps) return 0;
+    else
+        return x<0?-1:1;
+}
+//判断点Q是否在P1和P2的线段上
+bool OnSegment(VERTEX& P1,VERTEX& P2,VERTEX& Q)
+{
+    //前一个判断点Q在P1P2直线上 后一个判断在P1P2范围上
+    return dcmp((P1-Q)^(P2-Q))==0&&dcmp((P1-Q)*(P2-Q))<=0;
+}
+//判断点P在多边形内-射线法
+
+//true是在多边形内？
+//fasle是在多边形外？
+bool InPolygon(vector<vector<VERTEX>>& vec, VERTEX &P)
+{
+    bool flag = false; //相当于计数
+    VERTEX P1,P2; //多边形一条边的两个顶点
+
+    for(int i = 0;i < vec.size();i++){
+        //多边形里多个多边形
+        for(int j = 0; j < vec[i].size() - 1;j++){
+            P1 = vec[i][j+1];
+            P2 = vec[i][j];
+            cout << "test of inPolygon" << endl;
+            P1.Print();
+            P2.Print();
+            //点在线上
+            if(OnSegment(P1,P2,P)) return true;
+
+            //前一个判断min(P1.y,P2.y)<P.y<=max(P1.y,P2.y)
+            //这个判断代码我觉得写的很精妙 我网上看的 应该是大神模版
+            //后一个判断被测点 在 射线与边交点 的左边
+            if( (dcmp(P1.y-P.y)>0 != dcmp(P2.y-P.y)>0) && dcmp(P.x - (P.y-P1.y)*(P1.x-P2.x)/(P1.y-P2.y)-P1.x)<0)
+                flag = !flag;
+            cout << flag << endl;
+        }
+        //首位计算
+        P1 = vec[i][0];
+        P2 = vec[i][vec.size()-1];
+
+        if(OnSegment(P1,P2,P)) return true;
+
+        //前一个判断min(P1.y,P2.y)<P.y<=max(P1.y,P2.y)
+        //这个判断代码我觉得写的很精妙 我网上看的 应该是大神模版
+        //后一个判断被测点 在 射线与边交点 的左边
+        if( (dcmp(P1.y-P.y)>0 != dcmp(P2.y-P.y)>0) && dcmp(P.x - (P.y-P1.y)*(P1.x-P2.x)/(P1.y-P2.y)-P1.x)<0)
+            flag = !flag;
+    }
+    return flag;
+}
+
 float * VertexToFloat(VERTEX vertex[], int num)
 {
     if(vertex == NULL)
@@ -146,8 +204,8 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 }
 
 //判断这两个断层是否相交
-//
-bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2)
+//如果返回false说明相交，true说明不相交
+bool faultIntersect(vector<VERTEX>& fault1, vector<VERTEX>& fault2)
 {
 
     int f1Number = fault1.size(), f2Number = fault2.size();
@@ -158,8 +216,16 @@ bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2)
         for(int j = 0; j < f2Number - 1; j++)
         {
             //如果有任意一条相交，那么该线就需要平移。
-            if(sideIntersectSide(fault1[i],fault1[i+1], fault2[j], fault2[j+1]))
+            if(sideIntersectSide(fault1[i],fault1[i+1], fault2[j], fault2[j+1])){
+
+                cout << "this line is cross: " << endl;
+                fault1[i].Print();
+                fault1[i+1].Print();
+                fault2[j].Print();
+                fault2[j+1].Print();
                 return false;
+            }
+
         }
     }
     return true;
@@ -172,7 +238,64 @@ float DistanceOfPointLinesIn2D(VERTEX point, VERTEX a, VERTEX b)
 {
 
     return (fabs((b.y - a.y) * point.x +(a.x - b.x) * point.y + ((b.x * a.y) -(a.x * b.y)))) / (sqrt(pow(b.y - a.y, 2) + pow(a.x - b.x, 2)));
+//    return (fabs((b.y - a.y) * point.x + (a.x - b.x) * point.y + (b.x -a.x)*a.y + (a.y-b.y)*a.x)) / (sqrt(pow(b.y - a.y, 2) + pow(a.x - b.x, 2)));
 }
+
+
+// 点到点的距离
+
+float DistanceOfPointAndPoint(VERTEX p1, VERTEX p2){
+    float x1 = p1.x, y1 = p1.y;
+    float x2 = p2.x, y2 = p2.y;
+    float dis = sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+
+    return dis;
+}
+
+
+
+float DistanceOfPointAndLine(VERTEX p, VERTEX p1, VERTEX p2){
+    float ans = 0;
+    float a, b, c;
+    a = DistanceOfPointAndPoint(p1, p2);
+    b = DistanceOfPointAndPoint(p1, p);
+    c = DistanceOfPointAndPoint(p2, p);
+    if (c+b==a) {//点在线段上
+        ans = 0;
+        return ans;
+    }
+    if (a<=0.00001) {//不是线段，是一个点
+        ans = b;
+        return ans;
+    }
+    if (c*c >= a*a + b*b) { //组成直角三角形或钝角三角形，p1为直角或钝角
+        ans = b;
+        return ans;
+    }
+    if (b * b >= a * a + c * c) {// 组成直角三角形或钝角三角形，p2为直角或钝角
+        ans = c;
+        return ans;
+    }
+    // 组成锐角三角形，则求三角形的高
+    double p0 = (a + b + c) / 2;// 半周长
+    double s = sqrt(p0 * (p0 - a) * (p0 - b) * (p0 - c));// 海伦公式求面积
+    ans = 2*s / a;// 返回点到线的距离（利用三角形面积公式求高）
+    return ans;
+}
+
+
+//float DistanceOfPointAndLine(VERTEX p0, VERTEX p1, VERTEX p2){
+//    float dis12 = DistanceOfPointAndPoint(p1, p2);//线段长度
+//    float dis01 = DistanceOfPointAndPoint(p0, p1);//p1与p0的距离
+//    float dis02 = DistanceOfPointAndPoint(p0, p2);//p2与p0的距离
+//    float HalfC = (dis12 + dis01 + dis02) / 2;// 半周长
+//    float s = sqrt(HalfC * (HalfC - dis12) * (HalfC - dis01) * (HalfC - dis02));//海伦公式求面积
+//    float xj2DisPL = 2 * s / dis12;// 返回点到线的距离（利用三角形面积公式求高）
+//
+//    return xj2DisPL;
+//
+//}
+
 
 //计算三维空间两点的距离。
 float DistanceOfPointToPointIn3D(VERTEX point1, VERTEX point2)
@@ -250,7 +373,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据，感觉要弄成三维的才行了
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/pingtai.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data/secondOkdata.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
@@ -274,30 +397,17 @@ void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
         for(int j = 0;j < pointNum;j++){
             infile >> x >> y >> z;
 //            cout << x  << " " << y << " " << z  << endl;
-
-//            if(i > 0){
-//                VERTEX v;
-//                v.x = x + 0.5;
-//                v.y = y;
-//                v.z = z;
-//                closeLine.push_back(v);
-//            }else {
-//                VERTEX v;
-//                v.x = x;
-//                v.y = y;
-//                v.z = z;
-//                closeLine.push_back(v);
-//            }
             VERTEX v;
             v.x = x;
             v.y = y;
             v.z = z;
+            v.index = j;
             closeLine.push_back(v);
         }
         //剖面问题
         closeLines[sectionNo].push_back(closeLine);
     }
-    cout << "end" << endl;
+//    cout << "end" << endl;
     infile.close();
 }
 

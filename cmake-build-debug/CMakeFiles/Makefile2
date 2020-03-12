@@ -68,9 +68,9 @@ CMAKE_BINARY_DIR = /Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug
 # Target rules for target CMakeFiles/1.getting_started__7.4.camera_class.dir
 
 # All Build rule for target.
-CMakeFiles/1.getting_started__7.4.camera_class.dir/all: CMakeFiles/GLAD.dir/all
-CMakeFiles/1.getting_started__7.4.camera_class.dir/all: CMakeFiles/POLY2TRI.dir/all
 CMakeFiles/1.getting_started__7.4.camera_class.dir/all: CMakeFiles/STB_IMAGE.dir/all
+CMakeFiles/1.getting_started__7.4.camera_class.dir/all: CMakeFiles/POLY2TRI.dir/all
+CMakeFiles/1.getting_started__7.4.camera_class.dir/all: CMakeFiles/GLAD.dir/all
 	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/depend
 	$(MAKE) -f CMakeFiles/1.getting_started__7.4.camera_class.dir/build.make CMakeFiles/1.getting_started__7.4.camera_class.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/tanwenbo/CLionProjects/PaperProject/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target 1.getting_started__7.4.camera_class"
