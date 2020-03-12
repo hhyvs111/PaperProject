@@ -168,7 +168,7 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D);
 
 //判断这两个断层是否相交
 //
-bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2);
+bool faultIntersect(vector<VERTEX>& fault1, vector<VERTEX>& fault2);
 
 //判断点是否在集合里,存在返回其下标，不存在返回-1
 int VertexInVertexs(VERTEX target, const vector<VERTEX>& source);

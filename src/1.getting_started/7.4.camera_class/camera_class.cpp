@@ -86,8 +86,8 @@ vector<vector<VERTEX>> McLine;
 double mcScale = 1.0;
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1000;
+const unsigned int SCR_HEIGHT = 800;
 
 // camera
 Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
@@ -252,7 +252,7 @@ void SecAligned(vector<vector<VERTEX>>& out, vector<vector<VERTEX>>& in, int ind
 void SecAlignedToCenter(vector<vector<VERTEX>>& in, int index);
 
 //基于质心放缩
-void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index);
+void SecScale(int index, bool isR);
 
 
 //基于质心原点缩放
@@ -387,7 +387,7 @@ void LineProcess(){
                 SecAligned(closeLineV[i], closeLineV[i+1], i, false);
 
 //            轮廓线进行放缩
-                SecScale(closeLineV[i][0], closeLineV[i+1], i);
+                SecScale(i, false);
                 clock_t scaleMoveTime = clock();
                 PrintTime("scale and move time: ", singleTime, scaleMoveTime);
 
@@ -421,7 +421,7 @@ void LineProcess(){
             PrintTime("check time: ", checkTime, insertTime);
 //
 //            checkTriShort(i);
-//            TriInsert(1, i);
+            TriInsert(1, i);
             clock_t backTime = clock();
             //进行了质心对齐等操作，那么需要进行还原，否则不需要进行还原
             PrintTime("insert time: ", insertTime, backTime);
@@ -444,7 +444,7 @@ void LineProcess(){
                 //传入的时候将上层当做是外边，下层当做是内边
                 SecAligned(closeLineV[i + 1], closeLineV[i], i, true);
                 //轮廓线进行放缩
-                SecScale(closeLineV[i + 1][0], closeLineV[i], i);
+                SecScale(i, true);
                 cout << "scale after: " << closeLineV[i+1][0][0].x << endl;
                 //传入数据逆置
                 CenterToCenter[i] = true;
@@ -466,7 +466,7 @@ void LineProcess(){
             closePoly2Tri(closeLineV[i+1][0], closeLineV[i], i);
             //剖分的时候还是真的吧
             checkTri(i);
-//            TriInsert(1, i);
+            TriInsert(1, i);
             if(CenterToCenter[i]){
                 //三角形还原
                 //轮廓线还原，这里是对down轮廓线进行还原
@@ -474,7 +474,7 @@ void LineProcess(){
                 TriBack(i, true);
             }
         }
-        MeihuaCheck(i);
+//        MeihuaCheck(i);
     }
 
 
@@ -661,7 +661,11 @@ int main()
 
 //    MarchingCubesProcess();
 
-    glm::vec3 lightPos(minX - (maxX - minX)/2, minY + (maxY - minY)/2, (maxZ - minZ) / 2);
+//第一个插值模型的灯光参数
+//    glm::vec3 lightPos(minX - (maxX - minX)/2, minY + (maxY - minY)/2, (maxZ - minZ) / 2);
+
+//第二个插值模型的灯光参数
+    glm::vec3 lightPos(minX - (maxX - minX), maxY + (maxY - minY)/2, maxZ - (maxZ - minZ) / 4);
     //显示代码
     while (!glfwWindowShouldClose(window))
     {
@@ -2334,28 +2338,31 @@ void SecAlignedToCenter(vector<vector<VERTEX>>& in, int index){
 
 }
 
-void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index){
+void SecScale(int index, bool isR){
 
     //这里已经是质心对齐了的，所以直接取上和下都是一样。
     scaleSize[index] = 1.0;
-    vector<VERTEX> mergeSec;
-    for(int i = 0;i < in.size();i++){
-        mergeSec.insert(mergeSec.end(), in[i].begin(), in[i].end());
-    }
+//    vector<VERTEX> mergeSec;
+//    for(int i = 0;i < in.size();i++){
+//        mergeSec.insert(mergeSec.end(), in[i].begin(), in[i].end());
+//    }
     cout << "begin scale judge" << endl;
-    //这里判断的是合并的，但是我变换的是in？
-    while(!faultIntersect(out, mergeSec)){
-        //因为这里是循环去调用，所以每次都先还原，然后再加大这个分量进行放缩
-        SecScaleFunction(in, 1.0 / scaleSize[index], index);
-        mergeSec.clear();
-        //每次减少0.1
-        scaleSize[index] -= 0.1;
-        SecScaleFunction(in, scaleSize[index], index);
-        cout << "scale: " << scaleSize[index] << endl;
-        //这了为什么又合并一次？
-        for(int i = 0;i < in.size();i++){
-            mergeSec.insert(mergeSec.end(), in[i].begin(), in[i].end());
+
+    while(!PolygonInPolygon(index, isR)){
+
+        //反面，对底边进行放缩
+        if(isR){
+            SecScaleFunction(closeLineV[index], 1.0 / scaleSize[index], index);
+            scaleSize[index] -= 0.1;
+            SecScaleFunction(closeLineV[index], scaleSize[index], index);
+            cout << "scale: " << scaleSize[index]  << endl;
+        }else{
+            SecScaleFunction(closeLineV[index+1], 1.0 / scaleSize[index], index);
+            scaleSize[index] -= 0.1;
+            SecScaleFunction(closeLineV[index+1], scaleSize[index], index);
+            cout << "scale: " << scaleSize[index]  << endl;
         }
+        //因为这里是循环去调用，所以每次都先还原，然后再加大这个分量进行放缩
     }
 }
 
@@ -2482,6 +2489,7 @@ void TriBack(int index, bool isR){
 //                        //不在轮廓线内就不需要计算高度
 //                        SetPointZ(closeLineV[index], closeLineV[index+1], &point);
 //                    }
+//                    SetPointZ(closeLineV[index], closeLineV[index+1], &point);
                     //先把这个比例给弄上去
 //                    point.x =   point.x + proportion * difX * (point.inDistance / (point.outDistance));
 //                    point.y =   point.y + proportion * difY * (point.inDistance / (point.outDistance));
@@ -2504,7 +2512,7 @@ void TriBack(int index, bool isR){
 //                    point.y =  (1 - 1.0/proportion) * center[index].y + 1.0/proportion * point.y + difY * proportion;
 
 
-                    cout << "scale " << scaleSize[index] << endl;
+//                    cout << "scale " << scaleSize[index] << endl;
 
                     if(scaleSize[index] - 1.0  == 0){
                         point.x = point.x + proportionZ * difX;
@@ -2523,7 +2531,7 @@ void TriBack(int index, bool isR){
                     }
 //                    point.x = point.x + difX * (1-proportion);
 //                    point.y = point.y + difY * (1-proportion);
-
+//                    SetPointZ(closeLineV[index], closeLineV[index+1], &point);
 //                    point.x = (1 - proportion) * center[index].x + proportion * point.x;
 //                    point.y = (1 - proportion) * center[index].y + proportion * point.y;
 
@@ -2643,40 +2651,28 @@ void MeihuaCheck(int index){
 //有一个点不在多边形内，返回false
 //点在多边形内，返回true
 bool PolygonInPolygon(int index, bool isR){
-
     if(index < 0)
         return false;
-
-    vector<VERTEX> mergeSec;
+//    vector<VERTEX> mergeSec;
     if(isR) {
         //相反的话就把自己底层给拼起来计算
         for (int i = 0; i < closeLineV[index].size(); i++) {
-            mergeSec.insert(mergeSec.end(), closeLineV[index][i].begin(), closeLineV[index][i].end());
-        }
-//        cout << "begin scale judge" << endl;
-        //这里判断的是合并的，但是我变换的是in？
-
-        //反正这个0肯定是要计算的，或者都算进去？
-        if (faultIntersect(closeLineV[index + 1][0], mergeSec)) {
-            return true;
-        } else {
-            return false;
+            if (faultIntersect(closeLineV[index + 1][0], closeLineV[index][i])) {
+                return false;
+            }
         }
     }else {
         //相反的话就把自己底层给拼起来计算
         for (int i = 0; i < closeLineV[index+1].size(); i++) {
-            mergeSec.insert(mergeSec.end(), closeLineV[index+1][i].begin(), closeLineV[index+1][i].end());
-        }
-//        cout << "begin scale judge" << endl;
-        //这里判断的是合并的，但是我变换的是in？
-
-        //反正这个0肯定是要计算的，或者都算进去？
-        if (faultIntersect(closeLineV[index][0], mergeSec)) {
-            return true;
-        } else {
-            return false;
+                //单层轮廓判断
+            if (!faultIntersect(closeLineV[index][0], closeLineV[index+1][i])) {
+                return false;
+            }
+//            mergeSec.insert(mergeSec.end(), closeLineV[index+1][i].begin(), closeLineV[index+1][i].end());
         }
     }
+
+    return true;
 
 
     //如果是翻转的情况，那么就是下面是待放入的，上面是大框
@@ -2702,8 +2698,6 @@ bool PolygonInPolygon(int index, bool isR){
 //    }
 
     //如果都在点内，说明这个多边形是在里面的，这个是没毛病的吧。
-
-
 }
 
 

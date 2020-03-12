@@ -205,7 +205,7 @@ bool sideIntersectSide(VERTEX A, VERTEX B, VERTEX C, VERTEX D)
 
 //判断这两个断层是否相交
 //如果返回false说明相交，true说明不相交
-bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2)
+bool faultIntersect(vector<VERTEX>& fault1, vector<VERTEX>& fault2)
 {
 
     int f1Number = fault1.size(), f2Number = fault2.size();
@@ -216,8 +216,16 @@ bool faultIntersect(const vector<VERTEX>& fault1, const vector<VERTEX>& fault2)
         for(int j = 0; j < f2Number - 1; j++)
         {
             //如果有任意一条相交，那么该线就需要平移。
-            if(sideIntersectSide(fault1[i],fault1[i+1], fault2[j], fault2[j+1]))
+            if(sideIntersectSide(fault1[i],fault1[i+1], fault2[j], fault2[j+1])){
+
+                cout << "this line is cross: " << endl;
+                fault1[i].Print();
+                fault1[i+1].Print();
+                fault2[j].Print();
+                fault2[j+1].Print();
                 return false;
+            }
+
         }
     }
     return true;
@@ -365,7 +373,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据，感觉要弄成三维的才行了
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data/trueData1.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data/secondOkdata.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
