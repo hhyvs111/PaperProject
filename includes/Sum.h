@@ -7,4 +7,5 @@
 bool ShowTexture;
 bool ShowModel;
 bool AddTrangle;
+bool IDWOpen;
 #endif //LEARNOPENGL_SUM_H
