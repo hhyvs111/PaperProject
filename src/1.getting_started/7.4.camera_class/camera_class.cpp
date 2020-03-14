@@ -100,7 +100,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 //灯光的位置,论文效果图里的
-//glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
+glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
 
 //calculate the box
 double maxZ = -1e9, minZ = 1e9, maxX = -1e9, minX = 1e9, maxY = -1e9, minY = 1e9;
@@ -205,8 +205,6 @@ void DelaunayBind(unsigned int * DeVAOs, unsigned int * DeVBOs, int DeNum, Delau
 
 
 
-//获取平面的法向量
-void MeshNormalize(int index);
 
 void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Triangle*> _triangle);
 
@@ -346,14 +344,7 @@ void MeshNormalize(int index, bool isR){
     }
 
     for(int i = 0;i < verts.size();i++){
-//        cout << "normal" << verts[i]->normal.x << " " << verts[i]->normal.y << " " << verts[i]->normal.z << endl;
-        if(isR){
-            verts[i]->normal = Normalize(Reverse(verts[i]->normal));
-        }else{
-            verts[i]->normal = Normalize(verts[i]->normal);
-        }
-
-//        cout << "normal" << verts[i]->normal.x << " " << verts[i]->normal.y << " " << verts[i]->normal.z << endl;
+        verts[i]->normal = Normalize(verts[i]->normal);
     }
 }
 
@@ -645,6 +636,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
@@ -659,7 +651,7 @@ int main()
         glfwTerminate();
         return -1;
     }
-
+//    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_TRUE);
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
@@ -712,7 +704,7 @@ int main()
 //    glm::vec3 lightPos(minX - (maxX - minX)/2, minY + (maxY - minY)/2, (maxZ - minZ) / 2);
 
 //第二个插值模型的灯光参数
-    glm::vec3 lightPos(4*maxX + (maxX - minX)/2, maxY - (maxY - minY)/2, minZ + (maxZ - minZ) / 2);
+//    glm::vec3 lightPos(4*maxX + (maxX - minX)/2, maxY - (maxY - minY)/2, minZ + (maxZ - minZ) / 2);
 
 
     //纹理导入一次就ok
@@ -1059,7 +1051,6 @@ void Poly2TriBindGabi(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<T
         //纹理坐标
         TraVertex[6] = 0.0f;
         TraVertex[7] = 0.0f;
-
         TraVertex[8] = b.x;
         TraVertex[9] = b.y;
         TraVertex[10] = b.z;

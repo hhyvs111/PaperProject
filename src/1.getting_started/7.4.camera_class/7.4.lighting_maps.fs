@@ -31,7 +31,15 @@
      // diffuse
      vec3 norm = normalize(Normal);
      vec3 lightDir = normalize(light.position - FragPos);
-     float diff = max(dot(norm, lightDir), 0.0);
+     float diff;
+     if(gl_FrontFacing)
+     {
+       diff = max(dot(norm, lightDir), 0.0);
+     }
+     else
+     {
+       diff = max(dot(-norm, lightDir), 0.0);
+     }
      vec3 diffuse = light.diffuse * diff * texture(material.diffuse, TexCoords).rgb;
 
      // specular
