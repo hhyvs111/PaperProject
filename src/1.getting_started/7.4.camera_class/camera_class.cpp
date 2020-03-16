@@ -100,7 +100,7 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 //灯光的位置,论文效果图里的
-glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
+//glm::vec3 lightPos(1.0f, -2.0f, 3.0f);
 
 //calculate the box
 double maxZ = -1e9, minZ = 1e9, maxX = -1e9, minX = 1e9, maxY = -1e9, minY = 1e9;
@@ -219,6 +219,7 @@ void AddTriBind(unsigned int * AddVAOs, unsigned int * AddVBOs, unsigned int * a
 
 void EarCutBind(unsigned int * EarVAOs, unsigned int * EarVBOs, std::vector<N> indices);
 
+void MeihuaCheck(int index);
 
 void ExcessTraHandle(Triangle* _triangle, vector<VERTEX>& op, int index);
 
@@ -268,7 +269,7 @@ void SecAlignedToCenter(vector<vector<VERTEX>>& in, int index);
 //基于质心放缩
 void SecScale(int index, bool isR);
 
-
+void LineProcessWithTime(int times);
 
 //基于质心放缩
 void SecScale(vector<VERTEX>& out, vector<vector<VERTEX>>& in, int index);
@@ -325,7 +326,7 @@ void MeshNormalize(int index, bool isR){
         Point &b = *t.GetPoint(1);
         Point &c = *t.GetPoint(2);
 
-        a.print();
+//        a.print();
 
         Point e1 = a - b;
         Point e2 = c - b;
@@ -428,14 +429,18 @@ void LineProcess(){
     //自动处理
 //    modelNum = 5;
 
+    int sumTri = 0;
     for(int i = 0;i < modelNum - 1; i++)
     {
+        cout << "=====the " << i << " layer" << endl;
         //单层时间计算
 //        cout << "center: ";
 //        center[i].Print();
 //        center[i+1].Print();
         //如果第二层比第一层轮廓线多，否则反过来？其实还是没用，需要做多层才行。
         //求上下的质心
+
+        clock_t singleLayerBeginTime = clock();
         GetSecCenter(closeLineV[i], i);
         GetSecCenter(closeLineV[i + 1], i + 1);
         if(closeLineV[i].size() <= closeLineV[i+1].size()){
@@ -478,16 +483,24 @@ void LineProcess(){
             SecBack(i, IsR[i]);
             TriBack(i, IsR[i]);
         }
-        //MeihuaCheck(i);
+        MeihuaCheck(i);
         //法向量计算
 
 
         MeshNormalize(i, IsR[i]);
+
+        //其实所有的函数都传一个i进去就好了，毕竟做的是全局的。
+
         Poly2TriBind(PolyVAOs[i], PolyVBOs[i], triangles[i]);
+        int singleSize = triangles[i].size();
+        cout <<"the " << i << " nums of tri is " <<  singleSize << endl;
+        sumTri += singleSize;
+        clock_t singleLayerEndTime = clock();
+        PrintTime("the layer processing time: ", singleLayerBeginTime, singleLayerEndTime);
 //        Poly2TriBindGabi(PolyVAOs[i], PolyVBOs[i], triangles[i], IsR[i]);
     }
 
-
+    cout << "-------------sumTri: " << sumTri << endl;
     //还原后再检查一下三角形的情况，如果是有平台三角形则进行插值。
 
     //做两次插值
@@ -511,6 +524,8 @@ void LineProcess(){
 //    for(int i = 0;i < modelNum;i++){
 //        poly2Tri(closeLineV[i], i+modelNum);
 //    }
+
+
 }
 
 //void DrawLine(){
@@ -694,7 +709,6 @@ int main()
     LineProcess();
     calculateTime = clock();
     PrintTime("calculate time: ", windowTime, calculateTime);
-
     PrintTime("window time: ", startTime, windowTime);
     PrintTime("total time: ", startTime, calculateTime);
 
@@ -704,11 +718,11 @@ int main()
 //    glm::vec3 lightPos(minX - (maxX - minX)/2, minY + (maxY - minY)/2, (maxZ - minZ) / 2);
 
 //第二个插值模型的灯光参数
-//    glm::vec3 lightPos(4*maxX + (maxX - minX)/2, maxY - (maxY - minY)/2, minZ + (maxZ - minZ) / 2);
+    glm::vec3 lightPos(4*maxX + (maxX - minX)/2, maxY - (maxY - minY)/2, minZ + (maxZ - minZ) / 2);
 
 
-    //纹理导入一次就ok
-    unsigned int texture = loadTexture(FileSystem::getPath("resources/textures/soild.png").c_str());
+    //纹理导入一次就ok，之前的我也太憨憨了，每一个三角面片都去导入，真的是佛了。
+    unsigned int texture = loadTexture(FileSystem::getPath("resources/textures/rock.png").c_str());
 
     //显示代码
     while (!glfwWindowShouldClose(window))
@@ -847,16 +861,14 @@ void processInput(GLFWwindow *window)
     }
     if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS){
         insertTime++;
-        cout << "insertTime:" << insertTime << endl;
-
-        LineProcess();
+        LineProcessWithTime(insertTime);
     }
 
     if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS){
 
-        if(insertTime > 1) {
+        if(insertTime > 0) {
             insertTime--;
-            LineProcess();
+            LineProcessWithTime(insertTime);
         }
     }
 
@@ -951,7 +963,7 @@ void Poly2TriBind(unsigned int * PolyVAOs, unsigned int * PolyVBOs, vector<Trian
     //循环读取Polyl里的三角形顶点数据
     //这里用15，9是三个点的坐标，6是三个纹理坐标
     float TraVertex[24];
-    cout << "tri size: " << _triangle.size() << endl;
+//    cout << "tri size: " << _triangle.size() << endl;
 
     for (int i = 0; i < _triangle.size(); i++)
     {
@@ -1284,7 +1296,7 @@ void checkTri(int index){
         return;
     int triSize = triangles[index].size();
 
-    cout << "begin check " << triSize << endl;
+//    cout << "begin check " << triSize << endl;
     //检查所有的三角，是否有在同一平面的？我感觉压根判断不了啊，十分的尴尬了老铁。
     for(int i = 0;i < triSize;i++){
         int triStatus = triangles[index][i]->IsFalseTri();
@@ -1906,7 +1918,7 @@ void TriInsert(int times, int i){
     if(times < 1)
         return;
 
-    cout << "begin tri insert" << endl;
+//    cout << "begin tri insert" << endl;
     unsigned long triSize;
     //对每一层进行插值
     while(times--){
@@ -1937,7 +1949,6 @@ void TriInsert(int times, int i){
             cdt[i]->Triangulate();
             triangles[i] = cdt[i]->GetTriangles();
     }
-    cout <<"the " << i << " nums of tri is " <<  triangles[i].size() << endl;
 }
 
 //这里来检测所有的三角形，计算它们的插值点和高度值等来算这个美化度
@@ -1951,8 +1962,6 @@ void MeihuaCheck(int index){
     //内切圆半径和外接圆半径
     double innerR, outerR;
     for(int i = 0;i < triSize;i++) {
-
-
         //计算最大包围盒
         for(int j = 0;j < 3;j++){
             maxX = max(triangles[index][i]->points_[j]->x, maxX);
@@ -2057,4 +2066,14 @@ bool PolygonInPolygon(int index, bool isR){
 
 void PrintTime(const char * str, clock_t start, clock_t end){
     cout << str << (double)(end - start) / CLOCKS_PER_SEC << "s" << endl;
+
+}
+
+void LineProcessWithTime(int times){
+    clock_t beginTime = clock();
+    LineProcess();
+
+    clock_t endTime = clock();
+    cout << "insert times: " << times;
+    PrintTime(", total time: ", beginTime, endTime);
 }

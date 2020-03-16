@@ -373,7 +373,7 @@ VERTEX getNormal(const VERTEX& p1, const VERTEX& p2, const VERTEX& p3)
 //从文本读入数据，感觉要弄成三维的才行了
 void InputDataToVector(vector<vector<vector<VERTEX>>>& closeLines){
     ifstream infile;
-    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data/1.18.txt", ios::in);
+    infile.open("/Users/tanwenbo/CLionProjects/PaperProject/src/data/secondOkdata.txt", ios::in);
     if(!infile){
         cout << "fail to open the file " << endl;
         exit(1);
