@@ -2,10 +2,10 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="LearnOpenGL" targetName="POLY2TRI" />
+      <config projectName="LearnOpenGL" targetName="1.getting_started__7.4.camera_class" />
       <config projectName="LearnOpenGL" targetName="GLAD" />
       <config projectName="LearnOpenGL" targetName="STB_IMAGE" />
-      <config projectName="LearnOpenGL" targetName="1.getting_started__7.4.camera_class" />
+      <config projectName="LearnOpenGL" targetName="POLY2TRI" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -20,6 +20,7 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/GLAD.dir/src/vertex.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/libGLAD.a" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/3.4.1okpingyi.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/3.4.1okpingyi.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vertex.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/vertex.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -110,7 +111,7 @@
           <entry key="cc" value="87" />
           <entry key="cmake" value="1" />
           <entry key="cmath" value="1" />
-          <entry key="cpp" value="159" />
+          <entry key="cpp" value="162" />
           <entry key="fs" value="36" />
           <entry key="gif" value="1" />
           <entry key="gitignore" value="1" />
@@ -128,7 +129,7 @@
           <entry key="png" value="1" />
           <entry key="sec" value="32" />
           <entry key="txst" value="1" />
-          <entry key="txt" value="126" />
+          <entry key="txt" value="129" />
           <entry key="type_traits" value="1" />
           <entry key="vector" value="27" />
           <entry key="vs" value="38" />
@@ -142,8 +143,8 @@
           <entry key="Disassembly" value="11" />
           <entry key="Image" value="3" />
           <entry key="Markdown" value="3" />
-          <entry key="ObjectiveC" value="556" />
-          <entry key="PLAIN_TEXT" value="219" />
+          <entry key="ObjectiveC" value="559" />
+          <entry key="PLAIN_TEXT" value="222" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -152,12 +153,12 @@
           <entry key="GDB" value="17" />
           <entry key="c" value="37" />
           <entry key="cc" value="3459" />
-          <entry key="cpp" value="73139" />
+          <entry key="cpp" value="73694" />
           <entry key="fs" value="170" />
           <entry key="h" value="8535" />
           <entry key="md" value="186" />
           <entry key="sec" value="66" />
-          <entry key="txt" value="4159" />
+          <entry key="txt" value="4175" />
           <entry key="vs" value="91" />
         </counts>
       </usages-collector>
@@ -167,13 +168,13 @@
           <entry key="Doxygen file" value="5" />
           <entry key="GDBCommands" value="17" />
           <entry key="Markdown" value="186" />
-          <entry key="ObjectiveC" value="85165" />
-          <entry key="PLAIN_TEXT" value="4227" />
+          <entry key="ObjectiveC" value="85720" />
+          <entry key="PLAIN_TEXT" value="4243" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="63" />
+          <entry key="project.closed" value="64" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="4" />
           <entry key="project.open.time.11" value="1" />
@@ -190,9 +191,9 @@
           <entry key="project.open.time.5" value="16" />
           <entry key="project.open.time.6" value="11" />
           <entry key="project.open.time.7" value="8" />
-          <entry key="project.open.time.8" value="5" />
+          <entry key="project.open.time.8" value="6" />
           <entry key="project.open.time.9" value="5" />
-          <entry key="project.opened" value="80" />
+          <entry key="project.opened" value="81" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.cidr.testingFrameworks.usages" />
@@ -212,7 +213,7 @@
         <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="5625">
-              <caret line="375" column="69" selection-start-line="375" selection-start-column="69" selection-end-line="375" selection-end-column="69" />
+              <caret line="375" column="78" selection-start-line="375" selection-start-column="78" selection-end-line="375" selection-end-column="78" />
               <folding>
                 <element signature="e#39#58#0" expanded="true" />
               </folding>
@@ -223,39 +224,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/secondOkdata.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="161">
+            <state relative-caret-position="810">
               <caret line="54" column="32" selection-start-line="54" selection-start-column="32" selection-end-line="54" selection-end-column="32" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/vertex.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2910">
-              <caret line="194" column="5" selection-start-line="194" selection-start-column="5" selection-end-line="194" selection-end-column="5" />
-              <folding>
-                <element signature="e#99#117#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MarchingCubes.cpp">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/MarchingCubes/PseudoDelaunay.cpp">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-12028">
-              <caret line="1114" column="10" selection-start-line="1114" selection-start-column="10" selection-end-line="1114" selection-end-column="10" />
+            <state relative-caret-position="-978">
+              <caret line="448" column="62" selection-start-line="448" selection-start-column="62" selection-end-line="448" selection-end-column="62" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -264,15 +243,20 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/stb_image.cpp">
+        <entry file="file://$PROJECT_DIR$/src/data/3.2pingyi.txt">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.vs">
+        <entry file="file://$PROJECT_DIR$/src/data/3.4.2maxT.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/data/3.4.1okpingyi.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="405">
+              <caret line="27" column="44" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -295,6 +279,16 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/common.cpp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Delaunay.cpp">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -302,7 +296,6 @@
       <find>isHole</find>
       <find>center</find>
       <find>scaleSize</find>
-      <find>1.0001</find>
       <find>Point</find>
       <find>x</find>
       <find>v</find>
@@ -329,9 +322,9 @@
       <find>clock_t</find>
       <find>MeihuaCheck</find>
       <find>25.00001</find>
+      <find>1.0001</find>
     </findStrings>
     <replaceStrings>
-      <replace>200.0</replace>
       <replace>10.0</replace>
       <replace>20.0</replace>
       <replace>1.11</replace>
@@ -361,6 +354,7 @@
       <replace>50.00001</replace>
       <replace>25.00001</replace>
       <replace>10.00001</replace>
+      <replace>3.0001</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -380,7 +374,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/multi.sec" />
         <option value="$PROJECT_DIR$/src/multisec.sec" />
         <option value="$PROJECT_DIR$/src/multi1.sec" />
         <option value="$PROJECT_DIR$/src/Body1.sec" />
@@ -428,9 +421,10 @@
         <option value="$PROJECT_DIR$/includes/Sum.h" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.vs" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.fs" />
+        <option value="$PROJECT_DIR$/src/data/secondOkdata.txt" />
+        <option value="$PROJECT_DIR$/src/data/3.4.1okpingyi.txt" />
         <option value="$PROJECT_DIR$/src/vertex.cpp" />
         <option value="$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp" />
-        <option value="$PROJECT_DIR$/src/data/secondOkdata.txt" />
       </list>
     </option>
   </component>
@@ -454,7 +448,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -523,6 +516,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -691,7 +685,8 @@
       <workItem from="1583553450413" duration="22460000" />
       <workItem from="1583892085133" duration="12245000" />
       <workItem from="1584177050024" duration="6762000" />
-      <workItem from="1584324372439" duration="505000" />
+      <workItem from="1584324372439" duration="6862000" />
+      <workItem from="1584668229268" duration="598000" />
     </task>
     <task id="LOCAL-00018" summary="三角剖分测试失败，回家了还是没心思写代码">
       <created>1539609778614</created>
@@ -1040,7 +1035,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1133811000" />
+    <option name="totallyTimeSpent" value="1140766000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1055,12 +1050,12 @@
     <frame x="0" y="23" width="1440" height="826" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.53187615" visible="true" weight="0.24892704" />
-      <window_info id="Structure" order="1" sideWeight="0.46812385" side_tool="true" visible="true" weight="0.24892704" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5302391" visible="true" weight="0.25250357" />
+      <window_info id="Structure" order="1" sideWeight="0.4697609" side_tool="true" visible="true" weight="0.25250357" />
       <window_info id="Favorites" order="2" sideWeight="0.40546218" side_tool="true" weight="0.27181688" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.47711015" weight="0.15611814" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.3583691" visible="true" weight="0.2278481" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.3583691" weight="0.2278481" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49713877" weight="0.38841808" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1152,11 +1147,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="run" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/3.4.2maxT.txt" />
-    <entry file="file://$PROJECT_DIR$/src/yuan.txt" />
-    <entry file="file://$PROJECT_DIR$/src/okSimpleInsert.txt" />
-    <entry file="file://$PROJECT_DIR$/src/okTestInsertYuan.txt" />
-    <entry file="file://$PROJECT_DIR$/src/trueData.txt" />
     <entry file="file://$PROJECT_DIR$/src/1.18.txt" />
     <entry file="file://$PROJECT_DIR$/src/okTestInsert.txt" />
     <entry file="file://$PROJECT_DIR$/src/data/tuge.txt">
@@ -1331,6 +1321,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="270" column="6" selection-start-line="270" selection-start-column="6" selection-end-line="270" selection-end-column="6" />
+          <folding>
+            <element signature="e#1674#1691#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1365,16 +1358,6 @@
     <entry file="file://$PROJECT_DIR$/src/MarchingCubes/MakeSurface.cpp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5625">
-          <caret line="375" column="69" selection-start-line="375" selection-start-column="69" selection-end-line="375" selection-end-column="69" />
-          <folding>
-            <element signature="e#39#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/includes/vertex.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2910">
@@ -1401,6 +1384,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/vertex.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5625">
+          <caret line="375" column="78" selection-start-line="375" selection-start-column="78" selection-end-line="375" selection-end-column="78" />
+          <folding>
+            <element signature="e#39#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/secondOkdata.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="54" column="32" selection-start-line="54" selection-start-column="32" selection-end-line="54" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/3.2pingyi.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/3.4.2maxT.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/3.4.1okpingyi.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="44" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/7.4.lighting_maps.fs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -1415,17 +1428,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/secondOkdata.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="54" column="32" selection-start-line="54" selection-start-column="32" selection-end-line="54" selection-end-column="32" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/common.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Delaunay.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/1.getting_started/7.4.camera_class/camera_class.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12028">
-          <caret line="1114" column="10" selection-start-line="1114" selection-start-column="10" selection-end-line="1114" selection-end-column="10" />
+        <state relative-caret-position="-978">
+          <caret line="448" column="62" selection-start-line="448" selection-start-column="62" selection-end-line="448" selection-end-column="62" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
           </folding>
