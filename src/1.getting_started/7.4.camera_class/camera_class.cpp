@@ -148,7 +148,7 @@ unsigned int PolyVBOs[MaxLevel][MaxNum], PolyVAOs[MaxLevel][MaxNum];
 //unsigned int AddVBOs[MaxNum][MaxNum], AddVAOs[MaxNum][MaxNum];
 
 //移动立方体的数据
-//unsigned int McVBOs[1][MaxNum * 10], McVAOs[1][MaxNum * 10];
+unsigned int McVBOs[MaxLevel][MaxNum * 10], McVAOs[MaxLevel][MaxNum * 10];
 
 //unsigned int VAOs[2], VBOs[2];
 
@@ -430,147 +430,77 @@ void LineProcess(){
 //        }
 //    }
 
-    //自动处理
-//    modelNum = 5;
-
-
-    //2020-03-16 3.4.2平移操作示意图
     //对这个图直接放大
-    SecScaleFunction(closeLineV[1], 1.5, 1);
-    SecMove(closeLineV[1], 2.0,1);
+
     for(int i = 0;i < modelNum - 1; i++)
     {
-        IsR[i] = false;
         cout << "=====the " << i << " layer" << endl;
+        //单层时间计算
+//        cout << "center: ";
+//        center[i].Print();
+//        center[i+1].Print();
+        //如果第二层比第一层轮廓线多，否则反过来？其实还是没用，需要做多层才行。
+        //求上下的质心
+
         clock_t singleLayerBeginTime = clock();
         GetSecCenter(closeLineV[i], i);
         GetSecCenter(closeLineV[i + 1], i + 1);
-        //质心对齐平移
-        SecAligned(closeLineV[i], closeLineV[i+1], i, IsR[i]);
-        SecScale(i, IsR[i]);
-        closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
-        MeshNormalize(i, IsR[i]);
+        if(closeLineV[i].size() <= closeLineV[i+1].size()){
+            IsR[i] = false;
+            //放缩也得放进来
+            //判断多边形是否在多边形内
+            if(!PolygonInPolygon(i, IsR[i])){
+                //如果不在，那么需要进行质心对齐和放缩检测了
+                SecAligned(closeLineV[i], closeLineV[i+1], i, IsR[i]);
+//            轮廓线进行放缩
+                SecScale(i, IsR[i]);
+//                SecScale(closeLineV[i][0], closeLineV[i+1], i);
+                CenterToCenter[i] = true;
+            }else{
+                //没有进行质心对齐
+                CenterToCenter[i] = false;
+            }
+            closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
+        }else{
+            IsR[i] = true;
+            if(!PolygonInPolygon(i, IsR[i])) {
+                //传入的时候将上层当做是外边，下层当做是内边
+                SecAligned(closeLineV[i + 1], closeLineV[i], i, IsR[i]);
+                //轮廓线进行放缩
+                SecScale(i, IsR[i]);
+//                SecScale(closeLineV[i + 1][0], closeLineV[i], i);
+                //传入数据逆置
+                CenterToCenter[i] = true;
+            }else{
+                CenterToCenter[i] = false;
+            }
+            closePoly2Tri(closeLineV[i+1][0], closeLineV[i], i);
+        }
+
+        //很多操作可以写在一起
+        checkTri(i);
+        TriInsert(insertTime, i);
+
+        if(CenterToCenter[i]){
             SecBack(i, IsR[i]);
             TriBack(i, IsR[i]);
+        }
+        MeihuaCheck(i);
+        //法向量计算
 
+
+        MeshNormalize(i, IsR[i]);
+
+        //其实所有的函数都传一个i进去就好了，毕竟做的是全局的。
 
         Poly2TriBind(PolyVAOs[i], PolyVBOs[i], triangles[i]);
-//        if(closeLineV[i].size() <= closeLineV[i+1].size()){
-//
-//            //放缩也得放进来
-//            //判断多边形是否在多边形内
-//            if(!PolygonInPolygon(i, IsR[i])){
-//                //如果不在，那么需要进行质心对齐和放缩检测了
-//                SecAligned(closeLineV[i], closeLineV[i+1], i, IsR[i]);
-////            轮廓线进行放缩
-//                SecScale(i, IsR[i]);
-////                SecScale(closeLineV[i][0], closeLineV[i+1], i);
-//                CenterToCenter[i] = true;
-//            }else{
-//                //没有进行质心对齐
-//                CenterToCenter[i] = false;
-//            }
-//            closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
-//        }else{
-//            IsR[i] = true;
-//            if(!PolygonInPolygon(i, IsR[i])) {
-//                //传入的时候将上层当做是外边，下层当做是内边
-//                SecAligned(closeLineV[i + 1], closeLineV[i], i, IsR[i]);
-//                //轮廓线进行放缩
-//                SecScale(i, IsR[i]);
-////                SecScale(closeLineV[i + 1][0], closeLineV[i], i);
-//                //传入数据逆置
-//                CenterToCenter[i] = true;
-//            }else{
-//                CenterToCenter[i] = false;
-//            }
-//            closePoly2Tri(closeLineV[i+1][0], closeLineV[i], i);
-//        }
-//
-//        //很多操作可以写在一起
-//        checkTri(i);
-//        TriInsert(insertTime, i);
-//
-//        if(CenterToCenter[i]){
-//            SecBack(i, IsR[i]);
-//            TriBack(i, IsR[i]);
-//        }
-//
-//
-//        //其实所有的函数都传一个i进去就好了，毕竟做的是全局的。
-//
-//        Poly2TriBind(PolyVAOs[i], PolyVBOs[i], triangles[i]);
+        int singleSize = triangles[i].size();
+        cout <<"the " << i << " nums of tri is " <<  singleSize << endl;
+        sumTri += singleSize;
+        clock_t singleLayerEndTime = clock();
+        PrintTime("the layer processing time: ", singleLayerBeginTime, singleLayerEndTime);
+//        Poly2TriBindGabi(PolyVAOs[i], PolyVBOs[i], triangles[i], IsR[i]);
     }
-
-//    for(int i = 0;i < modelNum - 1; i++)
-//    {
-//        cout << "=====the " << i << " layer" << endl;
-//        //单层时间计算
-////        cout << "center: ";
-////        center[i].Print();
-////        center[i+1].Print();
-//        //如果第二层比第一层轮廓线多，否则反过来？其实还是没用，需要做多层才行。
-//        //求上下的质心
-//
-//        clock_t singleLayerBeginTime = clock();
-//        GetSecCenter(closeLineV[i], i);
-//        GetSecCenter(closeLineV[i + 1], i + 1);
-//        if(closeLineV[i].size() <= closeLineV[i+1].size()){
-//            IsR[i] = false;
-//            //放缩也得放进来
-//            //判断多边形是否在多边形内
-//            if(!PolygonInPolygon(i, IsR[i])){
-//                //如果不在，那么需要进行质心对齐和放缩检测了
-//                SecAligned(closeLineV[i], closeLineV[i+1], i, IsR[i]);
-////            轮廓线进行放缩
-//                SecScale(i, IsR[i]);
-////                SecScale(closeLineV[i][0], closeLineV[i+1], i);
-//                CenterToCenter[i] = true;
-//            }else{
-//                //没有进行质心对齐
-//                CenterToCenter[i] = false;
-//            }
-//            closePoly2Tri(closeLineV[i][0], closeLineV[i+1], i);
-//        }else{
-//            IsR[i] = true;
-//            if(!PolygonInPolygon(i, IsR[i])) {
-//                //传入的时候将上层当做是外边，下层当做是内边
-//                SecAligned(closeLineV[i + 1], closeLineV[i], i, IsR[i]);
-//                //轮廓线进行放缩
-//                SecScale(i, IsR[i]);
-////                SecScale(closeLineV[i + 1][0], closeLineV[i], i);
-//                //传入数据逆置
-//                CenterToCenter[i] = true;
-//            }else{
-//                CenterToCenter[i] = false;
-//            }
-//            closePoly2Tri(closeLineV[i+1][0], closeLineV[i], i);
-//        }
-//
-//        //很多操作可以写在一起
-//        checkTri(i);
-//        TriInsert(insertTime, i);
-//
-//        if(CenterToCenter[i]){
-//            SecBack(i, IsR[i]);
-//            TriBack(i, IsR[i]);
-//        }
-//        MeihuaCheck(i);
-//        //法向量计算
-//
-//
-//        MeshNormalize(i, IsR[i]);
-//
-//        //其实所有的函数都传一个i进去就好了，毕竟做的是全局的。
-//
-//        Poly2TriBind(PolyVAOs[i], PolyVBOs[i], triangles[i]);
-//        int singleSize = triangles[i].size();
-//        cout <<"the " << i << " nums of tri is " <<  singleSize << endl;
-//        sumTri += singleSize;
-//        clock_t singleLayerEndTime = clock();
-//        PrintTime("the layer processing time: ", singleLayerBeginTime, singleLayerEndTime);
-////        Poly2TriBindGabi(PolyVAOs[i], PolyVBOs[i], triangles[i], IsR[i]);
-//    }
 
     cout << "-------------sumTri: " << sumTri << endl;
     //还原后再检查一下三角形的情况，如果是有平台三角形则进行插值。
@@ -630,7 +560,6 @@ void LineProcess(){
 //}
 
 
-//mc算法的问题
 //void MarchingCubesProcess(){
 //     MakeSurface m;
 ////     string file = "/Users/tanwenbo/CLionProjects/PaperProject/src/Circle.sec";
@@ -641,6 +570,8 @@ void LineProcess(){
 //
 //    //获取剖面个数
 //    cout << McTri.size() << endl;
+//
+//    Poly2TriBind(McVAOs[0], McVBOs[0], McTri);
 //    AddTriBind(McVAOs[0], McVBOs[0], textures[0], McTri);
 //
 //    for(int i = 0;i < McLine.size();i++){
@@ -946,7 +877,6 @@ void processInput(GLFWwindow *window)
 
     if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS){
         if(IDWOpen){
-
             IDWOpen = false;
             LineProcess();
         } else{
